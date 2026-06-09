@@ -15,7 +15,7 @@ import { VolunteerImpactMetrics } from "@/components/volunteer/VolunteerImpactMe
 import { SessionQueue } from "@/components/volunteer/SessionQueue";
 import { AvailabilityManager } from "@/components/volunteer/AvailabilityManager";
 import { SessionWorkspace } from "@/components/volunteer/SessionWorkspace";
-import { Trophy, LayoutDashboard, AlarmClock, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Calendar, BookOpen, LogOut, Award, Trophy, AlarmClock, ShieldCheck, Heart, ArrowRight } from "lucide-react";
 import { z } from "zod";
 
 type Volunteer = Tables<"volunteers">;
@@ -73,6 +73,7 @@ function VolunteerDashboard() {
   const [newNote, setNewNote] = useState("");
   const [notesLoading, setNotesLoading] = useState(false);
   const [moodHistory, setMoodHistory] = useState<Tables<"mood_entries">[]>([]);
+  const [pastNotes, setPastNotes] = useState<{ id: string, created_at: string, volunteer_notes: string }[]>([]);
 
   const fetchTimeSlots = useCallback(async (volunteerId: string) => {
     setSlotsLoading(true);
@@ -229,6 +230,23 @@ function VolunteerDashboard() {
     }
   }, []);
 
+  const fetchPastNotes = useCallback(async (aliasId: string, currentSessionId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("session_bookings")
+        .select("id, created_at, volunteer_notes")
+        .eq("student_alias_id", aliasId)
+        .neq("id", currentSessionId)
+        .not("volunteer_notes", "is", null)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      if (data) setPastNotes(data);
+    } catch (err) {
+      console.error("Error fetching past notes:", err);
+    }
+  }, []);
+
   useEffect(() => {
     checkUser();
   }, [checkUser]);
@@ -244,18 +262,46 @@ function VolunteerDashboard() {
       fetchNotes(selectedSession.id);
       if (selectedSession.student_alias_id) {
         fetchStudentMoodHistory(selectedSession.student_alias_id);
+        fetchPastNotes(selectedSession.student_alias_id, selectedSession.id);
+      } else {
+        setPastNotes([]);
       }
     }
-  }, [selectedSession, fetchNotes, fetchStudentMoodHistory]);
+  }, [selectedSession, fetchNotes, fetchStudentMoodHistory, fetchPastNotes]);
+
+  const handleMarkCompleted = async (sessionId: string) => {
+    try {
+      const { error } = await supabase
+        .from("session_bookings")
+        .update({ status: "completed" })
+        .eq("id", sessionId);
+
+      if (error) throw error;
+      
+      toast.success("Session marked as completed.");
+      if (volunteer) {
+        fetchSessions(volunteer.id);
+      }
+    } catch (err) {
+      console.error("Error marking session completed:", err);
+      toast.error("Failed to update session status.");
+    }
+  };
 
   const handleAIGenerate = async () => {
     if (!selectedSession) return;
     setNotesLoading(true);
+    
+    const formattedPastNotes = pastNotes.length > 0 
+      ? pastNotes.map(n => `[${new Date(n.created_at).toLocaleDateString()}]: ${n.volunteer_notes}`).join("\n\n")
+      : null;
+
     try {
       const { report } = await generateSessionReport({
         data: {
           handoff: selectedSession.handoff_briefing,
           studentNote: selectedSession.notes,
+          pastNotes: formattedPastNotes,
           issueType: selectedSession.issue_type,
           volunteerDraft: newNote,
         }
@@ -282,6 +328,7 @@ function VolunteerDashboard() {
           slot_date: slotDate,
           start_time: startTime,
           end_time: endTime,
+          is_booked: false,
         });
       if (error) throw error;
       toast.success("Time slot added!");
@@ -381,6 +428,7 @@ function VolunteerDashboard() {
   };
 
   const upcomingSessions = sessions.filter(s => {
+    if (s.status === "completed") return false;
     if (!s.time_slots?.slot_date || !s.time_slots?.start_time || !s.time_slots?.end_time) 
       return false;
     const status = computeStatus(
@@ -400,6 +448,9 @@ function VolunteerDashboard() {
       s.time_slots.end_time
     ) === "completed";
   });
+
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
 
   if (!isLoggedIn) {
     return (
@@ -447,81 +498,268 @@ function VolunteerDashboard() {
 
   const activeMinutes = sessions.filter(s => s.status === 'completed' || s.mood_after).reduce((acc, s) => acc + (s.time_slots ? sessionDurationMinutes(s.time_slots.start_time, s.time_slots.end_time) : 0), 0);
 
-  return (
-    <div className="min-h-screen pt-24 bg-white selection:bg-primary/10">
-      <VolunteerNavbar />
-      
-      <main className="relative z-10 mx-auto max-w-7xl px-4 py-12 lg:px-12">
-        <VolunteerStats 
-          volunteerName={volunteer?.name || ""}
-          activeMinutes={activeMinutes}
-          totalSessions={sessions.length}
-          upcomingSessionsCount={upcomingSessions.length}
-          onLogout={handleLogout}
-          formatDuration={formatDuration}
-        />
+  const showOnboardingNudge = activeMinutes === 0 && sessions.length === 0;
 
-        <div className="flex gap-2 mb-12 bg-slate-50 border border-slate-100 rounded-2xl p-1.5 w-fit shadow-sm">
+  return (
+    <div className="min-h-screen bg-slate-50 flex selection:bg-primary/10">
+      
+      {/* Fixed Left Sidebar */}
+      <aside 
+        className={`fixed inset-y-0 left-0 z-30 bg-[#0D1B2A] text-white flex flex-col justify-between transition-all duration-300 ${
+          isCollapsed ? "w-20" : "w-[220px]"
+        } border-r border-slate-800`}
+      >
+        <div>
+          {/* Header Area */}
+          <div className="p-6 flex items-center justify-between border-b border-slate-800">
+            <div className="flex items-center gap-3 overflow-hidden">
+              <div className="h-10 w-10 shrink-0 rounded-xl bg-[#00C48C] flex items-center justify-center shadow-lg shadow-[#00C48C]/20">
+                <Heart className="h-5 w-5 text-white fill-white" />
+              </div>
+              {!isCollapsed && (
+                <span className="font-display text-lg font-black tracking-tight text-white block">
+                  SoulSync
+                </span>
+              )}
+            </div>
+            <button 
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors ml-auto"
+            >
+              {isCollapsed ? (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+              ) : (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7M19 19l-7-7 7-7" />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* Navigation Items */}
+          <nav className="p-4 space-y-2">
+            {[
+              { key: "overview" as Tab, label: "Hub", icon: LayoutDashboard },
+              { key: "sessions" as Tab, label: "Conversations", icon: MessageSquare, badge: upcomingSessions.length },
+              { key: "slots" as Tab, label: "Schedule", icon: Calendar },
+            ].map((link) => {
+              const Icon = link.icon;
+              const isActive = activeTab === link.key;
+              return (
+                <button
+                  key={link.key}
+                  onClick={() => setActiveTab(link.key)}
+                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
+                    isActive 
+                      ? "bg-[#00C48C] text-[#0D1B2A] shadow-lg shadow-[#00C48C]/15" 
+                      : "text-slate-400 hover:text-white hover:bg-slate-800"
+                  }`}
+                  title={link.label}
+                >
+                  <Icon className="h-5 w-5 shrink-0" />
+                  {!isCollapsed && <span className="truncate">{link.label}</span>}
+                  {link.badge && !isCollapsed ? (
+                    <span className={`ml-auto rounded-full h-5 w-5 flex items-center justify-center text-[10px] font-black ${
+                      isActive ? "bg-[#0D1B2A] text-[#00C48C]" : "bg-slate-800 text-white"
+                    }`}>
+                      {link.badge}
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+            
+            <Link
+              to="/resources"
+              className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+              title="Library"
+            >
+              <BookOpen className="h-5 w-5 shrink-0" />
+              {!isCollapsed && <span>Library</span>}
+            </Link>
+          </nav>
+
+          {/* Online/Offline availability toggle in the middle */}
+          <div className="p-4 border-t border-slate-800/60 mt-4">
+            <div className={`flex flex-col items-center justify-center p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all ${
+              isCollapsed ? "px-1" : "px-4"
+            }`}>
+              {!isCollapsed && (
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                  Availability
+                </span>
+              )}
+              <button
+                onClick={() => setIsOnline(!isOnline)}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  isOnline ? "bg-[#00C48C]" : "bg-slate-700"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    isOnline ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+              {!isCollapsed && (
+                <span className={`text-[10px] font-black mt-2 uppercase tracking-wider ${
+                  isOnline ? "text-[#00C48C]" : "text-slate-400"
+                }`}>
+                  {isOnline ? "Online" : "Offline"}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Area of Sidebar */}
+        <div className="p-4 border-t border-slate-800 space-y-3">
+          {/* Verified Peer Badge */}
+          {!isCollapsed ? (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-950/40 border border-emerald-900 text-emerald-400">
+              <Award className="h-4 w-4 shrink-0" />
+              <span className="text-[9px] font-black uppercase tracking-wider">Verified Peer</span>
+            </div>
+          ) : (
+            <div className="flex justify-center text-emerald-400">
+              <Award className="h-5 w-5" title="Verified Peer" />
+            </div>
+          )}
+
+          {/* Sign Out */}
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-red-400 hover:bg-red-950/20 transition-all"
+            title="Sign Out"
+          >
+            <LogOut className="h-5 w-5 shrink-0" />
+            {!isCollapsed && <span>Sign Out</span>}
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <main 
+        className={`flex-1 transition-all duration-300 min-h-screen p-8 lg:p-12 overflow-y-auto ${
+          isCollapsed ? "ml-20" : "ml-[220px]"
+        }`}
+      >
+        {/* Top Header & Stats Row */}
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-12">
+          <div>
+            <h1 className="text-3xl font-display font-black text-slate-900 tracking-tight">
+              Welcome, {volunteer?.name?.split(" ")[0] || "Supporter"}
+            </h1>
+            <p className="text-sm font-bold text-slate-400 mt-1">
+              Managing your anonymous student support journey.
+            </p>
+          </div>
+
+          {/* Stats Row */}
+          <div className="flex flex-wrap gap-4 items-center">
+            {showOnboardingNudge ? (
+              <div className="flex items-center gap-3 px-6 py-4 rounded-[2rem] bg-emerald-50 border border-[#00C48C]/30 text-slate-700">
+                <span className="text-xs font-bold text-[#0D1B2A]">
+                  You've supported 0 students so far — your first conversation could change everything
+                </span>
+                <span className="text-[#00C48C] font-bold">💚</span>
+              </div>
+            ) : null}
+
+            <div className="bg-white px-6 py-4 rounded-[1.75rem] shadow-sm border border-slate-100 text-center min-w-[120px]">
+              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Time Given</p>
+              <p className="text-xl font-black text-slate-900">{formatDuration(activeMinutes)}</p>
+            </div>
+            
+            <div className="bg-white px-6 py-4 rounded-[1.75rem] shadow-sm border border-slate-100 text-center min-w-[120px]">
+              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Conversations</p>
+              <p className="text-xl font-black text-slate-900">{sessions.length}</p>
+            </div>
+            
+            <div className="bg-[#0D1B2A] px-6 py-4 rounded-[1.75rem] shadow-xl text-center min-w-[120px] border border-white/10">
+              <p className="text-[9px] font-black uppercase tracking-widest text-[#00C48C] mb-1">Upcoming</p>
+              <p className="text-xl font-black text-white">{upcomingSessions.length}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Pill Navigation Tabs */}
+        <div className="flex gap-2 mb-10 bg-slate-100 border border-slate-200/50 rounded-2xl p-1.5 w-fit shadow-sm">
           {[
-            { key: "overview" as Tab, label: "My Impact", icon: <Trophy className="h-4 w-4" /> },
-            { key: "sessions" as Tab, label: "Response Queue", icon: <LayoutDashboard className="h-4 w-4" />, badge: upcomingSessions.length },
-            { key: "slots" as Tab, label: "Availability", icon: <AlarmClock className="h-4 w-4" /> },
+            { key: "overview" as Tab, label: "My Impact", icon: <Trophy className="h-3.5 w-3.5" /> },
+            { key: "sessions" as Tab, label: "Response Queue", icon: <LayoutDashboard className="h-3.5 w-3.5" />, badge: upcomingSessions.length },
+            { key: "slots" as Tab, label: "Availability", icon: <AlarmClock className="h-3.5 w-3.5" /> },
           ].map(t => (
             <button 
               key={t.key} 
               onClick={() => setActiveTab(t.key)}
-              className={`flex items-center gap-2 px-8 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ${
                 activeTab === t.key 
-                ? "bg-primary text-white shadow-lg" 
+                ? "bg-[#00C48C] text-[#0D1B2A] shadow-md font-black" 
                 : "text-slate-500 hover:bg-white"
               }`}
             >
               {t.icon}
               <span>{t.label}</span>
-              {t.badge ? <span className="ml-2 bg-white text-primary text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center">{t.badge}</span> : null}
+              {t.badge ? (
+                <span className={`ml-1.5 text-[9px] font-black rounded-full h-4.5 w-4.5 flex items-center justify-center ${
+                  activeTab === t.key ? "bg-[#0D1B2A] text-[#00C48C]" : "bg-slate-200 text-slate-700"
+                }`}>
+                  {t.badge}
+                </span>
+              ) : null}
             </button>
           ))}
         </div>
 
-        <AnimatePresence mode="wait">
-           {activeTab === "overview" ? (
-             <motion.div key="overview" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-12">
-               <BadgeRibbon 
-                 completedSessionsCount={completedSessions.length}
-                 hasNightSession={sessions.some(s => s.time_slots && parseInt(s.time_slots.start_time.split(":")[0]) >= 20)}
-                 hasCrisisSession={sessions.some(s => s.issue_type === 'Crisis' || s.issue_type === 'Emergency')}
-               />
-               <VolunteerImpactMetrics 
-                 activeMinutes={activeMinutes}
-                 uniqueStudentsCount={new Set(completedSessions.map(s => s.student_alias_id)).size}
-                 formatDuration={formatDuration}
-               />
-             </motion.div>
-           ) : activeTab === "sessions" ? (
-             <motion.div key="sessions" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-               <SessionQueue 
-                 sessions={upcomingSessions}
-                 onSelectSession={setSelectedSession}
-                 computeStatus={computeStatus}
-               />
-             </motion.div>
-           ) : (
-             <motion.div key="slots" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-               <AvailabilityManager 
-                 timeSlots={timeSlots}
-                 slotDate={slotDate}
-                 setSlotDate={setSlotDate}
-                 startTime={startTime}
-                 setStartTime={setStartTime}
-                 endTime={endTime}
-                 setEndTime={setEndTime}
-                 slotsLoading={slotsLoading}
-                 onAddSlot={handleAddSlot}
-                 onDeleteSlot={handleDeleteSlot}
-               />
-             </motion.div>
-           )}
-        </AnimatePresence>
+        {/* Tab Contents */}
+        <div className="relative z-10">
+          <AnimatePresence mode="wait">
+             {activeTab === "overview" ? (
+               <motion.div key="overview" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-12">
+                 <BadgeRibbon 
+                   completedSessionsCount={completedSessions.length}
+                   hasNightSession={sessions.some(s => s.time_slots && parseInt(s.time_slots.start_time.split(":")[0]) >= 20)}
+                   hasCrisisSession={sessions.some(s => s.issue_type === 'Crisis' || s.issue_type === 'Emergency')}
+                 />
+                 <VolunteerImpactMetrics 
+                   activeMinutes={activeMinutes}
+                   uniqueStudentsCount={new Set(completedSessions.map(s => s.student_alias_id)).size}
+                   formatDuration={formatDuration}
+                 />
+               </motion.div>
+             ) : activeTab === "sessions" ? (
+               <motion.div key="sessions" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                 <SessionQueue 
+                   sessions={upcomingSessions}
+                   onSelectSession={setSelectedSession}
+                   computeStatus={computeStatus}
+                   onMarkCompleted={handleMarkCompleted}
+                 />
+               </motion.div>
+             ) : (
+               <motion.div key="slots" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                 <AvailabilityManager 
+                   volunteerId={volunteer.id}
+                   timeSlots={timeSlots}
+                   slotsLoading={slotsLoading}
+                   slotDate={slotDate}
+                   setSlotDate={setSlotDate}
+                   startTime={startTime}
+                   setStartTime={setStartTime}
+                   endTime={endTime}
+                   setEndTime={setEndTime}
+                   onAddSlot={handleAddSlot}
+                   onDeleteSlot={handleDeleteSlot}
+                   upcomingSessions={upcomingSessions}
+                   onMarkCompleted={handleMarkCompleted}
+                 />
+               </motion.div>
+             )}
+          </AnimatePresence>
+        </div>
 
         <AnimatePresence>
           {selectedSession && (
@@ -535,11 +773,11 @@ function VolunteerDashboard() {
               onSaveNote={handleSaveNote}
               onAIGenerate={handleAIGenerate}
               moodHistory={moodHistory}
+              pastNotes={pastNotes}
             />
           )}
         </AnimatePresence>
       </main>
-      <Footer />
     </div>
   );
 }

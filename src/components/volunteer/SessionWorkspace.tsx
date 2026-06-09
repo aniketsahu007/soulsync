@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { 
   X, Info, MessageSquare, Zap, CheckCircle, RefreshCw,
-  TrendingUp, Activity, User, Video
+  TrendingUp, Activity, User, Video, FileText, History
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -21,6 +21,7 @@ interface SessionWorkspaceProps {
   onSaveNote: () => void;
   onAIGenerate: () => void;
   moodHistory: any[];
+  pastNotes?: any[];
 }
 
 export const SessionWorkspace = memo(({ 
@@ -32,7 +33,8 @@ export const SessionWorkspace = memo(({
   notesLoading,
   onSaveNote,
   onAIGenerate,
-  moodHistory
+  moodHistory,
+  pastNotes = []
 }: SessionWorkspaceProps) => {
   const [isEditing, setIsEditing] = useState(true);
 
@@ -109,6 +111,16 @@ export const SessionWorkspace = memo(({
 
                  <section>
                     <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                       <FileText className="h-4 w-4" />
+                       Student's Booking Notes
+                    </h3>
+                    <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 leading-relaxed text-slate-700 text-sm italic">
+                       {selectedSession.notes ? `"${selectedSession.notes}"` : "No notes provided during booking."}
+                    </div>
+                 </section>
+
+                 <section>
+                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
                        <Activity className="h-4 w-4" />
                        Student Mood History
                     </h3>
@@ -150,6 +162,31 @@ export const SessionWorkspace = memo(({
                        <p className="text-sm text-indigo-700/80 leading-relaxed italic">
                           "{selectedSession.student_profiles?.memory_context || "No recurring themes noted for this student identity yet."}"
                        </p>
+                    </div>
+                 </section>
+
+                 <section>
+                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                       <History className="h-4 w-4" />
+                       Past Session History
+                    </h3>
+                    <div className="space-y-3">
+                       {pastNotes.length > 0 ? (
+                         pastNotes.map((note) => (
+                           <div key={note.id} className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                               {new Date(note.created_at).toLocaleDateString()}
+                             </p>
+                             <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                               {note.volunteer_notes}
+                             </p>
+                           </div>
+                         ))
+                       ) : (
+                         <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 text-center">
+                           <p className="text-sm text-slate-500 italic">First time support session or no previous notes found.</p>
+                         </div>
+                       )}
                     </div>
                  </section>
               </div>

@@ -31,7 +31,7 @@ const features = [
     title: "Patterns that help you understand yourself",
     desc: "Mood-aware prompts and trend signals help users notice what keeps showing up, without turning emotions into cold data.",
     detail: "Reflection that feels personal, not clinical.",
-    color: "bg-warm/10 text-warm",
+    color: "bg-warm text-warm-foreground",
     span: "lg:col-span-4",
   },
   {

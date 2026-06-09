@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { 
   MessageSquare, LayoutDashboard, Clock, Calendar, 
   ChevronRight, FileText, UserCheck, AlertTriangle,
-  Video
+  Video, CheckCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -12,12 +12,14 @@ interface SessionQueueProps {
   sessions: any[];
   onSelectSession: (session: any) => void;
   computeStatus: (date: string, start: string, end: string) => string;
+  onMarkCompleted?: (sessionId: string) => void;
 }
 
 export const SessionQueue = memo(({ 
   sessions, 
   onSelectSession, 
-  computeStatus 
+  computeStatus,
+  onMarkCompleted
 }: SessionQueueProps) => {
   return (
     <motion.div
@@ -114,9 +116,18 @@ export const SessionQueue = memo(({
                    </Button>
                  )}
                  {session.issue_type === 'Crisis' && (
-                   <div className="h-12 w-12 rounded-xl bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shadow-lg shadow-red-500/10">
+                   <div className="h-12 w-12 shrink-0 rounded-xl bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shadow-lg shadow-red-500/10">
                       <AlertTriangle className="h-5 w-5" />
                    </div>
+                 )}
+                 {onMarkCompleted && (
+                   <Button
+                     onClick={() => onMarkCompleted(session.id)}
+                     className="h-12 w-12 shrink-0 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 text-slate-400 border border-slate-200 shadow-sm transition-all"
+                     title="Mark as completed"
+                   >
+                     <CheckCircle className="h-5 w-5" />
+                   </Button>
                  )}
               </div>
             </Card>

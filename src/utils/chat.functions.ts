@@ -295,6 +295,7 @@ export const generateSessionReport = createServerFn({ method: "POST" })
     (input: {
       handoff: string | null;
       studentNote: string | null;
+      pastNotes?: string | null;
       issueType: string;
       volunteerDraft: string;
     }) => input
@@ -312,6 +313,7 @@ Context:
 - Issue Category: ${data.issueType}
 - Pre-Session Briefing: ${data.handoff || "No briefing available."}
 - Student's Initial Note: ${data.studentNote || "No student note provided."}
+- Past Session History: ${data.pastNotes || "No past session history available."}
 - Volunteer's Session Observations: ${data.volunteerDraft || "No draft notes provided yet."}
 
 The report MUST include:

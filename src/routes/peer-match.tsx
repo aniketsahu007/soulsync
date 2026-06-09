@@ -406,6 +406,13 @@ function PeerMatchPage() {
          }
       }
       
+      // Filter out slots that have already passed
+      const now = new Date();
+      fetchedSlots = fetchedSlots.filter((slot) => {
+        const slotEnd = parseISO(`${slot.slot_date}T${slot.end_time}`);
+        return slotEnd > now;
+      });
+
       setSlots(fetchedSlots);
     } catch (err) {
       console.error("Fetch slots error:", err);
