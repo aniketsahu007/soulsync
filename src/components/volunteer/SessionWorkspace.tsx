@@ -6,10 +6,7 @@ import {
   TrendingUp, Activity, User, Video, FileText, History
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { 
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer 
-} from 'recharts';
+import { MoodChart, moodValues } from "@/components/MoodChart";
 
 interface SessionWorkspaceProps {
   selectedSession: any;
@@ -126,23 +123,13 @@ export const SessionWorkspace = memo(({
                     </h3>
                     <div className="h-64 w-full bg-slate-50 rounded-3xl border border-slate-100 p-6">
                        {moodHistory.length > 0 ? (
-                         <ResponsiveContainer width="100%" height="100%">
-                           <AreaChart data={moodHistory.map(m => ({ score: m.mood_score, date: new Date(m.created_at).toLocaleDateString() }))}>
-                             <defs>
-                               <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                                 <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
-                                 <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
-                               </linearGradient>
-                             </defs>
-                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                             <XAxis dataKey="date" hide />
-                             <YAxis hide domain={[0, 10]} />
-                             <Tooltip 
-                               contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
-                             />
-                             <Area type="monotone" dataKey="score" stroke="#8b5cf6" fillOpacity={1} fill="url(#colorScore)" strokeWidth={3} />
-                           </AreaChart>
-                         </ResponsiveContainer>
+                          <MoodChart 
+                            data={moodHistory.map(m => ({ 
+                              date: new Date(m.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }), 
+                              value: moodValues[m.mood as keyof typeof moodValues] || null,
+                              moodLabel: m.mood
+                            }))} 
+                          />
                        ) : (
                          <div className="h-full flex items-center justify-center flex-col text-slate-300">
                             <TrendingUp className="h-8 w-8 mb-2 opacity-20" />
