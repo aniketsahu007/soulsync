@@ -9,7 +9,7 @@
   [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
   [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-  [![Gemini API](https://img.shields.io/badge/Gemini%20API-8E75B2?style=for-the-badge&logo=google-gemini&logoColor=white)](https://ai.google.dev/)
+  [![OpenRouter API](https://img.shields.io/badge/OpenRouter%20API-4A90E2?style=for-the-badge&logo=openai&logoColor=white)](https://openrouter.ai/)
   
   [**Watch Demo Video**](#) • [**Live Project**](#) • [**Pitch Deck**](#)
 </div>
@@ -48,7 +48,7 @@ SoulSync goes beyond a simple chat interface, offering a modular suite of intera
 *   **Empathetic Peer Matching:** Connects students with trained, verified student volunteers for real-time chat and support sessions.
 
 ### 2. AI-Powered "Supporter Command Center"
-*   **Intelligent Handoff Briefings:** Uses Google Gemini to analyze past (anonymous) interactions and generate concise, actionable briefings for volunteers before a session begins, ensuring continuity of care.
+*   **Intelligent Handoff Briefings:** Uses OpenRouter AI models (e.g. GPT-OSS 120B) to analyze past (anonymous) interactions and generate concise, actionable briefings for volunteers before a session begins, ensuring continuity of care.
 *   **Perspective API Safety Layer:** Real-time sentiment and toxicity analysis to ensure all communications remain respectful, safe, and productive.
 
 ### 3. Interactive "Winner's Suite" Resilience Tools
@@ -70,7 +70,7 @@ SoulSync leverages a modern, scalable, and highly responsive technology stack to
 *   **Backend & Database:** Supabase (PostgreSQL, Auth, Storage), Row Level Security (RLS)
 
 ### Google Cloud Integrations
-*   **Google Gemini 1.5 Pro/Flash:** Powers the core contextual engine for dialogue understanding and generating volunteer briefings.
+*   **OpenRouter AI models (e.g. GPT-OSS 120B, DeepSeek V4 Flash):** Powers the core contextual engine for dialogue understanding and generating volunteer briefings.
 *   **Google Perspective API:** Acts as the primary safety net, automatically flagging toxic or distressed language for immediate clinical escalation.
 *   *(Planned)* **Google Cloud Run:** For scalable deployment of microservices.
 
@@ -137,7 +137,7 @@ Follow these steps to run SoulSync locally:
 ### Prerequisites
 *   [Bun](https://bun.sh/) (or Node.js/npm)
 *   A [Supabase](https://supabase.com/) Project
-*   A [Google Gemini API Key](https://aistudio.google.com/app/apikey)
+*   An [OpenRouter API Key](https://openrouter.ai/)
 
 ### Installation
 1.  **Clone the repository:**
@@ -156,7 +156,8 @@ Follow these steps to run SoulSync locally:
     ```env
     VITE_SUPABASE_URL=your_supabase_project_url
     VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-    GEMINI_API_KEY=your_gemini_api_key
+    OPENROUTER_API_KEY=your_openrouter_api_key
+    OPENROUTER_MODEL=openai/gpt-oss-120b:free
     ```
 
 4.  **Database Setup:**

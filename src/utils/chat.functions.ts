@@ -7,19 +7,22 @@ interface ChatMessage {
   content: string;
 }
 
-interface GeminiGenerateContentResponse {
-  candidates?: Array<{
-    content?: {
-      parts?: Array<{
-        text?: string;
-      }>;
+interface OpenRouterMessage {
+  role: "system" | "user" | "assistant";
+  content: string;
+}
+
+interface OpenRouterChatCompletionResponse {
+  choices?: Array<{
+    message?: {
+      role?: string;
+      content?: string;
     };
   }>;
 }
 
-const DEFAULT_GEMINI_API_BASE_URL =
-  "https://generativelanguage.googleapis.com/v1beta";
-const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
+const DEFAULT_OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1";
+const DEFAULT_OPENROUTER_MODEL = "openai/gpt-oss-120b:free";
 
 const systemPrompt = (memoryContext: string) => `You are SoulSync - a warm, relatable, and deeply humanized peer friend. Forget clinical or formal AI speech. Talk like a kind, empathetic friend who's just checking in.
 
@@ -75,8 +78,10 @@ interface SurveyAnswers {
 export const generateVolunteerBriefing = createServerFn({ method: "POST" })
   .inputValidator((input: { chatReport: ChatReport, surveyAnswers: SurveyAnswers }) => input)
   .handler(async ({ data }) => {
-    const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-    if (!geminiApiKey) return { briefing: "Briefing unavailable." };
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
+    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
+
+    if (!apiKey) return { briefing: "Briefing unavailable." };
 
     const prompt = `You are a Consulting Psychologist briefing a Peer Supporter volunteer.
 Analyze the following student data and provide a 2-paragraph "Intelligent Briefing."
@@ -91,31 +96,34 @@ Student Data:
 Write a professional, compassionate briefing. Do not just list the data.`;
 
     const response = await fetch(
-      `${DEFAULT_GEMINI_API_BASE_URL}/models/${DEFAULT_GEMINI_MODEL}:generateContent`,
+      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": geminiApiKey },
-        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": "https://soulsync.org",
+          "X-Title": "SoulSync",
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: "user", content: prompt }],
+        }),
       }
     );
 
     if (!response.ok) return { briefing: "Error generating briefing." };
-    const result = await response.json();
-    return { briefing: result.candidates?.[0]?.content?.parts?.[0]?.text || "No briefing available." };
+    const result = (await response.json()) as OpenRouterChatCompletionResponse;
+    return { briefing: result.choices?.[0]?.message?.content || "No briefing available." };
   });
-
-function toGeminiRole(role: ChatMessage["role"]) {
-  return role === "assistant" ? "model" : "user";
-}
 
 export const sendChatMessage = createServerFn({ method: "POST" })
   .inputValidator((input: { messages: ChatMessage[], aliasId?: string }) => input)
   .handler(async ({ data }) => {
-    const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-    const geminiApiBaseUrl = process.env.GEMINI_API_BASE_URL ?? DEFAULT_GEMINI_API_BASE_URL;
-    const geminiModel = process.env.GEMINI_MODEL ?? DEFAULT_GEMINI_MODEL;
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
+    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
 
-    if (!geminiApiKey) {
+    if (!apiKey) {
       return { content: "Chat configuration missing.", error: true };
     }
 
@@ -134,22 +142,27 @@ export const sendChatMessage = createServerFn({ method: "POST" })
       }
     }
 
+    const messages: OpenRouterMessage[] = [
+      { role: "system", content: systemPrompt(memoryContext) },
+      ...data.messages.map((message) => ({
+        role: message.role,
+        content: message.content,
+      })),
+    ];
+
     const response = await fetch(
-      `${geminiApiBaseUrl}/models/${encodeURIComponent(geminiModel)}:generateContent`,
+      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": geminiApiKey,
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": "https://soulsync.org",
+          "X-Title": "SoulSync",
         },
         body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: systemPrompt(memoryContext) }],
-          },
-          contents: data.messages.map((message) => ({
-            role: toGeminiRole(message.role),
-            parts: [{ text: message.content }],
-          })),
+          model,
+          messages,
         }),
       },
     );
@@ -161,8 +174,8 @@ export const sendChatMessage = createServerFn({ method: "POST" })
       return { content: `Our AI servers encountered an issue (${response.statusText}). Please try again shortly. 💛`, error: true };
     }
 
-    const result = (await response.json()) as GeminiGenerateContentResponse;
-    const content = result.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "I'm here for you.";
+    const result = (await response.json()) as OpenRouterChatCompletionResponse;
+    const content = result.choices?.[0]?.message?.content?.trim() ?? "I'm here for you.";
 
     return { content, error: false };
   });
@@ -170,8 +183,10 @@ export const sendChatMessage = createServerFn({ method: "POST" })
 export const updateChatMemory = createServerFn({ method: "POST" })
   .inputValidator((input: { aliasId: string, chatHistory: string }) => input)
   .handler(async ({ data }) => {
-    const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-    if (!geminiApiKey) return { success: false };
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
+    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
+
+    if (!apiKey) return { success: false };
 
     // Fetch existing memory to prevent overwriting
     const { data: profile } = await supabase
@@ -192,17 +207,25 @@ Recent Chat History:
 ${data.chatHistory}`;
 
     const response = await fetch(
-      `${DEFAULT_GEMINI_API_BASE_URL}/models/${DEFAULT_GEMINI_MODEL}:generateContent`,
+      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": geminiApiKey },
-        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": "https://soulsync.org",
+          "X-Title": "SoulSync",
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: "user", content: prompt }],
+        }),
       }
     );
 
     if (!response.ok) return { success: false };
-    const result = await response.json();
-    const newContext = result.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || existingMemory;
+    const result = (await response.json()) as OpenRouterChatCompletionResponse;
+    const newContext = result.choices?.[0]?.message?.content?.trim() || existingMemory;
 
     // Store in DB
     await supabase
@@ -216,8 +239,10 @@ ${data.chatHistory}`;
 export const updatePostSessionMemory = createServerFn({ method: "POST" })
   .inputValidator((input: { aliasId: string, briefing: string, feedback: string }) => input)
   .handler(async ({ data }) => {
-    const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-    if (!geminiApiKey) return { success: false };
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
+    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
+
+    if (!apiKey) return { success: false };
 
     const prompt = `You are updating the long-term memory of a support-AI friend.
 Based on the session briefing and the student's post-session feedback, write 3-4 bullet points of new "Memory Context" to represent what happened in this healing journey.
@@ -229,17 +254,25 @@ Feedback Notes: ${data.feedback}
 Current Memory will be updated with this. Keep it concise but insightful.`;
 
     const response = await fetch(
-      `${DEFAULT_GEMINI_API_BASE_URL}/models/${DEFAULT_GEMINI_MODEL}:generateContent`,
+      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": geminiApiKey },
-        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": "https://soulsync.org",
+          "X-Title": "SoulSync",
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: "user", content: prompt }],
+        }),
       }
     );
 
     if (!response.ok) return { success: false };
-    const result = await response.json();
-    const newAddition = result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const result = (await response.json()) as OpenRouterChatCompletionResponse;
+    const newAddition = result.choices?.[0]?.message?.content || "";
 
     const { data: profile } = await supabase
       .from("student_profiles")
@@ -267,8 +300,10 @@ export const generateSessionReport = createServerFn({ method: "POST" })
     }) => input
   )
   .handler(async ({ data }) => {
-    const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-    if (!geminiApiKey) return { report: "AI Reporting unavailable." };
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
+    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
+
+    if (!apiKey) return { report: "AI Reporting unavailable." };
 
     const prompt = `You are an AI Clinical Assistant for SoulSync, helping a Peer Supporter volunteer finalize their session notes.
 Synthesize the following context into a professional, compassionate, and structured session report (2-3 paragraphs).
@@ -288,29 +323,33 @@ Be insightful and vary your vocabulary. Avoid repetitive phrasing. Structure it 
 
     try {
       const response = await fetch(
-        `${DEFAULT_GEMINI_API_BASE_URL}/models/${DEFAULT_GEMINI_MODEL}:generateContent`,
+        `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-goog-api-key": geminiApiKey },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`,
+            "HTTP-Referer": "https://soulsync.org",
+            "X-Title": "SoulSync",
+          },
           body: JSON.stringify({ 
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            generationConfig: {
-              temperature: 0.8,
-              topP: 0.95,
-              maxOutputTokens: 1024,
-            }
+            model,
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.8,
+            top_p: 0.95,
+            max_tokens: 1024,
           }),
         }
       );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error("Gemini API Error:", response.status, JSON.stringify(errorData, null, 2));
+        console.error("OpenRouter API Error:", response.status, JSON.stringify(errorData, null, 2));
         return { report: `Error generating report: ${response.statusText}` };
       }
 
-      const result = await response.json();
-      const report = result.candidates?.[0]?.content?.parts?.[0]?.text || "No report generated.";
+      const result = (await response.json()) as OpenRouterChatCompletionResponse;
+      const report = result.choices?.[0]?.message?.content || "No report generated.";
 
       return { report };
     } catch (err) {
@@ -322,11 +361,10 @@ Be insightful and vary your vocabulary. Avoid repetitive phrasing. Structure it 
 export const provideLetterGuidance = createServerFn({ method: "POST" })
   .inputValidator((input: { letter: string }) => input)
   .handler(async ({ data }) => {
-    const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-    const geminiApiBaseUrl = process.env.GEMINI_API_BASE_URL ?? DEFAULT_GEMINI_API_BASE_URL;
-    const geminiModel = process.env.GEMINI_MODEL ?? DEFAULT_GEMINI_MODEL;
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
+    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
 
-    if (!geminiApiKey) return { guidance: "AI guidance unavailable." };
+    if (!apiKey) return { guidance: "AI guidance unavailable." };
 
     const prompt = `You are a compassionate peer support AI. 
 The user has written an expressive letter to process their emotions. 
@@ -338,17 +376,25 @@ User's Letter:
 "${data.letter}"`;
 
     const response = await fetch(
-      `${geminiApiBaseUrl}/models/${encodeURIComponent(geminiModel)}:generateContent`,
+      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": geminiApiKey },
-        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": "https://soulsync.org",
+          "X-Title": "SoulSync",
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: "user", content: prompt }],
+        }),
       }
     );
 
     if (!response.ok) return { guidance: "I'm having trouble reading your letter right now, but please know your feelings are valid." };
-    const result = await response.json();
-    const guidance = result.candidates?.[0]?.content?.parts?.[0]?.text || "Your feelings are completely valid. Take a deep breath.";
+    const result = (await response.json()) as OpenRouterChatCompletionResponse;
+    const guidance = result.choices?.[0]?.message?.content || "Your feelings are completely valid. Take a deep breath.";
 
     return { guidance };
   });
