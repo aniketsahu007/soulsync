@@ -61,6 +61,8 @@ function VolunteerDashboard() {
   const [volunteer, setVolunteer] = useState<Volunteer | null>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [error, setError] = useState("");
+  // Tracks whether the active session came from the manual (non-OAuth) login flow
+  const [isManualLogin, setIsManualLogin] = useState(false);
 
   const [timeSlots, setTimeSlots] = useState<Tables<"time_slots">[]>([]);
   const [slotDate, setSlotDate] = useState("");
@@ -132,7 +134,7 @@ function VolunteerDashboard() {
     }
   }, []);
 
-  const verifyAndFetchData = useCallback(async (userEmail: string) => {
+  const verifyAndFetchData = useCallback(async (userEmail: string, skipAuthSignOut = false) => {
     const { data, error: volError } = await supabase
       .from("volunteers")
       .select("*")
@@ -140,7 +142,7 @@ function VolunteerDashboard() {
       .single();
 
     if (volError || !data) {
-      await supabase.auth.signOut();
+      if (!skipAuthSignOut) await supabase.auth.signOut();
       setError("No volunteer profile found for this account.");
       setIsLoggedIn(false);
       setLoading(false);
@@ -148,8 +150,8 @@ function VolunteerDashboard() {
     }
 
     if (data.verification_status !== "verified") {
-      await supabase.auth.signOut();
-      setError("Account pending verification. Access restricted to verified volunteers.");
+      if (!skipAuthSignOut) await supabase.auth.signOut();
+      setError("Your account is pending verification. Access is restricted to verified volunteers.");
       setIsLoggedIn(false);
     } else {
       setVolunteer(data);
@@ -162,6 +164,16 @@ function VolunteerDashboard() {
 
   const checkUser = useCallback(async () => {
     setLoading(true);
+
+    // Check for a persisted manual login session first
+    const manualEmail = localStorage.getItem("volunteer_manual_email");
+    if (manualEmail) {
+      setIsManualLogin(true);
+      await verifyAndFetchData(manualEmail, true /* skipAuthSignOut */);
+      return;
+    }
+
+    // Otherwise check for an active Google OAuth session
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
       await verifyAndFetchData(session.user.email!);
@@ -384,22 +396,57 @@ function VolunteerDashboard() {
     setError("");
 
     try {
-      const { data: { user }, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      if (signInError) throw signInError;
-      if (user) await verifyAndFetchData(user.email!);
-      
+      // Manual login: email = registered email, "password" field = their registered full name
+      const normalizedEmail = email.trim().toLowerCase();
+      const enteredName = password.trim();
+
+      if (!normalizedEmail || !enteredName) {
+        throw new Error("Please enter your email and registered name.");
+      }
+
+      const { data, error: lookupError } = await supabase
+        .from("volunteers")
+        .select("*")
+        .eq("email", normalizedEmail)
+        .single();
+
+      if (lookupError || !data) {
+        throw new Error("No volunteer account found with that email address.");
+      }
+
+      // Compare registered name (case-insensitive, whitespace-trimmed)
+      if (data.name.trim().toLowerCase() !== enteredName.toLowerCase()) {
+        throw new Error("Incorrect password. Please try again.");
+      }
+
+      if (data.verification_status !== "verified") {
+        throw new Error("Your account is pending verification. You will be notified once approved.");
+      }
+
+      // Success — persist session in localStorage so page refreshes keep the user logged in
+      localStorage.setItem("volunteer_manual_email", normalizedEmail);
+      setIsManualLogin(true);
+      setVolunteer(data);
+      setIsLoggedIn(true);
+      fetchSessions(data.id);
+      fetchTimeSlots(data.id);
+
     } catch (err: any) {
       setError(err.message || "Invalid credentials or unverified account.");
+    } finally {
       setLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    if (isManualLogin) {
+      // Manual login session — clear localStorage, no Supabase Auth to sign out of
+      localStorage.removeItem("volunteer_manual_email");
+      setIsManualLogin(false);
+    } else {
+      // Google OAuth session
+      await supabase.auth.signOut();
+    }
     setIsLoggedIn(false);
     setVolunteer(null);
     setError("");
@@ -478,8 +525,8 @@ function VolunteerDashboard() {
                         <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@college.edu" className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 font-bold text-slate-700 outline-none focus:border-primary transition-colors" required />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Password</label>
-                        <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 font-bold text-slate-700 outline-none focus:border-primary transition-colors" required />
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Enter Your Password</label>
+                        <input type="text" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter your full name" className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 font-bold text-slate-700 outline-none focus:border-primary transition-colors" required />
                       </div>
                       <Button type="submit" className="w-full h-14 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 shadow-lg shadow-primary/10">Authorize & Enter</Button>
                     </form>

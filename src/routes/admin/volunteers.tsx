@@ -26,7 +26,7 @@ export const Route = createFileRoute("/admin/volunteers")({
   component: AdminVolunteersPage,
 });
 
-type Tab = "pending" | "approved";
+type Tab = "pending" | "verified";
 type VolunteerRecord = Tables<"volunteers">;
 
 function AdminVolunteersPage() {
@@ -211,9 +211,9 @@ function AdminVolunteersPage() {
                 Pending Review
               </button>
               <button
-                onClick={() => setActiveTab("approved")}
+                onClick={() => setActiveTab("verified")}
                 className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                  activeTab === "approved"
+                  activeTab === "verified"
                     ? "bg-white text-emerald-600 shadow-lg border border-white"
                     : "text-slate-500 hover:text-slate-700"
                 }`}
