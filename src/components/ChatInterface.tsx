@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Send, Bot, User, Shield, Sparkles, LogOut, MessageSquareHeart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sendChatMessage, updateChatMemory, provideLetterGuidance } from "@/utils/chat.functions";
-import { detectEmotions, type DetectedEmotion } from "@/utils/nlp.utils";
+import { detectEmotions, warmUpEmotionModel, type DetectedEmotion } from "@/utils/nlp.utils";
 import { HEALING_LIBRARY, type HealingTool } from "@/utils/HealingLibrary";
 import { CrisisMap } from "@/components/CrisisMap";
 import ReactMarkdown from "react-markdown";
@@ -42,18 +42,71 @@ export function ChatInterface() {
   const [isTyping, setIsTyping] = useState(false);
   const [sessionEmotions, setSessionEmotions] = useState<Record<string, number>>({});
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showCrisisMap, setShowCrisisMap] = useState(false);
+  const [emotionModelStatus, setEmotionModelStatus] = useState<"loading" | "ready" | "failed">("loading");
   const [activeTool, setActiveTool] = useState<HealingTool | null>(null);
   const [isInteractiveLetter, setIsInteractiveLetter] = useState(false);
   const [letterContent, setLetterContent] = useState("");
   const [letterGuidance, setLetterGuidance] = useState("");
   const [isAnalyzingLetter, setIsAnalyzingLetter] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  
+  // Restore saved chat messages on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
+    const saved = window.sessionStorage.getItem("soulSync_chat_messages");
+
+    if (saved && saved !== "[]") {
+      try {
+        const parsed = JSON.parse(saved) as Message[];
+
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setMessages(parsed);
+        }
+      } catch {
+        console.log("Failed to load saved messages");
+      }
+    }
+  }, []);
+
+  
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (messages.length > 1) {
+      window.sessionStorage.setItem("soulSync_chat_messages", JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  // Auto-scroll to bottom
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
+  // Warm up emotion model on component mount
+  useEffect(() => {
+    let isMounted = true;
+
+    warmUpEmotionModel()
+      .then(() => {
+        if (isMounted) setEmotionModelStatus("ready");
+      })
+      .catch((err) => {
+        console.error("Emotion model warm-up failed:", err);
+        if (isMounted) setEmotionModelStatus("failed");
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const updateEmotions = async (text: string) => {
+    // Skip if model failed to load
+    if (emotionModelStatus === "failed") return;
+    
     try {
       setIsAnalyzing(true);
       const emotions = await detectEmotions(text);
@@ -115,8 +168,6 @@ export function ChatInterface() {
     }
   };
 
-  const [isRedirecting, setIsRedirecting] = useState(false);
-
   const generateReportAndRedirect = async () => {
     setIsRedirecting(true);
     // Generate top emotions
@@ -158,6 +209,23 @@ export function ChatInterface() {
 
   return (
     <div className="flex flex-col h-full bg-background">
+      {/* Crisis Map Modal */}
+      {showCrisisMap && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-background p-4 shadow-2xl">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-3 top-3 z-10"
+              onClick={() => setShowCrisisMap(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+            <CrisisMap />
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b bg-card shadow-sm z-10">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-wellness shadow-inner">
@@ -165,8 +233,16 @@ export function ChatInterface() {
         </div>
         <div className="flex-1">
           <h3 className="font-display text-sm font-semibold">SoulSync Companion</h3>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <Shield className="h-3 w-3" /> Anonymous · BERT Analysis Active
+          <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap">
+            <Shield className="h-3 w-3" /> Anonymous ·
+            {emotionModelStatus === "loading" && (
+              <span className="flex items-center gap-1">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                Warming up emotion analysis...
+              </span>
+            )}
+            {emotionModelStatus === "ready" && " BERT Analysis Active"}
+            {emotionModelStatus === "failed" && " Emotion analysis unavailable"}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -191,6 +267,18 @@ export function ChatInterface() {
               )}
             </Button>
           )}
+
+          {/* Crisis Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-xl border-destructive/30 text-destructive hover:bg-destructive/10"
+            onClick={() => setShowCrisisMap(true)}
+          >
+            <span className="hidden sm:inline">Get help now</span>
+            <span className="sm:hidden">Help</span>
+          </Button>
+
           <div className="flex items-center gap-1.5 rounded-full bg-safe/10 px-3 py-1 border border-safe/20">
             <div className="h-2 w-2 rounded-full bg-safe animate-pulse" />
             <span className="text-[10px] font-bold text-safe uppercase tracking-wider">Live</span>
@@ -498,4 +586,3 @@ export function ChatInterface() {
     </div>
   );
 }
-
