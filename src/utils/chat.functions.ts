@@ -227,10 +227,21 @@ ${data.chatHistory}`;
     const result = (await response.json()) as OpenRouterChatCompletionResponse;
     const newContext = result.choices?.[0]?.message?.content?.trim() || existingMemory;
 
+    // ===== MEMORY SIZE CAP =====
+    const MAX_MEMORY_CHARS = 3000;
+    
+    let finalMemory = newContext;
+    if (finalMemory && finalMemory.length > MAX_MEMORY_CHARS) {
+      finalMemory = finalMemory.substring(0, 2500) + 
+        "\n\n[Previous context summarized due to length limit...]";
+      console.log(`Memory truncated from ${newContext.length} to ${finalMemory.length} chars`);
+    }
+    // ===== END OF MEMORY CAP =====
+
     // Store in DB
     await supabase
       .from("student_profiles")
-      .update({ memory_context: newContext })
+      .update({ memory_context: finalMemory })
       .eq("alias_id", data.aliasId);
 
     return { success: true };

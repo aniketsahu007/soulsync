@@ -31,11 +31,12 @@ const friendLikeGreetings = [
 ];
 
 export function ChatInterface() {
+  // FIXED: Removed Math.random() to prevent hydration mismatch
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       role: "assistant",
-      content: friendLikeGreetings[Math.floor(Math.random() * friendLikeGreetings.length)],
+      content: friendLikeGreetings[0],
     },
   ]);
   const [input, setInput] = useState("");
@@ -133,6 +134,9 @@ export function ChatInterface() {
     setMessages(updatedMessages);
     setInput("");
     setIsTyping(true);
+
+    // Supabase insert temporarily disabled - will add back later
+    // The messages are still saved in sessionStorage for persistence
 
     // Run BERT classification in background (don't block UI)
     updateEmotions(messageText);
