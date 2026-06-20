@@ -14,3 +14,4 @@ export function isAllowedAdminEmail(email?: string | null) {
   if (!email) return false;
   return ALLOWED_ADMIN_EMAILS.includes(normalizeEmail(email));
 }
+

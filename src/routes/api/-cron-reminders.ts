@@ -40,3 +40,4 @@ export const APIRoute = createAPIFileRoute("/api/cron-reminders")({
     }
   },
 });
+

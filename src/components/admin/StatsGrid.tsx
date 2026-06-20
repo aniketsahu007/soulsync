@@ -61,3 +61,4 @@ export const StatsGrid = memo(({ stats }: StatsGridProps) => {
 });
 
 StatsGrid.displayName = "StatsGrid";
+

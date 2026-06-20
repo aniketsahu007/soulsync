@@ -65,3 +65,4 @@ export function resolveVolunteerCvOpenTarget(record: VolunteerCvRecord) {
 
   return null;
 }
+

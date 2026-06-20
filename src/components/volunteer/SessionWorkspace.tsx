@@ -250,3 +250,4 @@ export const SessionWorkspace = memo(({
 });
 
 SessionWorkspace.displayName = "SessionWorkspace";
+

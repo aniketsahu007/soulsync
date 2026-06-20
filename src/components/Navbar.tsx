@@ -21,13 +21,16 @@ import { IdentityRecoveryButton } from "@/components/IdentityRecoveryButton";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 
-const exploreLinks = [
-  { to: "/check-in", label: "My Check-In", desc: "How are you feeling?", icon: ClipboardCheck },
+const supportLinks = [
   { to: "/chat", label: "Talk to Someone", desc: "Safe, anonymous AI support", icon: MessageCircleHeart },
   { to: "/peer-match", label: "Peer Support", desc: "Connect with a trained volunteer", icon: Users },
   { to: "/partners", label: "NGO Partners", desc: "Our network of professional help", icon: HeartHandshake },
-  { to: "/mood-tracker", label: "Mood Journal", desc: "Track your emotional journey", icon: TrendingUp },
   { to: "/community-qna", label: "Community Q&A", desc: "You are not alone in this", icon: HelpCircle },
+] as const;
+
+const toolsLinks = [
+  { to: "/check-in", label: "My Check-In", desc: "How are you feeling?", icon: ClipboardCheck },
+  { to: "/mood-tracker", label: "Mood Journal", desc: "Track your emotional journey", icon: TrendingUp },
   { to: "/resources", label: "Schedule Architect", desc: "Atomic habits & focus timer", icon: BookOpen },
 ] as const;
 
@@ -156,19 +159,13 @@ export const Navbar = memo(() => {
           </Link>
 
           <div className="hidden xl:flex flex-1 items-center justify-center">
-            <div
-              className="flex items-center gap-0.5 rounded-full p-1"
-              style={{
-                background: "rgba(241,245,249,0.8)",
-                border: "1px solid rgba(16,185,129,0.14)",
-              }}
-            >
+            <div className="flex items-center gap-2">
               <Link
                 to="/"
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-200 ${
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                   location.pathname === "/"
-                    ? "bg-white text-primary shadow-sm ring-1 ring-primary/20"
-                    : "text-slate-500 hover:bg-white/70 hover:text-foreground"
+                    ? "bg-primary/5 text-primary"
+                    : "text-slate-500 hover:bg-slate-100/50 hover:text-foreground"
                 }`}
               >
                 Home
@@ -177,10 +174,10 @@ export const Navbar = memo(() => {
               <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setDropdownOpen((value) => !value)}
-                  className={`flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-200 ${
+                  className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                     dropdownOpen
-                      ? "bg-white text-primary shadow-sm ring-1 ring-primary/20"
-                      : "text-slate-500 hover:bg-white/70 hover:text-foreground"
+                      ? "bg-primary/5 text-primary"
+                      : "text-slate-500 hover:bg-slate-100/50 hover:text-foreground"
                   }`}
                 >
                   Explore
@@ -189,7 +186,7 @@ export const Navbar = memo(() => {
 
                 {dropdownOpen && (
                   <div
-                    className="absolute left-0 top-full mt-3 w-80 p-2"
+                    className="absolute left-1/2 top-full mt-3 w-[36rem] -translate-x-1/2 p-3"
                     style={{
                       background: "rgba(255,255,255,0.98)",
                       backdropFilter: "blur(16px)",
@@ -198,46 +195,92 @@ export const Navbar = memo(() => {
                       boxShadow: "0 20px 48px -8px rgba(15,23,42,0.14), 0 0 0 1px rgba(255,255,255,0.8) inset",
                     }}
                   >
-                    {exploreLinks.map((link) => (
-                      <Link
-                        key={link.to}
-                        to={link.to}
-                        onClick={() => setDropdownOpen(false)}
-                        className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
-                          location.pathname === link.to
-                            ? "bg-primary/10 text-primary"
-                            : "text-foreground hover:bg-slate-50"
-                        }`}
-                      >
-                        <div
-                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                          style={{
-                            background: location.pathname === link.to
-                              ? "rgba(16,185,129,0.15)"
-                              : "rgba(16,185,129,0.08)",
-                          }}
-                        >
-                          <link.icon className="h-4 w-4 text-primary" />
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-4">
+                      {/* Support Section */}
+                      <div>
+                        <div className="mb-2 px-3 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted-foreground/70">
+                          Support
                         </div>
-                        <div>
-                          <div className="text-sm font-semibold">{link.label}</div>
-                          <div className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{link.desc}</div>
+                        <div className="space-y-1">
+                          {supportLinks.map((link) => (
+                            <Link
+                              key={link.to}
+                              to={link.to}
+                              onClick={() => setDropdownOpen(false)}
+                              className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
+                                location.pathname === link.to
+                                  ? "bg-primary/10 text-primary"
+                                  : "text-foreground hover:bg-slate-50"
+                              }`}
+                            >
+                              <div
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                                style={{
+                                  background: location.pathname === link.to
+                                    ? "rgba(16,185,129,0.15)"
+                                    : "rgba(16,185,129,0.08)",
+                                }}
+                              >
+                                <link.icon className="h-4 w-4 text-primary" />
+                              </div>
+                              <div>
+                                <div className="text-sm font-semibold">{link.label}</div>
+                                <div className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{link.desc}</div>
+                              </div>
+                            </Link>
+                          ))}
                         </div>
-                      </Link>
-                    ))}
+                      </div>
+
+                      {/* Tools Section */}
+                      <div>
+                        <div className="mb-2 px-3 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted-foreground/70">
+                          Tools
+                        </div>
+                        <div className="space-y-1">
+                          {toolsLinks.map((link) => (
+                            <Link
+                              key={link.to}
+                              to={link.to}
+                              onClick={() => setDropdownOpen(false)}
+                              className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
+                                location.pathname === link.to
+                                  ? "bg-primary/10 text-primary"
+                                  : "text-foreground hover:bg-slate-50"
+                              }`}
+                            >
+                              <div
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                                style={{
+                                  background: location.pathname === link.to
+                                    ? "rgba(16,185,129,0.15)"
+                                    : "rgba(16,185,129,0.08)",
+                                }}
+                              >
+                                <link.icon className="h-4 w-4 text-primary" />
+                              </div>
+                              <div>
+                                <div className="text-sm font-semibold">{link.label}</div>
+                                <div className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{link.desc}</div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
 
               <Link
                 to="/volunteer"
-                className={`flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-200 ${
+                className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                   location.pathname === "/volunteer"
-                    ? "bg-white text-primary shadow-sm ring-1 ring-primary/20"
-                    : "text-slate-500 hover:bg-white/70 hover:text-foreground"
+                    ? "bg-primary/5 text-primary"
+                    : "text-slate-500 hover:bg-slate-100/50 hover:text-foreground"
                 }`}
               >
-                <UserCheck className="h-3.5 w-3.5" />
+                <UserCheck className="h-4 w-4" />
                 Volunteer
               </Link>
             </div>
@@ -325,10 +368,35 @@ export const Navbar = memo(() => {
             </Link>
 
             <div className="pt-2 pb-1 px-4 text-[0.65rem] font-bold uppercase tracking-[0.25em] text-muted-foreground">
-              Explore
+              Support
             </div>
 
-            {exploreLinks.map((link) => (
+            {supportLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                  location.pathname === link.to
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground hover:bg-slate-50"
+                }`}
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/8 shrink-0">
+                  <link.icon className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <div className="font-semibold">{link.label}</div>
+                  <div className="text-xs font-normal text-muted-foreground">{link.desc}</div>
+                </div>
+              </Link>
+            ))}
+
+            <div className="pt-4 pb-1 px-4 text-[0.65rem] font-bold uppercase tracking-[0.25em] text-muted-foreground">
+              Tools
+            </div>
+
+            {toolsLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
@@ -392,3 +460,4 @@ export const Navbar = memo(() => {
 });
 
 Navbar.displayName = "Navbar";
+
