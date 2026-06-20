@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Send, Bot, User, Shield, Sparkles, LogOut, MessageSquareHeart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sendChatMessage, updateChatMemory, provideLetterGuidance } from "@/utils/chat.functions";
-import { detectEmotions, type DetectedEmotion } from "@/utils/nlp.utils";
+import { detectEmotions, warmupClassifier, type DetectedEmotion } from "@/utils/nlp.utils";
 import { HEALING_LIBRARY, type HealingTool } from "@/utils/HealingLibrary";
 import { CrisisMap } from "@/components/CrisisMap";
 import ReactMarkdown from "react-markdown";
@@ -48,6 +48,11 @@ export function ChatInterface() {
   const [letterGuidance, setLetterGuidance] = useState("");
   const [isAnalyzingLetter, setIsAnalyzingLetter] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Warmup RoBERTa model as soon as chat opens (background, non-blocking)
+  useEffect(() => {
+    warmupClassifier();
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -119,16 +124,18 @@ export function ChatInterface() {
 
   const generateReportAndRedirect = async () => {
     setIsRedirecting(true);
-    // Generate top emotions
+    // Generate top emotions as full {label, score} objects for the volunteer briefing AI
     const sortedEmotions = Object.entries(sessionEmotions)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 3)
-      .map(([label]) => label);
+      .slice(0, 5)
+      .map(([label, score]) => ({ label, score: Math.round(score * 100) / 100 }));
+
+    const emotionLabels = sortedEmotions.map(e => e.label);
 
     const report = {
       timestamp: new Date().toISOString(),
       emotions: sortedEmotions,
-      summary: `User participated in a support chat. AI-detected primary emotions: ${sortedEmotions.join(", ")}.`,
+      summary: `User participated in a support chat. RoBERTa-detected primary emotions: ${emotionLabels.join(", ")}.`,
       chatPreview: messages.slice(-4).map(m => `[${m.role}] ${m.content}`).join("\n"),
     };
 
@@ -166,7 +173,7 @@ export function ChatInterface() {
         <div className="flex-1">
           <h3 className="font-display text-sm font-semibold">SoulSync Companion</h3>
           <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <Shield className="h-3 w-3" /> Anonymous · BERT Analysis Active
+            <Shield className="h-3 w-3" /> Anonymous · RoBERTa Analysis Active
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -437,11 +444,11 @@ export function ChatInterface() {
           </motion.div>
         )}
 
-        {/* BERT Analysis status */}
+        {/* RoBERTa Analysis status */}
         {isAnalyzing && (
           <div className="mx-auto text-[10px] text-muted-foreground italic flex items-center gap-2 opacity-50">
             <Sparkles className="h-3 w-3 animate-spin duration-3000" />
-            Analyzing emotional context...
+            RoBERTa analyzing emotional context...
           </div>
         )}
 

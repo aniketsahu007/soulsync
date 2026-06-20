@@ -44,6 +44,11 @@ export default defineConfig(({ mode }) => {
         'react', 'react-dom', 'lucide-react', 'recharts', 'framer-motion', 
         '@supabase/supabase-js'
       ],
+      // @xenova/transformers uses WASM + dynamic imports internally — must be excluded
+      // from pre-bundling or it silently breaks in browser dev mode.
+      // We also MUST exclude onnxruntime-web, otherwise Vite corrupts the WASM backend
+      // causing "Cannot read properties of undefined (reading 'registerBackend')".
+      exclude: ['@xenova/transformers', 'onnxruntime-web'],
     },
     define: envDefine,
     resolve: {
