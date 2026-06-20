@@ -172,3 +172,4 @@ Follow these steps to run SoulSync locally:
 <div align="center">
   <b>Built with for student resilience. Because no student should have to navigate their hardest days alone.</b>
 </div>
+

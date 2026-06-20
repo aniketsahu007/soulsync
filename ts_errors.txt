@@ -47,3 +47,4 @@ src/routes/mood-tracker.tsx(77,18): error TS2345: Argument of type '{ alias_id: 
 src/routes/peer-match.tsx(772,26): error TS2552: Cannot find name 'Navigation'. Did you mean 'Navigator'?
 src/utils/volunteer.functions.ts(253,7): error TS2322: Type '{ cv_url: string | null; } | null' is not assignable to type '{ cv_url: string | null; cv_storage_path: string | null; } | null'.
   Property 'cv_storage_path' is missing in type '{ cv_url: string | null; }' but required in type '{ cv_url: string | null; cv_storage_path: string | null; }'.
+
