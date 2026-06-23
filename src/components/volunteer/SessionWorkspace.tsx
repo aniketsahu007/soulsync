@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { 
   X, Info, MessageSquare, Zap, CheckCircle, RefreshCw,
-  TrendingUp, Activity, User, Video, FileText, History
+  TrendingUp, Activity, User, Video, FileText, History,
+  Sparkles, Smile, Clock, Heart, AlertTriangle, ArrowRight, Shield
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MoodChart, moodValues } from "@/components/MoodChart";
+import { parseMemoryContext } from "@/utils/schedule.functions";
 
 interface SessionWorkspaceProps {
   selectedSession: any;
@@ -44,6 +46,96 @@ export const SessionWorkspace = memo(({
   }, [crmNotes]);
 
   if (!selectedSession) return null;
+
+  const memoryData = parseMemoryContext(selectedSession?.student_profiles?.memory_context);
+  const saState = memoryData.scheduleArchitect;
+  
+  // 1. Consistency Index
+  const habits = saState?.habits || [];
+  const consistencyIndex = habits.length > 0 
+    ? Math.round(habits.reduce((acc, h) => acc + h.successRate, 0) / habits.length) 
+    : 0;
+    
+  // 2. Focus Trend
+  const activities = saState?.activities || [];
+  const focusActivities = activities.filter(a => a.description.startsWith("Deep Focus:") || a.category === "Growth");
+  const focusXP = saState?.xp?.focus || 0;
+  
+  let focusTrend = "Stable";
+  if (focusXP > 120 || focusActivities.length >= 3) {
+    focusTrend = "Increasing (Strong)";
+  } else if (focusXP === 0 && focusActivities.length === 0) {
+    focusTrend = "No Data Yet";
+  } else if (focusXP < 40) {
+    focusTrend = "Declining / Low";
+  }
+
+  // 3. Mood Trend
+  let moodTrend = "Stable";
+  if (moodHistory && moodHistory.length >= 2) {
+    const sortedMoods = [...moodHistory].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    const lastMoodObj = sortedMoods[sortedMoods.length - 1];
+    const prevMoodObj = sortedMoods[sortedMoods.length - 2];
+    const lastMoodKey = (lastMoodObj.mood || "").toLowerCase() as keyof typeof moodValues;
+    const prevMoodKey = (prevMoodObj.mood || "").toLowerCase() as keyof typeof moodValues;
+    const lastVal = moodValues[lastMoodKey] || 3;
+    const prevVal = moodValues[prevMoodKey] || 3;
+    if (lastVal > prevVal) {
+      moodTrend = `Improving (${lastMoodObj.mood})`;
+    } else if (lastVal < prevVal) {
+      moodTrend = `Declining (${lastMoodObj.mood})`;
+    } else {
+      moodTrend = `Consistent (${lastMoodObj.mood})`;
+    }
+  } else if (moodHistory && moodHistory.length === 1) {
+    moodTrend = `Stable (${moodHistory[0].mood})`;
+  } else {
+    moodTrend = "No logs yet";
+  }
+
+  // 4. Most Avoided Task
+  const avoidedHabit = habits.length > 0 
+    ? habits.reduce((min, h) => h.successRate < min.successRate ? h : min, habits[0]) 
+    : null;
+  const mostAvoidedTask = avoidedHabit && avoidedHabit.successRate < 60
+    ? `"${avoidedHabit.action}" (${avoidedHabit.successRate}% completion)`
+    : "None (All habits >60%)";
+
+  // 5. Recovery Index
+  const selfCareXP = saState?.xp?.selfCare || 0;
+  const recoveryActivities = activities.filter(a => a.category === "Recovery");
+  const recoveryMins = recoveryActivities.reduce((acc, a) => acc + a.duration, 0);
+  
+  let recoveryIndex = "Moderate (Balanced)";
+  if (selfCareXP > 100 || recoveryMins > 60) {
+    recoveryIndex = "High (Restorative)";
+  } else if (selfCareXP < 30 && recoveryMins < 15) {
+    recoveryIndex = "Low (Burnout Risk)";
+  }
+
+  // 6. Social Engagement
+  const socialXP = saState?.xp?.social || 0;
+  let socialIndex = "Moderate Connection";
+  if (socialXP > 80) {
+    socialIndex = "High Connection";
+  } else if (socialXP < 20) {
+    socialIndex = "Low (Socially Isolated)";
+  }
+
+  // 7. Suggested Discussion Topic
+  const profileType = saState?.profile;
+  let suggestedDiscussion = "Review overall daily routines, highlight one specific habit to focus on, and encourage regular recovery time.";
+  if (profileType === "Achiever") {
+    suggestedDiscussion = "Focus on boundary setting and active recovery. The student is highly productive but may be overworking and neglecting restorative buffers.";
+  } else if (profileType === "Overthinker") {
+    suggestedDiscussion = "Discuss taking smaller actions. The student tends to plan extensively but experiences friction in starting. Explore simplifying targets.";
+  } else if (profileType === "Caregiver") {
+    suggestedDiscussion = "Address personal recovery time. Check if they are giving support to others at the expense of their own self-care and sleep habits.";
+  } else if (profileType === "Avoider") {
+    suggestedDiscussion = "Acknowledge avoidance pattern compassionately. Discuss how to shrink the lowest-success habit into a tiny, friction-free 2-minute version.";
+  } else if (profileType === "Sprinter") {
+    suggestedDiscussion = "Explore building a steady daily rhythm. Discuss replacing intense bursts of activity with low-friction, daily daily habits.";
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-12">
@@ -139,18 +231,132 @@ export const SessionWorkspace = memo(({
                     </div>
                  </section>
 
-                 <section>
-                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-                       <User className="h-4 w-4" />
-                       Supportive Context
-                    </h3>
-                    <div className="p-6 rounded-3xl bg-indigo-50/50 border border-indigo-100/50">
-                       <p className="text-xs font-bold text-indigo-900 mb-2 uppercase tracking-widest">Memory Context (Privacy Protected)</p>
-                       <p className="text-sm text-indigo-700/80 leading-relaxed italic">
-                          "{selectedSession.student_profiles?.memory_context || "No recurring themes noted for this student identity yet."}"
-                       </p>
-                    </div>
-                 </section>
+                  <section>
+                     <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-indigo-500 animate-pulse" />
+                        AI Behavioral Intelligence Summary
+                     </h3>
+                     
+                     {saState ? (
+                        <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl space-y-6 relative overflow-hidden">
+                           {/* Background decorative gradient */}
+                           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+                           <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+                           
+                           {/* Header line: Profile Type */}
+                           <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                              <div className="flex items-center gap-2">
+                                 <Shield className="h-5 w-5 text-indigo-400" />
+                                 <span className="text-sm font-bold text-slate-200">Behavioral Profile</span>
+                              </div>
+                              <span className="px-3 py-1 rounded-full text-xs font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 tracking-wider uppercase">
+                                 {saState.profile || "Not Configured"}
+                              </span>
+                           </div>
+                           
+                           {/* Dashboard Grid */}
+                           <div className="grid grid-cols-2 gap-4">
+                              {/* Consistency Index */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Consistency Index</span>
+                                 <div className="flex items-end justify-between mt-2">
+                                    <span className="text-2xl font-black text-white">{consistencyIndex}%</span>
+                                    <div className="w-12 bg-slate-800 h-2 rounded-full overflow-hidden mb-2">
+                                       <div 
+                                          className="bg-indigo-50 h-full rounded-full transition-all" 
+                                          style={{ width: `${consistencyIndex}%` }} 
+                                       />
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                              {/* Focus Trend */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Focus Trend</span>
+                                 <div className="flex items-center gap-2 mt-2">
+                                    <TrendingUp className="h-4 w-4 text-emerald-400" />
+                                    <span className="text-xs font-bold text-slate-200">{focusTrend}</span>
+                                 </div>
+                              </div>
+                              
+                              {/* Mood Trend */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Mood Trend</span>
+                                 <div className="flex items-center gap-2 mt-2">
+                                    <Smile className="h-4 w-4 text-amber-400" />
+                                    <span className="text-xs font-bold text-slate-200">{moodTrend}</span>
+                                 </div>
+                              </div>
+                              
+                              {/* Recovery Index */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Recovery Index</span>
+                                 <div className="flex items-center gap-2 mt-2">
+                                    <Heart className="h-4 w-4 text-rose-400" />
+                                    <span className="text-xs font-bold text-slate-200">{recoveryIndex}</span>
+                                 </div>
+                              </div>
+
+                              {/* Social Engagement */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Social Connection</span>
+                                 <div className="flex items-center gap-2 mt-2">
+                                    <User className="h-4 w-4 text-blue-400" />
+                                    <span className="text-xs font-bold text-slate-200">{socialIndex}</span>
+                                 </div>
+                              </div>
+
+                              {/* Most Avoided Habit */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Friction Habit</span>
+                                 <span className="text-xs font-bold text-rose-300 truncate mt-2">
+                                    {mostAvoidedTask}
+                                 </span>
+                              </div>
+                           </div>
+
+                           {/* Suggested Discussion Topic */}
+                           <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-900/40 space-y-2">
+                              <div className="flex items-center gap-2 text-indigo-400 text-xs font-black uppercase tracking-wider">
+                                 <MessageSquare className="h-3.5 w-3.5" />
+                                 Suggested Topic for Session
+                              </div>
+                              <p className="text-xs text-indigo-200/90 leading-relaxed font-medium">
+                                 {suggestedDiscussion}
+                              </p>
+                           </div>
+                           
+                           {/* Raw memory context if exists and is not purely json */}
+                           {memoryData.aiMemory && (
+                              <div className="pt-2 border-t border-slate-800">
+                                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block mb-1">AI Clinical Memory Notes</span>
+                                 <p className="text-xs text-slate-400 leading-relaxed italic">
+                                    "{memoryData.aiMemory}"
+                                 </p>
+                              </div>
+                           )}
+                        </div>
+                     ) : (
+                        <div className="p-6 rounded-3xl bg-indigo-50/50 border border-indigo-100/50 space-y-4">
+                           <div className="flex items-start gap-3">
+                              <Info className="h-5 w-5 text-indigo-500 mt-0.5" />
+                              <div>
+                                 <h4 className="text-xs font-black text-indigo-900 uppercase tracking-wider mb-1">Schedule Architect Not Configured</h4>
+                                 <p className="text-xs text-indigo-700/80 leading-relaxed">
+                                    The student has not initialized the AI Life OS module yet. In the dashboard, they can design habits, log daily growth/recovery stats, and complete focus breathing sessions.
+                                 </p>
+                              </div>
+                           </div>
+                           {memoryData.aiMemory ? (
+                              <div className="p-4 rounded-2xl bg-white border border-indigo-100 text-xs text-slate-700 italic leading-relaxed">
+                                 "{memoryData.aiMemory}"
+                              </div>
+                           ) : (
+                              <p className="text-xs font-bold text-slate-400 italic text-center">No supportive theme context captured yet.</p>
+                           )}
+                        </div>
+                     )}
+                  </section>
 
                  <section>
                     <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
