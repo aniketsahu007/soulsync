@@ -28,7 +28,7 @@ const exploreLinks = [
   { to: "/partners", label: "NGO Partners", desc: "Our network of professional help", icon: HeartHandshake },
   { to: "/mood-tracker", label: "Mood Journal", desc: "Track your emotional journey", icon: TrendingUp },
   { to: "/community-qna", label: "Community Q&A", desc: "You are not alone in this", icon: HelpCircle },
-  { to: "/resources", label: "Schedule Architect", desc: "Atomic habits & focus timer", icon: BookOpen },
+  { to: "/resources", label: "Wellness Hub", desc: "Behavioral patterns & focus intelligence", icon: BookOpen },
 ] as const;
 
 export const Navbar = memo(() => {

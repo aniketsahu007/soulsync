@@ -18,7 +18,7 @@ export const Route = createFileRoute("/check-in")({
 
 const quickActions = [
   { icon: MessageCircleHeart, label: "Talk to Someone", desc: "Start a safe conversation", to: "/chat" as const },
-  { icon: BookOpen, label: "Schedule Architect", desc: "Atomic habits & focus timer", to: "/resources" as const },
+  { icon: BookOpen, label: "Wellness Hub", desc: "Behavioral patterns & focus intelligence", to: "/resources" as const },
   { icon: TrendingUp, label: "Mood Journal", desc: "Track your journey", to: "/mood-tracker" as const },
 ];
 

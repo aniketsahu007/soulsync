@@ -242,6 +242,7 @@ function PeerMatchPage() {
   const [moodRating, setMoodRating] = useState<number | null>(null);
   const [feedbackNotes, setFeedbackNotes] = useState("");
   const [primaryVolunteerId, setPrimaryVolunteerId] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>("");
 
   // ── Guaranteed identity
   const { aliasId, profileExists, isLoading: identityLoading } = useAnonymousIdentity();
@@ -1013,44 +1014,114 @@ function PeerMatchPage() {
               </motion.div>
             )}
 
-            {step === "slots" && (
-              <motion.div key="slots" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-display text-lg font-semibold">Available Slots — {selectedVolunteer?.name}</h2>
-                  <Button variant="ghost" size="sm" onClick={() => setStep("volunteers")}>← Back</Button>
-                </div>
-                <div className="space-y-3">
-                  {Object.entries(
-                    slots.reduce<Record<string, TimeSlot[]>>((acc, slot) => {
-                      const date = slot.slot_date;
-                      if (!acc[date]) acc[date] = [];
-                      acc[date].push(slot);
-                      return acc;
-                    }, {})
-                  ).map(([date, dateSlots]) => (
-                    <div key={date}>
-                      <h3 className="text-sm font-medium text-muted-foreground mb-2 flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        {format(new Date(date + "T00:00:00"), "EEEE, MMMM d, yyyy")}
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {dateSlots.map((slot) => (
-                          <Button
-                            key={slot.id}
-                            variant="outline"
-                            className="rounded-xl"
-                            onClick={() => handleSlotSelect(slot)}
-                          >
-                            <Clock className="h-4 w-4 mr-1.5" />
-                            {slot.start_time.slice(0, 5)} – {slot.end_time.slice(0, 5)}
-                          </Button>
-                        ))}
-                      </div>
+            {step === "slots" && (() => {
+              // Get unique available dates from fetched slots
+              const availableDates = [...new Set(slots.map(s => s.slot_date))].sort();
+              // Auto-select first date if none selected
+              const activeDateKey = selectedDate && availableDates.includes(selectedDate)
+                ? selectedDate
+                : availableDates[0] || "";
+              const slotsForDay = slots.filter(s => s.slot_date === activeDateKey);
+
+              // Convert UTC time string to IST display string
+              const toIST = (dateStr: string, timeStr: string) => {
+                const dt = new Date(`${dateStr}T${timeStr}Z`);
+                return dt.toLocaleTimeString("en-IN", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                  timeZone: "Asia/Kolkata",
+                });
+              };
+
+              return (
+                <motion.div key="slots" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h2 className="font-display text-xl font-black text-slate-900">
+                        Pick a Date & Time
+                      </h2>
+                      <p className="text-xs text-slate-400 font-medium mt-0.5">All times shown in IST · with {selectedVolunteer?.name}</p>
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+                    <Button variant="ghost" size="sm" onClick={() => setStep("volunteers")}>← Back</Button>
+                  </div>
+
+                  {/* Date tabs */}
+                  <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none mb-6">
+                    {availableDates.slice(0, 7).map((dateStr) => {
+                      const d = new Date(dateStr + "T00:00:00");
+                      const isActive = activeDateKey === dateStr;
+                      const daySlots = slots.filter(s => s.slot_date === dateStr);
+                      return (
+                        <button
+                          key={dateStr}
+                          onClick={() => setSelectedDate(dateStr)}
+                          className={`flex flex-col items-center shrink-0 w-16 py-3 rounded-2xl border transition-all duration-200 ${
+                            isActive
+                              ? "bg-slate-900 border-slate-900 text-white shadow-lg"
+                              : "bg-white border-slate-200 text-slate-600 hover:border-primary/40 hover:bg-primary/5"
+                          }`}
+                        >
+                          <span className={`text-[10px] font-black uppercase tracking-widest ${
+                            isActive ? "text-slate-300" : "text-slate-400"
+                          }`}>
+                            {d.toLocaleDateString("en-IN", { weekday: "short" })}
+                          </span>
+                          <span className={`text-2xl font-black leading-tight ${
+                            isActive ? "text-white" : "text-slate-800"
+                          }`}>
+                            {d.getDate()}
+                          </span>
+                          <span className={`text-[9px] font-bold ${
+                            isActive ? "text-slate-400" : "text-slate-400"
+                          }`}>
+                            {daySlots.length} slot{daySlots.length !== 1 ? "s" : ""}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Slots for selected day */}
+                  {activeDateKey ? (
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">
+                        {new Date(activeDateKey + "T00:00:00").toLocaleDateString("en-IN", {
+                          weekday: "long", day: "numeric", month: "long"
+                        })}
+                      </p>
+                      {slotsForDay.length > 0 ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                          {slotsForDay.map((slot) => (
+                            <button
+                              key={slot.id}
+                              onClick={() => handleSlotSelect(slot)}
+                              className="flex flex-col items-center justify-center p-4 rounded-2xl border-2 border-slate-100 bg-white hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 group"
+                            >
+                              <Clock className="h-5 w-5 text-slate-300 group-hover:text-primary mb-2 transition-colors" />
+                              <span className="font-black text-slate-800 text-sm">{toIST(slot.slot_date, slot.start_time)}</span>
+                              <span className="text-[10px] text-slate-400 font-medium mt-0.5">to {toIST(slot.slot_date, slot.end_time)}</span>
+                              <span className="mt-2 text-[9px] font-black uppercase tracking-widest text-emerald-500">Available</span>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-10 text-slate-400">
+                          <Calendar className="h-8 w-8 mx-auto mb-3 opacity-30" />
+                          <p className="text-sm font-medium">No slots available on this day</p>
+                          <p className="text-xs">Pick another date above</p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-10 text-slate-400">
+                      <Calendar className="h-8 w-8 mx-auto mb-3 opacity-30" />
+                      <p className="text-sm font-medium">No upcoming slots found</p>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })()}
 
             {step === "confirm" && selectedSlot && selectedVolunteer && (
               <motion.div key="confirm" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>

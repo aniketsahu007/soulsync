@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VolunteerRouteImport } from './routes/volunteer'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PeerMatchRouteImport } from './routes/peer-match'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MoodTrackerRouteImport } from './routes/mood-tracker'
@@ -32,6 +33,11 @@ const VolunteerRoute = VolunteerRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PeerMatchRoute = PeerMatchRouteImport.update({
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/mood-tracker': typeof MoodTrackerRoute
   '/partners': typeof PartnersRoute
   '/peer-match': typeof PeerMatchRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/volunteer': typeof VolunteerRouteWithChildren
   '/admin/command-center': typeof AdminCommandCenterRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/mood-tracker': typeof MoodTrackerRoute
   '/partners': typeof PartnersRoute
   '/peer-match': typeof PeerMatchRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/admin/command-center': typeof AdminCommandCenterRoute
   '/admin/volunteers': typeof AdminVolunteersRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/mood-tracker': typeof MoodTrackerRoute
   '/partners': typeof PartnersRoute
   '/peer-match': typeof PeerMatchRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/volunteer': typeof VolunteerRouteWithChildren
   '/admin/command-center': typeof AdminCommandCenterRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/mood-tracker'
     | '/partners'
     | '/peer-match'
+    | '/privacy-policy'
     | '/resources'
     | '/volunteer'
     | '/admin/command-center'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/mood-tracker'
     | '/partners'
     | '/peer-match'
+    | '/privacy-policy'
     | '/resources'
     | '/admin/command-center'
     | '/admin/volunteers'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/mood-tracker'
     | '/partners'
     | '/peer-match'
+    | '/privacy-policy'
     | '/resources'
     | '/volunteer'
     | '/admin/command-center'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   MoodTrackerRoute: typeof MoodTrackerRoute
   PartnersRoute: typeof PartnersRoute
   PeerMatchRoute: typeof PeerMatchRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResourcesRoute: typeof ResourcesRoute
   VolunteerRoute: typeof VolunteerRouteWithChildren
   AdminCommandCenterRoute: typeof AdminCommandCenterRoute
@@ -222,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/peer-match': {
@@ -333,6 +353,7 @@ const rootRouteChildren: RootRouteChildren = {
   MoodTrackerRoute: MoodTrackerRoute,
   PartnersRoute: PartnersRoute,
   PeerMatchRoute: PeerMatchRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResourcesRoute: ResourcesRoute,
   VolunteerRoute: VolunteerRouteWithChildren,
   AdminCommandCenterRoute: AdminCommandCenterRoute,

@@ -237,7 +237,7 @@ export const SessionWorkspace = memo(({
                         AI Behavioral Intelligence Summary
                      </h3>
                      
-                     {saState ? (
+                     {saState && saState.privacySync ? (
                         <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl space-y-6 relative overflow-hidden">
                            {/* Background decorative gradient */}
                            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -341,9 +341,14 @@ export const SessionWorkspace = memo(({
                            <div className="flex items-start gap-3">
                               <Info className="h-5 w-5 text-indigo-500 mt-0.5" />
                               <div>
-                                 <h4 className="text-xs font-black text-indigo-900 uppercase tracking-wider mb-1">Schedule Architect Not Configured</h4>
+                                 <h4 className="text-xs font-black text-indigo-900 uppercase tracking-wider mb-1">
+                                    {!saState ? "No Summary Shared" : "Summary Private"}
+                                 </h4>
                                  <p className="text-xs text-indigo-700/80 leading-relaxed">
-                                    The student has not initialized the AI Life OS module yet. In the dashboard, they can design habits, log daily growth/recovery stats, and complete focus breathing sessions.
+                                    {!saState 
+                                       ? "No student behavioral summary is shared for this session."
+                                       : "The student has chosen to keep their Schedule Architect summary private."
+                                    }
                                  </p>
                               </div>
                            </div>

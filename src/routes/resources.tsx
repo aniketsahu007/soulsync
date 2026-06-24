@@ -585,7 +585,7 @@ function ResourcesPage() {
     const activity: ScheduleActivity = {
       id: crypto.randomUUID(),
       category: habit.category,
-      description: `Deep Focus: ${habit.action}`,
+      description: `Deep Focus: ${habit.action} (Pauses: ${pauses})`,
       duration: mins,
       timestamp: new Date().toISOString(),
     };
@@ -844,13 +844,13 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
               <div className="lg:col-span-2">
                 <div className="inline-flex items-center gap-2 rounded-full bg-primary/15 border border-primary/25 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-primary mb-3">
                   <Zap className="h-4 w-4" />
-                  Schedule Architect 2.0
+                  Wellness Intelligence Hub
                 </div>
                 <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight text-slate-800">
-                  Design Your <span className="text-gradient">System</span>
+                  Your Behavioral <span className="text-gradient">Story</span>
                 </h1>
                 <p className="mt-2 text-slate-500 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
-                  Welcome to your behavioral hub. Based on the framework of Atomic Habits, build consistency, manage leakage, and protect your mind.
+                  Based on the framework of Atomic Habits, build consistency, manage leakage, and protect your mind. Every pattern you log here becomes the context your volunteer uses to support you better.
                 </p>
               </div>
 
@@ -893,8 +893,8 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             {/* Navigation Tabs */}
             <div className="flex border-b border-slate-200 overflow-x-auto gap-2 pb-1 scrollbar-none">
               {[
-                { id: "dashboard", label: "Dashboard", icon: Activity },
-                { id: "habits", label: "Habit Builder", icon: BookOpen },
+                { id: "dashboard", label: "My Overview", icon: Activity },
+                { id: "habits", label: "Daily Patterns", icon: BookOpen },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
@@ -1578,9 +1578,9 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   <Heart className="h-6 w-6 text-primary animate-pulse" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-slate-800 leading-tight">The Vulnerability Bridge: Peer Supporter Dashboard Sync</h4>
+                  <h4 className="text-sm font-black text-slate-800 leading-tight">Share my behavioral summary with my volunteer</h4>
                   <p className="text-xs text-slate-500 font-bold leading-normal mt-1">
-                    Toggle this to securely share your habit progress and burnout levels with verified student volunteers. Sharing your load allows peer supporters to offer real, humanized advice and support during your chat sessions.
+                    When enabled, your chosen volunteer sees your focus patterns, habit consistency, and behavioral trends before your session — not your personal data. This helps them support you more meaningfully.
                   </p>
                 </div>
               </div>

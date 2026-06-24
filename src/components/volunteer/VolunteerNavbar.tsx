@@ -6,7 +6,6 @@ import {
   MessageSquare, 
   LogOut,
   Award,
-  BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,7 +22,6 @@ export function VolunteerNavbar() {
     { to: "/volunteer/dashboard", search: { tab: "overview" }, label: "Hub", icon: LayoutDashboard },
     { to: "/volunteer/dashboard", search: { tab: "sessions" }, label: "Sessions", icon: MessageSquare },
     { to: "/volunteer/dashboard", search: { tab: "slots" }, label: "Schedule", icon: Calendar },
-    { to: "/resources", label: "Schedule Architect", icon: BookOpen },
   ];
 
   return (
