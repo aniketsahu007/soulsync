@@ -91,3 +91,4 @@ export function MoodChart({ data = [] }: { data: ChartDataPoint[] }) {
     </div>
   );
 }
+

@@ -141,3 +141,4 @@ export function clearRecoveryIdentityLocally() {
   localStorage.removeItem(RECOVERY_PLAIN_KEY_STORAGE_KEY);
   dispatchIdentityChanged();
 }
+

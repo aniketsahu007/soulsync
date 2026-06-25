@@ -86,3 +86,4 @@ export const GovernanceLogs = memo(() => {
 });
 
 GovernanceLogs.displayName = "GovernanceLogs";
+

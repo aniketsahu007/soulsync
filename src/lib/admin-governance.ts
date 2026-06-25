@@ -4,6 +4,7 @@ export const ALLOWED_ADMIN_EMAILS = [
   "aniketaniket07sah@gmail.com",
   "aniketsahu007@gmail.com",
   "aaditishrivastava17@gmail.com",
+  "anshika.25bai10498@vitbhopal.ac.in",
 ];
 
 export function normalizeEmail(email: string) {
@@ -14,3 +15,4 @@ export function isAllowedAdminEmail(email?: string | null) {
   if (!email) return false;
   return ALLOWED_ADMIN_EMAILS.includes(normalizeEmail(email));
 }
+

@@ -195,3 +195,4 @@ export function HeroSection() {
     </section>
   );
 }
+

@@ -211,3 +211,4 @@ export function DonationModal({ isOpen, onClose, ngoName, ngoId }: DonationModal
     </Dialog>
   );
 }
+

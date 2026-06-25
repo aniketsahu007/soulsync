@@ -95,3 +95,4 @@ function RootComponent() {
   useAnonymousIdentity(); // Initialize anonymous identity on mount
   return <Outlet />;
 }
+

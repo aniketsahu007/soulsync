@@ -79,7 +79,7 @@ export function Footer() {
 
         <div className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-slate-50 pt-10 sm:flex-row">
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-            © {new Date().getFullYear()} SoulSync. For Google Solution Challenge.
+            © {new Date().getFullYear()} SoulSync
           </p>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-safe animate-pulse" />
@@ -90,3 +90,4 @@ export function Footer() {
     </footer>
   );
 }
+
