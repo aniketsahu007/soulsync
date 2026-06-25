@@ -40,11 +40,10 @@ This project is designed for the **SamaSocial Build for Good hackathon** and pri
 - **Volunteer briefing** via AI-generated summaries that give volunteers accurate, actionable context.
 
 ### 2. Resilience Toolkit
-- **Breathing Visualizer:** guided breathing exercises for immediate calm.
-- **Grounding Journey:** sensory grounding practices for emotional stabilization.
-- **HALT Diagnostic:** coaching for Hunger, Anger, Loneliness, and Tiredness.
-- **Reflection Pad:** zero-trace journaling for safe emotional processing.
-- **Wellness Hub:** habit and focus management tools for behavioral resilience.
+- **Wellness Hub:** schedule-aware support that tracks routines, study blocks, rest cycles, and emotional check-ins in one place.
+- **Daily context:** the app uses student schedules and workload patterns to surface the right support at the right time.
+- **Habit-building:** designed to make healthy routines addictive by rewarding consistent progress and small wins.
+- **Long-term resilience:** focuses on daily life balance, not quick fixes, so stress reduction is sustainable and rooted in real behavior.
 
 ### 3. Safety and AI Intelligence
 - **Emotion detection** in-browser via RoBERTa (`SamLowe/roberta-base-go_emotions`) using `@xenova/transformers`.
