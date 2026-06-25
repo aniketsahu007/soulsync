@@ -136,7 +136,39 @@ export const sendChatMessage = createServerFn({ method: "POST" })
           .select("memory_context")
           .eq("alias_id", data.aliasId)
           .single();
-        memoryContext = profile?.memory_context || "";
+        const raw = profile?.memory_context || "";
+        
+        if (raw.trim().startsWith("{") && raw.trim().endsWith("}")) {
+          try {
+            const parsed = JSON.parse(raw);
+            const aiMemory = parsed.ai_memory || "";
+            const sa = parsed.schedule_architect;
+            
+            if (sa) {
+              const profileType = sa.profile || "Not completed onboarding yet";
+              const habitsText = sa.habits && sa.habits.length > 0
+                ? sa.habits.map((h: any) => `- [${h.category}] After ${h.cue} at ${h.location}, do: ${h.action} (Success Rate: ${h.successRate}%, Streak: ${h.streak} days)`).join("\n")
+                : "None set yet";
+              const xpText = sa.xp 
+                ? `Growth: ${sa.xp.growth} XP, Focus: ${sa.xp.focus} XP, Self-Care: ${sa.xp.selfCare} XP, Social: ${sa.xp.social} XP` 
+                : "0 XP";
+              
+              memoryContext = `User Profile Type: ${profileType}
+Active Atomic Habits / Routine:
+${habitsText}
+Current XP Rewards: ${xpText}
+
+Existing Friend-to-Friend Memory:
+${aiMemory}`;
+            } else {
+              memoryContext = aiMemory || raw;
+            }
+          } catch (e) {
+            memoryContext = raw;
+          }
+        } else {
+          memoryContext = raw;
+        }
       } catch (err) {
         console.error("Failed to fetch memory:", err);
       }
@@ -195,13 +227,25 @@ export const updateChatMemory = createServerFn({ method: "POST" })
       .eq("alias_id", data.aliasId)
       .single();
       
-    const existingMemory = profile?.memory_context || "None yet.";
+    const raw = profile?.memory_context || "";
+    let aiMemory = raw;
+    let saState: any = null;
+
+    if (raw.trim().startsWith("{") && raw.trim().endsWith("}")) {
+      try {
+        const parsed = JSON.parse(raw);
+        aiMemory = parsed.ai_memory || "";
+        saState = parsed.schedule_architect || null;
+      } catch (e) {
+        aiMemory = raw;
+      }
+    }
 
     // Summarize the chat into new memory points, combining with existing
     const prompt = `You are updating the long-term memory for a user. Based on the Recent Chat History, extract key personal details to remember for next time (e.g., upcoming events, hobbies, current problems, preferences) and integrate them into the Existing Memory Context. Keep it as a concise, consolidated list of bullet points. Do not include introductory text.
 
 Existing Memory Context:
-${existingMemory}
+${aiMemory || "None yet."}
 
 Recent Chat History:
 ${data.chatHistory}`;
@@ -225,7 +269,16 @@ ${data.chatHistory}`;
 
     if (!response.ok) return { success: false };
     const result = (await response.json()) as OpenRouterChatCompletionResponse;
-    const newContext = result.choices?.[0]?.message?.content?.trim() || existingMemory;
+    const newAiMemory = result.choices?.[0]?.message?.content?.trim() || aiMemory;
+
+    // Pack it back as JSON if we had a schedule_architect state or want to start storing as JSON
+    let finalContext = newAiMemory;
+    if (saState || (raw.trim().startsWith("{") && raw.trim().endsWith("}"))) {
+      finalContext = JSON.stringify({
+        ai_memory: newAiMemory,
+        schedule_architect: saState
+      });
+    }
 
     // ===== MEMORY SIZE CAP =====
     const MAX_MEMORY_CHARS = 3000;
@@ -411,3 +464,4 @@ User's Letter:
 
     return { guidance };
   });
+

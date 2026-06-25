@@ -23,7 +23,7 @@ export function VolunteerNavbar() {
     { to: "/volunteer/dashboard", search: { tab: "overview" }, label: "Hub", icon: LayoutDashboard },
     { to: "/volunteer/dashboard", search: { tab: "sessions" }, label: "Sessions", icon: MessageSquare },
     { to: "/volunteer/dashboard", search: { tab: "slots" }, label: "Schedule", icon: Calendar },
-    { to: "/resources", label: "Library", icon: BookOpen },
+    { to: "/resources", label: "Schedule Architect", icon: BookOpen },
   ];
 
   return (
@@ -79,3 +79,4 @@ export function VolunteerNavbar() {
     </nav>
   );
 }
+

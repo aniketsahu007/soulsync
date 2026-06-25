@@ -37,3 +37,4 @@ With care,
     content: "https://www.youtube.com/embed/2O9T_f3_Mek", // Example soothing walk
   },
 };
+

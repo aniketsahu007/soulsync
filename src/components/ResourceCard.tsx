@@ -39,3 +39,4 @@ export function ResourceCard({ icon: Icon, title, description, tags, index, onCl
     </motion.div>
   );
 }
+

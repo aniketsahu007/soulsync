@@ -128,3 +128,4 @@ export const AnalyticsSidebar = memo(({ chartData, issueDistribution }: Analytic
 });
 
 AnalyticsSidebar.displayName = "AnalyticsSidebar";
+

@@ -31,3 +31,4 @@ export const CRISIS_HELPLINES = [
   { name: "iCall (TISS)", number: "022-25521111", hours: "Mon-Sat", type: "Professional Counseling" },
   { name: "KIRAN National Helpline", number: "1800-599-0019", hours: "24/7", type: "Government Support" },
 ];
+

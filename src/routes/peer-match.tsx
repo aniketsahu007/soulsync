@@ -721,7 +721,14 @@ function PeerMatchPage() {
         if (report.summary) {
           setNotes(`--- AI Supported Chat Report ---\n${report.summary}\n\nChat Preview:\n${report.chatPreview}\n-----------------------------`);
           
-          const topEmotion = report.emotions?.[0]?.toLowerCase();
+          // emotions is now [{label, score}] — extract the top label
+          const topEmotionEntry = report.emotions?.[0];
+          const topEmotion = (
+            typeof topEmotionEntry === "string"
+              ? topEmotionEntry              // legacy fallback
+              : topEmotionEntry?.label ?? ""  // new format
+          ).toLowerCase();
+
           if (topEmotion === "nervousness" || topEmotion === "fear" || topEmotion === "anxiety") {
             setSelectedIssue("anxiety");
           } else if (topEmotion === "loneliness" || topEmotion === "sadness") {
@@ -1209,3 +1216,4 @@ function PeerMatchPage() {
     </div>
   );
 }
+
