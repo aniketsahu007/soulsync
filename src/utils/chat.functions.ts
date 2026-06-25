@@ -283,11 +283,11 @@ ${data.chatHistory}`;
     // ===== MEMORY SIZE CAP =====
     const MAX_MEMORY_CHARS = 3000;
     
-    let finalMemory = newContext;
+    let finalMemory = finalContext;
     if (finalMemory && finalMemory.length > MAX_MEMORY_CHARS) {
       finalMemory = finalMemory.substring(0, 2500) + 
         "\n\n[Previous context summarized due to length limit...]";
-      console.log(`Memory truncated from ${newContext.length} to ${finalMemory.length} chars`);
+      console.log(`Memory truncated from ${finalContext.length} to ${finalMemory.length} chars`);
     }
     // ===== END OF MEMORY CAP =====
 

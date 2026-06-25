@@ -62,33 +62,25 @@ export function ChatInterface() {
     if (saved && saved !== "[]") {
       try {
         const parsed = JSON.parse(saved) as Message[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setMessages(parsed);
+        }
+      } catch (err) {
+        console.error("Failed to restore saved chat messages", err);
+      }
+    }
 
-  // Warmup RoBERTa model as soon as chat opens (background, non-blocking)
-  useEffect(() => {
-    warmupClassifier();
+    warmupClassifier()
+      .then(() => setEmotionModelStatus("ready"))
+      .catch((err) => {
+        console.error("Emotion model warm-up failed:", err);
+        setEmotionModelStatus("failed");
+      });
   }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
-
-  // Warm up emotion model on component mount
-  useEffect(() => {
-    let isMounted = true;
-
-    warmUpEmotionModel()
-      .then(() => {
-        if (isMounted) setEmotionModelStatus("ready");
-      })
-      .catch((err) => {
-        console.error("Emotion model warm-up failed:", err);
-        if (isMounted) setEmotionModelStatus("failed");
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const updateEmotions = async (text: string) => {
     // Skip if model failed to load
@@ -124,7 +116,7 @@ export function ChatInterface() {
     // Supabase insert temporarily disabled - will add back later
     // The messages are still saved in sessionStorage for persistence
 
-    // Run BERT classification in background (don't block UI)
+    // Run RoBERTa emotion classification in background (don't block UI)
     updateEmotions(messageText);
 
     try {
@@ -233,7 +225,7 @@ export function ChatInterface() {
                 Warming up emotion analysis...
               </span>
             )}
-            {emotionModelStatus === "ready" && " BERT Analysis Active"}
+            {emotionModelStatus === "ready" && " RoBERTa Analysis Active"}
             {emotionModelStatus === "failed" && " Emotion analysis unavailable"}
           </p>
         </div>
@@ -577,7 +569,6 @@ export function ChatInterface() {
       </div>
     </div>
   );
-}
 }
 
 
