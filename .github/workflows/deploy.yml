@@ -17,29 +17,35 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Set up Node.js
+      # 2. Set up Node.js (pin to 20 — matches engines field in package.json)
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          # NOTE: No cache: 'npm' here — we delete package-lock.json below,
+          # so the cache key would be stale and cause problems.
 
       # 3. Install dependencies
-      # Using npm install --omit=optional instead of npm ci to skip
-      # platform-specific optional deps like @img/sharp-win32-x64 (win32 only)
+      # Root cause of previous failures: package-lock.json was generated on
+      # Windows and is missing Linux-native binaries (rollup, sharp, etc.).
+      # Deleting it forces npm to resolve correctly for linux/x64.
       - name: 📦 Install dependencies
-        run: npm install --omit=optional
+        run: |
+          rm -f package-lock.json
+          npm install
 
-      # 4. Build the TanStack Start app (SSR + assets)
+      # 4. Build the TanStack Start SSR app
       - name: 🏗️ Build app
         run: npm run build
         env:
-          # Public vars needed at build time by Vite
+          # Public VITE_ vars needed at build time (baked into client bundle)
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
 
       # 5. Deploy to Cloudflare Workers via Wrangler
+      # Secrets (OPENROUTER_API_KEY, SUPABASE_SERVICE_ROLE_KEY, CRON_SECRET)
+      # are already uploaded to Cloudflare via: wrangler secret put <NAME>
       - name: ☁️ Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
