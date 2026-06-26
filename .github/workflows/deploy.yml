@@ -3,8 +3,8 @@ name: 🚀 Deploy SoulSync to Cloudflare Workers
 on:
   push:
     branches:
-      - main        # Auto-deploy on every push to main
-  workflow_dispatch: # Also allow manual deploys from GitHub Actions tab
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -13,42 +13,47 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      # 1. Checkout the code
+      # 1. Checkout
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Set up Node.js (pin to 20 — matches engines field in package.json)
+      # 2. Node 20 (matches package.json engines field)
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          # NOTE: No cache: 'npm' here — we delete package-lock.json below,
-          # so the cache key would be stale and cause problems.
 
-      # 3. Install dependencies
-      # Root cause of previous failures: package-lock.json was generated on
-      # Windows and is missing Linux-native binaries (rollup, sharp, etc.).
-      # Deleting it forces npm to resolve correctly for linux/x64.
+      # 3. Fresh install — delete Windows-generated lockfile so Linux
+      #    resolves the correct native binaries (rollup, sharp, etc.)
       - name: 📦 Install dependencies
         run: |
           rm -f package-lock.json
           npm install
 
-      # 4. Build the TanStack Start SSR app
+      # 4. Build the app first (TanStack Start / Vite)
       - name: 🏗️ Build app
         run: npm run build
         env:
-          # Public VITE_ vars needed at build time (baked into client bundle)
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
 
-      # 5. Deploy to Cloudflare Workers via Wrangler
-      # Secrets (OPENROUTER_API_KEY, SUPABASE_SERVICE_ROLE_KEY, CRON_SECRET)
-      # are already uploaded to Cloudflare via: wrangler secret put <NAME>
+      # 4b. Debug: show what the build produced
+      - name: 🔍 List build output
+        run: |
+          echo "=== Root ===" && ls -la
+          echo "=== .output (if exists) ===" && ls -la .output 2>/dev/null || echo "(no .output dir)"
+          echo "=== dist (if exists) ===" && ls -la dist 2>/dev/null || echo "(no dist dir)"
+          echo "=== .vinxi (if exists) ===" && ls -la .vinxi 2>/dev/null || echo "(no .vinxi dir)"
+
+      # 5. Deploy to Cloudflare Workers
       - name: ☁️ Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
+          command: deploy --verbose
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
