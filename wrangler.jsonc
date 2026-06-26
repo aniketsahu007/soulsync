@@ -1,8 +1,41 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
+
+  // ─── App Identity ───────────────────────────────────────────────────────────
+  "name": "soulsync",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
-}
 
+  // TanStack Start SSR entry point (Cloudflare Workers adapter)
+  "main": "dist/server/server.js",
+
+  // ─── Assets (Static Files) ─────────────────────────────────────────────────
+  // Vite outputs the client build to dist/client
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS"
+  },
+
+  // ─── Environment Variables (non-secret, public) ────────────────────────────
+  // Secrets (OPENROUTER_API_KEY, SUPABASE_SERVICE_ROLE_KEY, CRON_SECRET)
+  // must be set via: npx wrangler secret put <NAME>
+  // NEVER put real secrets in this file.
+  "vars": {
+    "VITE_SUPABASE_URL": "https://crmirtuxgekrxyfhebds.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNybWlydHV4Z2Vrcnh5ZmhlYmRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzExODUsImV4cCI6MjA5MTg0NzE4NX0.WYFXSia6ju5V9RqEWgKDPqL9fp0YdgNJ0f-L2q8xGAA",
+    "VITE_GOOGLE_MAPS_API_KEY": "REPLACE_WITH_YOUR_GOOGLE_MAPS_KEY",
+    "OPENROUTER_MODEL": "openai/gpt-oss-120b:free"
+  },
+
+  // ─── Cloudflare Cron Triggers ──────────────────────────────────────────────
+  // Fires the /api/cron-reminders endpoint every 5 minutes automatically.
+  // This replaces the need for an external cron service.
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+
+  // ─── Observability ─────────────────────────────────────────────────────────
+  "observability": {
+    "enabled": true
+  }
+}
