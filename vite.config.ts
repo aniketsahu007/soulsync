@@ -62,7 +62,11 @@ export default defineConfig(({ mode }) => {
       tsConfigPaths({
         projects: ["./tsconfig.json"],
       }),
-      tanstackStart(),
+      tanstackStart({
+        server: {
+          preset: 'cloudflare-workers'
+        }
+      }),
       viteReact(),
     ].filter(Boolean),
   };
