@@ -122,6 +122,45 @@ export const SessionWorkspace = memo(({
     socialIndex = "Low (Socially Isolated)";
   }
 
+  // 6b. Concentration, Max Focus & Activity Balance (from Wellness Hub)
+  const focusActs = activities.filter(a => a.description.startsWith("Deep Focus:"));
+  let totalPauses = 0;
+  let focusSessionsWithPauseData = 0;
+  focusActs.forEach(a => {
+    const match = a.description.match(/\(Pauses:\s*(\d+)\)/);
+    if (match) {
+      totalPauses += parseInt(match[1], 10);
+      focusSessionsWithPauseData++;
+    }
+  });
+
+  let concentrationLevel = "Excellent";
+  if (focusSessionsWithPauseData > 0) {
+    const avgPauses = totalPauses / focusSessionsWithPauseData;
+    if (avgPauses === 0) {
+      concentrationLevel = "High (0 breaks avg)";
+    } else if (avgPauses <= 1) {
+      concentrationLevel = "Good (1 break avg)";
+    } else if (avgPauses <= 2) {
+      concentrationLevel = "Moderate (2 breaks avg)";
+    } else {
+      concentrationLevel = "Needs Support (>2 breaks avg)";
+    }
+  } else {
+    concentrationLevel = "No sessions logged";
+  }
+
+  const maxFocusMins = focusActs.length > 0
+    ? Math.max(...focusActs.map(a => a.duration))
+    : 0;
+  const maxFocusLabel = maxFocusMins > 0 ? `${maxFocusMins} min` : "No data";
+
+  const totalDur = activities.reduce((acc, a) => acc + a.duration, 0) || 1;
+  const growthPct = Math.round(activities.filter(a => a.category === "Growth").reduce((acc, a) => acc + a.duration, 0) / totalDur * 100);
+  const recoveryPct = Math.round(activities.filter(a => a.category === "Recovery").reduce((acc, a) => acc + a.duration, 0) / totalDur * 100);
+  const leakagePct = 100 - growthPct - recoveryPct;
+  const balanceLabel = activities.length === 0 ? "No logs yet" : `${growthPct}% Growth · ${recoveryPct}% Recovery · ${leakagePct}% Leakage`;
+
   // 7. Suggested Discussion Topic
   const profileType = saState?.profile;
   let suggestedDiscussion = "Review overall daily routines, highlight one specific habit to focus on, and encourage regular recovery time.";
@@ -255,7 +294,7 @@ export const SessionWorkspace = memo(({
                            </div>
                            
                            {/* Dashboard Grid */}
-                           <div className="grid grid-cols-2 gap-4">
+                           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                               {/* Consistency Index */}
                               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
                                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Consistency Index</span>
@@ -270,6 +309,18 @@ export const SessionWorkspace = memo(({
                                  </div>
                               </div>
                               
+                              {/* Concentration Level */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Concentration</span>
+                                 <span className="text-xs font-bold text-slate-200 mt-2">{concentrationLevel}</span>
+                              </div>
+
+                              {/* Max Focus Time */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Max Focus Time</span>
+                                 <span className="text-xs font-black text-emerald-400 mt-2">{maxFocusLabel}</span>
+                              </div>
+
                               {/* Focus Trend */}
                               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
                                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Focus Trend</span>
@@ -312,6 +363,25 @@ export const SessionWorkspace = memo(({
                                  <span className="text-xs font-bold text-rose-300 truncate mt-2">
                                     {mostAvoidedTask}
                                  </span>
+                              </div>
+
+                              {/* Activity Balance */}
+                              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between col-span-2 md:col-span-1">
+                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Activity Balance</span>
+                                 <div className="mt-2 space-y-1">
+                                    {activities.length > 0 ? (
+                                       <>
+                                          <div className="flex h-1.5 rounded-full overflow-hidden gap-0.5">
+                                             <div className="bg-emerald-500 rounded-full" style={{ width: `${growthPct}%` }} title={`Growth: ${growthPct}%`} />
+                                             <div className="bg-blue-400 rounded-full" style={{ width: `${recoveryPct}%` }} title={`Recovery: ${recoveryPct}%`} />
+                                             <div className="bg-slate-600 rounded-full" style={{ width: `${leakagePct}%` }} title={`Leakage: ${leakagePct}%`} />
+                                          </div>
+                                          <span className="text-[9px] text-slate-500 font-bold block truncate">{balanceLabel}</span>
+                                       </>
+                                    ) : (
+                                       <span className="text-xs font-bold text-slate-400">No logs yet</span>
+                                    )}
+                                 </div>
                               </div>
                            </div>
 

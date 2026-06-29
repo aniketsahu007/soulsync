@@ -11,7 +11,6 @@
   [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
   [![OpenRouter](https://img.shields.io/badge/OpenRouter-4A90E2?style=for-the-badge&logo=openai&logoColor=white)](https://openrouter.ai/)
 
-  [**Watch Demo**](#) • [**Live Prototype**](#) • [**Pitch Deck**](#)
 </div>
 
 ---
