@@ -16,6 +16,9 @@ import { useAnonymousIdentity } from "@/hooks/useAnonymousIdentity";
 import { sendChatMessage, updateChatMemory, generateVolunteerBriefing, updatePostSessionMemory } from "@/utils/chat.functions";
 import { sendEmail } from "@/lib/email";
 import { CrisisMap } from "@/components/CrisisMap";
+import { MobilePeerMatchPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Route = createFileRoute("/peer-match")({
   component: PeerMatchPage,
@@ -223,6 +226,16 @@ function MyBookingCard({ booking }: { booking: Booking }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function PeerMatchPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopPeerMatchPage}
+      MobileComponent={MobilePeerMatchPage}
+    />
+  );
+}
+
+function DesktopPeerMatchPage() {
+  const isMobile = useIsMobile();
   const [step, setStep] = useState<BookingStep>("issue");
   const [selectedIssue, setSelectedIssue] = useState("");
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
@@ -745,20 +758,20 @@ function PeerMatchPage() {
   const currentIssue = issueTypes.find((i) => i.id === selectedIssue);
 
   return (
-    <div className="min-h-screen flex flex-col pt-16">
+    <div className="min-h-screen flex flex-col overflow-x-hidden pt-16">
       <Navbar />
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
+      <main className={`flex-1 ${isMobile ? "px-3 py-6" : "px-4 py-12 sm:px-6 lg:px-8"}`}>
+        <div className={`mx-auto ${isMobile ? "max-w-none" : "max-w-3xl"}`}>
           {/* Header */}
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
+          <div className={`text-center ${isMobile ? "mb-7" : "mb-10"}`}>
+            <div className={`inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary mb-4 ${isMobile ? "px-3 py-1 text-xs font-semibold" : "px-4 py-1.5 text-sm font-medium"}`}>
               <Users className="h-4 w-4" />
               Anonymous Peer Support
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-bold">
+            <h1 className={`font-display font-bold ${isMobile ? "text-[2rem] leading-tight" : "text-3xl sm:text-4xl"}`}>
               Book a <span className="text-gradient">Support Session</span>
             </h1>
-            <p className="mt-3 text-muted-foreground max-w-lg mx-auto">
+            <p className={`mt-3 text-muted-foreground mx-auto ${isMobile ? "max-w-none text-sm leading-6" : "max-w-lg"}`}>
               Connect with an available peer supporter. Your safety is ensured by the **SoulSync Team** review process.
             </p>
           </div>
@@ -769,7 +782,7 @@ function PeerMatchPage() {
           ) : myBooking ? (
             <MyBookingCard booking={myBooking} />
           ) : (
-            <div className="mb-6 rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 p-5 flex items-center gap-4">
+            <div className={`mb-6 border-2 border-dashed border-primary/20 bg-primary/5 flex items-center ${isMobile ? "gap-3 rounded-[1.25rem] p-4" : "gap-4 rounded-2xl p-5"}`}>
               <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Calendar className="h-5 w-5 text-primary" />
               </div>
@@ -783,7 +796,7 @@ function PeerMatchPage() {
           )}
 
           {/* Crisis Escalation Banner */}
-          <div className="mb-8 rounded-xl border-2 border-alert/30 bg-alert/5 p-4 flex items-start gap-3">
+          <div className={`mb-8 border-2 border-alert/30 bg-alert/5 flex items-start ${isMobile ? "gap-2 rounded-[1rem] p-3" : "gap-3 rounded-xl p-4"}`}>
             <AlertTriangle className="h-5 w-5 text-alert shrink-0 mt-0.5" />
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground">In immediate danger or crisis?</p>
@@ -794,7 +807,7 @@ function PeerMatchPage() {
             <Button
               variant="destructive"
               size="sm"
-              className="shrink-0 rounded-xl"
+              className={`shrink-0 ${isMobile ? "rounded-lg px-3" : "rounded-xl"}`}
               onClick={() => setShowCrisis(true)}
             >
               <Phone className="h-3.5 w-3.5 mr-1" />
@@ -867,7 +880,8 @@ function PeerMatchPage() {
           </AnimatePresence>
 
           {/* Progress Steps */}
-          <div className="flex items-center justify-center gap-2 mb-8 text-xs">
+          <div className={`mb-8 ${isMobile ? "overflow-x-auto pb-1 scrollbar-none" : ""}`}>
+            <div className={`flex items-center ${isMobile ? "justify-start gap-1.5 min-w-max px-1 text-[11px]" : "justify-center gap-2 text-xs"}`}>
             {[
               { key: "issue", label: "Issue" },
               { key: "volunteers", label: "Supporter" },
@@ -879,10 +893,10 @@ function PeerMatchPage() {
               const stepIdx = steps.indexOf(s.key as BookingStep);
               const isActive = stepIdx <= currentIdx;
               return (
-                <div key={s.key} className="flex items-center gap-2">
-                  {i > 0 && <ChevronRight className="h-3 w-3 text-muted-foreground" />}
+                <div key={s.key} className={`flex items-center ${isMobile ? "gap-1.5" : "gap-2"}`}>
+                  {i > 0 && <ChevronRight className={`${isMobile ? "h-3 w-3" : "h-3 w-3"} text-muted-foreground`} />}
                   <span
-                    className={`rounded-full px-3 py-1 font-medium transition-colors ${
+                    className={`rounded-full font-medium transition-colors ${isMobile ? "px-2.5 py-1 whitespace-nowrap" : "px-3 py-1"} ${
                       isActive
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted text-muted-foreground"
@@ -893,6 +907,7 @@ function PeerMatchPage() {
                 </div>
               );
             })}
+            </div>
           </div>
 
           {/* Flow Steps */}
@@ -902,11 +917,11 @@ function PeerMatchPage() {
                 <h2 className="font-display text-lg font-semibold mb-4 text-center">
                   What would you like support with?
                 </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className={`grid gap-3 ${isMobile ? "grid-cols-1" : "grid-cols-2 sm:grid-cols-3"}`}>
                   {issueTypes.map((issue) => (
                     <Card
                       key={issue.id}
-                      className="p-4 cursor-pointer hover:border-primary/50 hover:shadow-md transition-all text-center"
+                      className={`cursor-pointer hover:border-primary/50 hover:shadow-md transition-all text-center ${isMobile ? "p-4 rounded-[1.25rem]" : "p-4"}`}
                       onClick={() => handleIssueSelect(issue.id)}
                     >
                       <span className="text-3xl">{issue.icon}</span>
@@ -919,7 +934,7 @@ function PeerMatchPage() {
 
             {step === "survey" && (
               <motion.div key="survey" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <Card className="p-8 bg-white shadow-xl rounded-[2.5rem] border-none">
+                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 bg-white shadow-xl rounded-[2.5rem]"} border-none bg-white shadow-xl`}>
                   <div className="mb-8">
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
@@ -938,16 +953,16 @@ function PeerMatchPage() {
                     </div>
                   </div>
 
-                  <h2 className="text-2xl font-display font-black mb-8 leading-tight">
+                  <h2 className={`${isMobile ? "mb-6 text-xl" : "mb-8 text-2xl"} font-display font-black leading-tight`}>
                     {surveyQuestions[currentSurveyIdx].q}
                   </h2>
 
-                  <div className="grid gap-3">
+                    <div className="grid gap-3">
                     {surveyQuestions[currentSurveyIdx].options.map((opt) => (
                       <button
                         key={opt}
                         onClick={() => handleSurveyOption(opt)}
-                        className="w-full p-5 rounded-2xl border-2 border-slate-100 text-left font-bold transition-all hover:border-primary/40 hover:bg-primary/5 active:scale-[0.98]"
+                        className={`w-full border-2 border-slate-100 text-left font-bold transition-all hover:border-primary/40 hover:bg-primary/5 active:scale-[0.98] ${isMobile ? "rounded-[1.1rem] p-4 text-sm" : "rounded-2xl p-5"}`}
                       >
                         {opt}
                       </button>
@@ -969,7 +984,7 @@ function PeerMatchPage() {
 
             {step === "volunteers" && (
               <motion.div key="volunteers" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                <div className="flex items-center justify-between mb-4">
+                  <div className={`mb-4 flex ${isMobile ? "flex-col items-start gap-2" : "items-center justify-between"}`}>
                   <h2 className="font-display text-lg font-semibold">
                     Available Supporters for {currentIssue?.label}
                   </h2>
@@ -980,11 +995,11 @@ function PeerMatchPage() {
                 {loading ? (
                   <div className="text-center py-12 text-muted-foreground">Loading supporters...</div>
                 ) : (
-                  <div className="space-y-3">
+                    <div className="space-y-3">
                     {sortedVolunteers.map((vol) => (
                       <Card
                         key={vol.id}
-                        className="p-5 cursor-pointer hover:border-primary/50 hover:shadow-md transition-all"
+                        className={`cursor-pointer hover:border-primary/50 hover:shadow-md transition-all ${isMobile ? "p-4 rounded-[1.25rem]" : "p-5"}`}
                         onClick={() => handleVolunteerSelect(vol)}
                       >
                         <div className="flex items-start gap-4">
@@ -1043,7 +1058,7 @@ function PeerMatchPage() {
 
               return (
                 <motion.div key="slots" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                  <div className="flex items-center justify-between mb-6">
+                  <div className={`mb-6 flex ${isMobile ? "flex-col items-start gap-2" : "items-center justify-between"}`}>
                     <div>
                       <h2 className="font-display text-xl font-black text-slate-900">
                         Pick a Date & Time
@@ -1063,7 +1078,7 @@ function PeerMatchPage() {
                         <button
                           key={dateStr}
                           onClick={() => setSelectedDate(dateStr)}
-                          className={`flex flex-col items-center shrink-0 w-16 py-3 rounded-2xl border transition-all duration-200 ${
+                          className={`flex flex-col items-center shrink-0 ${isMobile ? "w-[4.5rem]" : "w-16"} py-3 rounded-2xl border transition-all duration-200 ${
                             isActive
                               ? "bg-slate-900 border-slate-900 text-white shadow-lg"
                               : "bg-white border-slate-200 text-slate-600 hover:border-primary/40 hover:bg-primary/5"
@@ -1098,12 +1113,12 @@ function PeerMatchPage() {
                         })}
                       </p>
                       {slotsForDay.length > 0 ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                         <div className={`grid gap-3 ${isMobile ? "grid-cols-1" : "grid-cols-2 sm:grid-cols-3"}`}>
                           {slotsForDay.map((slot) => (
                             <button
                               key={slot.id}
                               onClick={() => handleSlotSelect(slot)}
-                              className="flex flex-col items-center justify-center p-4 rounded-2xl border-2 border-slate-100 bg-white hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 group"
+                               className={`flex flex-col items-center justify-center border-2 border-slate-100 bg-white hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 group ${isMobile ? "rounded-[1.25rem] p-4" : "rounded-2xl p-4"}`}
                             >
                               <Clock className="h-5 w-5 text-slate-300 group-hover:text-primary mb-2 transition-colors" />
                               <span className="font-black text-slate-800 text-sm">{toIST(slot.slot_date, slot.start_time)}</span>
@@ -1132,26 +1147,26 @@ function PeerMatchPage() {
 
             {step === "confirm" && selectedSlot && selectedVolunteer && (
               <motion.div key="confirm" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                <Card className="p-8">
+                <Card className={isMobile ? "p-5 rounded-[1.5rem]" : "p-8"}>
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="font-display text-lg font-semibold">Confirm Your Booking</h2>
                     <Button variant="ghost" size="sm" onClick={() => setStep("slots")}>← Back</Button>
                   </div>
 
-                  <div className="rounded-xl bg-muted/50 p-4 space-y-2 mb-6">
-                    <div className="flex justify-between text-sm">
+                  <div className={`bg-muted/50 space-y-2 mb-6 ${isMobile ? "rounded-[1rem] p-3" : "rounded-xl p-4"}`}>
+                    <div className={`flex ${isMobile ? "flex-col gap-1 text-sm" : "justify-between text-sm"}`}>
                       <span className="text-muted-foreground">Supporter</span>
                       <span className="font-medium">{selectedVolunteer.name}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={`flex ${isMobile ? "flex-col gap-1 text-sm" : "justify-between text-sm"}`}>
                       <span className="text-muted-foreground">Topic</span>
                       <span className="font-medium">{currentIssue?.label}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={`flex ${isMobile ? "flex-col gap-1 text-sm" : "justify-between text-sm"}`}>
                       <span className="text-muted-foreground">Date</span>
                       <span className="font-medium">{format(new Date(selectedSlot.slot_date + "T00:00:00"), "MMMM d, yyyy")}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={`flex ${isMobile ? "flex-col gap-1 text-sm" : "justify-between text-sm"}`}>
                       <span className="text-muted-foreground">Time</span>
                       <span className="font-medium">{selectedSlot.start_time.slice(0, 5)} – {selectedSlot.end_time.slice(0, 5)}</span>
                     </div>
@@ -1202,7 +1217,7 @@ function PeerMatchPage() {
 
             {step === "booked" && (
               <motion.div key="booked" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-                <Card className="p-8 text-center">
+                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8"} text-center`}>
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-safe/10 mx-auto mb-4">
                     <CheckCircle className="h-8 w-8 text-safe" />
                   </div>
@@ -1250,7 +1265,7 @@ function PeerMatchPage() {
 
             {step === "feedback" && (
               <motion.div key="feedback" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-                <Card className="p-8 text-center bg-white shadow-xl rounded-[2.5rem]">
+                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 rounded-[2.5rem]"} text-center bg-white shadow-xl`}>
                    <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Heart className="h-8 w-8 text-primary" />
                   </div>

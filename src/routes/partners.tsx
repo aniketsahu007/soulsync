@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { DonationModal } from "@/components/DonationModal";
 import { motion } from "framer-motion";
+import { MobilePartnersPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
 
 export const Route = createFileRoute("/partners" as any)({
   component: PartnersPage,
@@ -79,6 +81,15 @@ const defaultNgos: NGO[] = [
 ];
 
 function PartnersPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopPartnersPage}
+      MobileComponent={MobilePartnersPage}
+    />
+  );
+}
+
+function DesktopPartnersPage() {
   const [ngos, setNgos] = useState<NGO[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedNgo, setSelectedNgo] = useState<NGO | null>(null);

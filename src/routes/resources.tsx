@@ -39,6 +39,8 @@ import { GroundingJourney } from "@/components/resilience-tools/GroundingJourney
 import { HALTDiagnostic } from "@/components/resilience-tools/HALTDiagnostic";
 import { ReflectionPad } from "@/components/resilience-tools/ReflectionPad";
 import { ChatInterface } from "@/components/ChatInterface";
+import { MobileResourcesPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
 import {
   fetchScheduleArchitectData,
   saveScheduleArchitectData,
@@ -54,9 +56,18 @@ export const Route = createFileRoute("/resources")({
 });
 
 function ResourcesPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopResourcesPage}
+      MobileComponent={MobileResourcesPage}
+    />
+  );
+}
+
+function DesktopResourcesPage() {
   const { aliasId, isLoading: identityLoading } = useAnonymousIdentity();
   const [isMounted, setIsMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<"dashboard" | "habits">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "habits" | "chat" | "resilience" | "helplines">("dashboard");
 
   // State loaded from Supabase or fallback LocalStorage
   const [state, setState] = useState<ScheduleArchitectState>(DEFAULT_STATE);
@@ -95,6 +106,43 @@ function ResourcesPage() {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const timerIntervalRef = useRef<any>(null);
   const breathingIntervalRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+    const tool = params.get("tool");
+    const validTabs = ["dashboard", "habits", "chat", "resilience", "helplines"];
+    const validTools = ["breathing", "grounding", "halt", "reflection"];
+
+    if (tab && validTabs.includes(tab)) {
+      setActiveTab(tab as typeof activeTab);
+    }
+
+    if (tool && validTools.includes(tool)) {
+      setActiveTab("resilience");
+      setSelectedResilienceTool(tool);
+    }
+  }, []);
+
+  const closeResilienceTool = () => {
+    if (typeof window === "undefined") {
+      setSelectedResilienceTool(null);
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const origin = params.get("origin");
+    const hasToolQuery = params.has("tool");
+
+    if (origin === "mobile" && hasToolQuery) {
+      window.location.href = "/resources";
+      return;
+    }
+
+    setSelectedResilienceTool(null);
+  };
 
   // Dynamic NLP/Keyword Parser for Atomic Habits Motivational Projections
   const parseActionMotivation = (action: string, duration: number) => {
@@ -1729,7 +1777,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedResilienceTool(null)}
+              onClick={closeResilienceTool}
               className="absolute inset-0 bg-slate-950/70 backdrop-blur-md"
             />
             
@@ -1746,7 +1794,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   </div>
                   
                   <button
-                    onClick={() => setSelectedResilienceTool(null)}
+                    onClick={closeResilienceTool}
                     className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-350 hover:text-slate-600"
                   >
                     <X className="h-6 w-6" />

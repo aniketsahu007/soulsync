@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { MobileHomePage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
 import { ComparisonSection } from "@/components/ComparisonSection";
 import { CTASection } from "@/components/CTASection";
 import { EmotionalBackdrop } from "@/components/EmotionalBackdrop";
@@ -18,6 +20,15 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopLandingPage}
+      MobileComponent={MobileHomePage}
+    />
+  );
+}
+
+function DesktopLandingPage() {
   return (
     <div className="relative isolate min-h-screen bg-background overflow-x-hidden">
       <EmotionalBackdrop />

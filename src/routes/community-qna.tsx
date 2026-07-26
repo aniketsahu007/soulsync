@@ -9,6 +9,8 @@ import { useAnonymousIdentity } from "@/hooks/useAnonymousIdentity";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { MobileCommunityQnAPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
 
 export const Route = createFileRoute("/community-qna")({
   component: CommunityQnAPage,
@@ -33,6 +35,15 @@ interface QnAItem {
 const DEFAULT_CATEGORIES = ["All", "Loneliness", "Anxiety", "Burnout", "Emotions", "Getting Help", "Self-Worth"];
 
 function CommunityQnAPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopCommunityQnAPage}
+      MobileComponent={MobileCommunityQnAPage}
+    />
+  );
+}
+
+function DesktopCommunityQnAPage() {
   const { aliasId } = useAnonymousIdentity();
   const [qnaItems, setQnaItems] = useState<QnAItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");

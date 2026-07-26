@@ -25,12 +25,25 @@ import { useAnonymousIdentity } from "@/hooks/useAnonymousIdentity";
 import { format, subDays, startOfMonth, endOfMonth, isWithinInterval } from "date-fns";
 import { toast } from "sonner";
 import { Tables } from "@/integrations/supabase/types";
+import { MobileMoodTrackerPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Route = createFileRoute("/mood-tracker")({
   component: MoodTrackerPage,
 });
 
 function MoodTrackerPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopMoodTrackerPage}
+      MobileComponent={MobileMoodTrackerPage}
+    />
+  );
+}
+
+function DesktopMoodTrackerPage() {
+  const isMobile = useIsMobile();
   const { aliasId, isLoading: identityLoading } = useAnonymousIdentity();
   const [entries, setEntries] = useState<Tables<"mood_entries">[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -135,18 +148,18 @@ function MoodTrackerPage() {
   };
 
   return (
-    <div className="min-h-screen pt-16 bg-slate-50/50">
+    <div className="min-h-screen overflow-x-hidden pt-16 bg-slate-50/50">
       <Navbar />
       
-      <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className={`mx-auto ${isMobile ? "max-w-none px-3 py-6" : "max-w-6xl px-4 py-12 sm:px-6 lg:px-8"}`}>
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 ${isMobile ? "mb-8" : "mb-12"}`}>
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900">
+            <h1 className={`${isMobile ? "text-[2rem] leading-tight" : "text-4xl"} font-black tracking-tight text-slate-900`}>
               Mood <span className="text-gradient">Journal</span>
             </h1>
-            <p className="mt-2 text-slate-500 font-medium max-w-md">
+            <p className={`mt-2 text-slate-500 font-medium ${isMobile ? "max-w-none text-sm leading-6" : "max-w-md"}`}>
               Reflect on your emotional patterns and discover the factors that influence your wellbeing.
             </p>
           </motion.div>
@@ -154,7 +167,7 @@ function MoodTrackerPage() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
             <Button 
               onClick={() => setIsAdding(!isAdding)}
-              className="rounded-full h-14 px-8 font-black gap-3 shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+              className={`${isMobile ? "h-12 w-full rounded-2xl justify-center" : "h-14 rounded-full px-8"} font-black gap-3 shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all`}
             >
               {isAdding ? <Plus className="h-5 w-5 rotate-45 transition-transform" /> : <Plus className="h-5 w-5" />}
               {isAdding ? "Cancel Entry" : "Add New Entry"}
@@ -170,10 +183,10 @@ function MoodTrackerPage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden mb-12"
             >
-              <Card className="p-8 rounded-[3rem] border-white bg-white shadow-2xl shadow-primary/5 ring-1 ring-slate-200/50">
-                <h3 className="text-xl font-black text-slate-800 mb-8 text-center">How are you feeling right now?</h3>
+              <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 rounded-[3rem]"} border-white bg-white shadow-2xl shadow-primary/5 ring-1 ring-slate-200/50`}>
+                <h3 className={`${isMobile ? "mb-6 text-lg" : "mb-8 text-xl"} text-slate-800 text-center font-black`}>How are you feeling right now?</h3>
                 
-                <div className="max-w-2xl mx-auto space-y-10">
+                <div className={`mx-auto ${isMobile ? "max-w-none space-y-6" : "max-w-2xl space-y-10"}`}>
                   <MoodSelector selected={newMood} onSelect={setNewMood} />
                   
                   <div className="space-y-4">
@@ -190,10 +203,10 @@ function MoodTrackerPage() {
                   </div>
 
                   <div className="flex justify-center">
-                    <Button 
+                      <Button 
                       onClick={handleAddEntry}
                       disabled={!newMood || isSubmitting}
-                      className="h-14 rounded-full px-12 font-black gap-3 text-lg"
+                      className={`${isMobile ? "h-12 w-full rounded-2xl text-base" : "h-14 rounded-full px-12 text-lg"} font-black gap-3`}
                     >
                       {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Heart className="h-5 w-5" />}
                       Save to Journal
@@ -205,11 +218,11 @@ function MoodTrackerPage() {
           )}
         </AnimatePresence>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className={`grid grid-cols-1 ${isMobile ? "gap-5" : "gap-8"} lg:grid-cols-3`}>
           
           {/* Stats & Trends Column */}
-          <div className="lg:col-span-1 space-y-8">
-            <Card className="p-6 rounded-[2.5rem] border-white bg-white shadow-sm ring-1 ring-slate-200/50">
+          <div className={`space-y-5 lg:col-span-1 ${isMobile ? "order-2" : ""}`}>
+            <Card className={`${isMobile ? "p-4 rounded-[1.35rem]" : "p-6 rounded-[2.5rem]"} border-white bg-white shadow-sm ring-1 ring-slate-200/50`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-black text-slate-900 flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
@@ -251,7 +264,7 @@ function MoodTrackerPage() {
               </div>
             </Card>
 
-            <Card className="p-6 rounded-[2.5rem] border-white bg-slate-900 shadow-xl overflow-hidden relative group">
+            <Card className={`${isMobile ? "p-4 rounded-[1.35rem]" : "p-6 rounded-[2.5rem]"} border-white bg-slate-900 shadow-xl overflow-hidden relative group`}>
                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform">
                   <TrendingUp className="h-32 w-32 text-white" />
                </div>
@@ -263,17 +276,17 @@ function MoodTrackerPage() {
                  <p className="text-xs text-slate-400 leading-relaxed mb-6">
                     We've noticed you tend to feel more "Struggling" on Mondays. Consider scheduling a peer session on Sunday evenings.
                  </p>
-                 <Button variant="outline" className="w-full rounded-xl border-slate-700 text-white hover:bg-slate-800 h-10 text-xs font-bold">
+                 <Button variant="outline" className={`w-full border-slate-700 text-white hover:bg-slate-800 text-xs font-bold ${isMobile ? "h-11 rounded-2xl" : "h-10 rounded-xl"}`}>
                     View Full Analysis
                  </Button>
-               </div>
+                </div>
             </Card>
           </div>
 
           {/* History Column */}
-          <div className="lg:col-span-2 space-y-8">
-            <Card className="p-8 rounded-[3rem] border-white bg-white shadow-sm ring-1 ring-slate-200/50">
-              <div className="flex items-center justify-between mb-8">
+          <div className={`space-y-5 lg:col-span-2 ${isMobile ? "order-1" : ""}`}>
+            <Card className={`${isMobile ? "p-4 rounded-[1.5rem]" : "p-8 rounded-[3rem]"} border-white bg-white shadow-sm ring-1 ring-slate-200/50`}>
+              <div className={`flex items-center justify-between ${isMobile ? "mb-5" : "mb-8"}`}>
                 <h3 className="font-black text-slate-900 flex items-center gap-2">
                   <Calendar className="h-5 w-5 text-primary" />
                   Your Journey
@@ -283,7 +296,7 @@ function MoodTrackerPage() {
                 </div>
               </div>
 
-              <div className="h-[250px] w-full mb-12">
+              <div className={`${isMobile ? "mb-6 h-[220px]" : "mb-12 h-[250px]"} w-full`}>
                  {isLoading || identityLoading ? (
                    <div className="h-full flex items-center justify-center opacity-20"><Loader2 className="h-8 w-8 animate-spin" /></div>
                  ) : entries.length > 0 ? (
@@ -304,30 +317,30 @@ function MoodTrackerPage() {
                    </div>
                  ) : entries.length > 0 ? (
                     <div className="space-y-3">
-                       {entries.map((entry) => (
-                         <motion.div 
-                           key={entry.id}
-                           layout
-                           initial={{ opacity: 0, y: 10 }}
-                           animate={{ opacity: 1, y: 0 }}
-                           className="group relative flex items-start gap-4 p-5 rounded-3xl bg-slate-50/50 border border-transparent hover:bg-white hover:border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
-                         >
+                        {entries.map((entry) => (
+                          <motion.div 
+                            key={entry.id}
+                            layout
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={`group relative flex items-start gap-4 border border-transparent bg-slate-50/50 transition-all duration-300 hover:bg-white hover:border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 ${isMobile ? "rounded-[1.25rem] p-4" : "rounded-3xl p-5"}`}
+                          >
                             <div className={`h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${getMoodColor(entry.mood)}`}>
                                <span className="text-xl">
                                   {entry.mood === 'great' ? '🌟' : entry.mood === 'good' ? '😊' : entry.mood === 'okay' ? '😐' : entry.mood === 'low' ? '😔' : '😫'}
                                </span>
                             </div>
                             <div className="flex-1 pt-1">
-                               <div className="flex items-center justify-between mb-1">
+                                <div className={`mb-1 flex ${isMobile ? "flex-col items-start gap-1" : "items-center justify-between"}`}>
                                   <span className="text-sm font-black text-slate-800 capitalize">{entry.mood}</span>
-                                  <div className="flex items-center gap-3">
-                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                                   <div className={`flex ${isMobile ? "w-full items-center justify-between gap-2" : "items-center gap-3"}`}>
+                                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
                                         <Clock className="h-3 w-3" />
                                         {format(new Date(entry.created_at), "MMM d, p")}
                                      </span>
                                      <button 
                                        onClick={() => handleDeleteEntry(entry.id)}
-                                       className="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-rose-500 transition-all"
+                                        className={`${isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"} text-slate-300 hover:text-rose-500 transition-all`}
                                      >
                                         <Trash2 className="h-4 w-4" />
                                      </button>

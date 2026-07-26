@@ -15,6 +15,7 @@ const mimeTypes = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".json": "application/json",
+  ".webmanifest": "application/manifest+json",
   ".woff2": "font/woff2",
   ".woff": "font/woff",
   ".ttf": "font/ttf",
@@ -41,10 +42,18 @@ async function serveStaticAsset(urlPath, res) {
   const contentType = mimeTypes[ext] || "application/octet-stream";
   const body = await fs.readFile(filePath);
 
+  const fileName = path.basename(filePath);
+  const cacheControl =
+    fileName === "sw.js" ||
+    fileName.startsWith("workbox-") ||
+    fileName === "manifest.webmanifest"
+      ? "no-cache"
+      : "public, max-age=31536000, immutable";
+
   res.writeHead(200, {
     "Content-Type": contentType,
     "Content-Length": body.length,
-    "Cache-Control": "public, max-age=31536000, immutable",
+    "Cache-Control": cacheControl,
   });
   res.end(body);
   return true;

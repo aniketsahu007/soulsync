@@ -3,6 +3,8 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { Shield, Lock, Eye, Share2, RefreshCw, Mail, ChevronRight } from "lucide-react";
+import { MobilePrivacyPolicyPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
 
 export const Route = createFileRoute("/privacy-policy")({
   component: PrivacyPolicyPage,
@@ -60,6 +62,15 @@ const sections = [
 ];
 
 function PrivacyPolicyPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopPrivacyPolicyPage}
+      MobileComponent={MobilePrivacyPolicyPage}
+    />
+  );
+}
+
+function DesktopPrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />

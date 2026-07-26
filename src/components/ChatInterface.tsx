@@ -30,7 +30,12 @@ const friendLikeGreetings = [
   "Hey 👋 Just wanted to check in. How was your day? Honestly, I'm just here to listen to whatever's on your mind.",
 ];
 
-export function ChatInterface() {
+interface ChatInterfaceProps {
+  showHeader?: boolean;
+  mobile?: boolean;
+}
+
+export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfaceProps = {}) {
   // FIXED: Removed Math.random() to prevent hydration mismatch
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -192,7 +197,7 @@ export function ChatInterface() {
   const showQuickPrompts = messages.length <= 1;
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex h-full min-h-0 flex-col bg-background">
       {/* Crisis Map Modal */}
       {showCrisisMap && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
@@ -211,6 +216,7 @@ export function ChatInterface() {
       )}
 
       {/* Header */}
+      {showHeader && (
       <div className="flex items-center gap-3 p-4 border-b bg-card shadow-sm z-10">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-wellness shadow-inner">
           <Bot className="h-5 w-5 text-primary-foreground" />
@@ -269,19 +275,20 @@ export function ChatInterface() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className={`min-h-0 flex-1 overflow-y-auto space-y-4 ${mobile ? "px-3 py-4" : "p-4"}`}>
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
               key={msg.id}
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
+              className={`flex ${mobile ? "gap-2" : "gap-3"} ${msg.role === "user" ? "flex-row-reverse" : ""}`}
             >
               <div
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl shadow-sm ${
+                className={`flex ${mobile ? "h-7 w-7 rounded-lg" : "h-8 w-8 rounded-xl"} shrink-0 items-center justify-center shadow-sm ${
                   msg.role === "assistant" ? "bg-primary/10 border border-primary/5" : "bg-muted border"
                 }`}
               >
@@ -292,7 +299,7 @@ export function ChatInterface() {
                 )}
               </div>
               <div
-                className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
+                className={`${mobile ? "max-w-[82%] rounded-[1.15rem] px-4 py-3" : "max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3"} text-sm leading-relaxed shadow-sm ${
                   msg.role === "assistant"
                     ? "bg-card border text-card-foreground"
                     : "gradient-wellness text-primary-foreground"
@@ -480,7 +487,7 @@ export function ChatInterface() {
 
         {/* Quick prompts */}
         {showQuickPrompts && !isTyping && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-wrap gap-2 pl-11">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className={`flex flex-wrap gap-2 ${mobile ? "pl-0" : "pl-11"}`}>
             {quickPrompts.map((prompt) => (
               <button
                 key={prompt}
@@ -521,7 +528,7 @@ export function ChatInterface() {
       </div>
 
       {/* Input Section */}
-      <div className="border-t bg-card p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
+      <div className={`border-t bg-card shadow-[0_-2px_10px_rgba(0,0,0,0.02)] ${mobile ? "p-3" : "p-4"}`}>
         {messages.length > 5 && (
           <div className="mb-3 flex justify-center sm:hidden">
             <Button 
@@ -550,16 +557,16 @@ export function ChatInterface() {
             e.preventDefault();
             send();
           }}
-          className="flex items-center gap-3"
+          className={`flex items-center ${mobile ? "gap-2" : "gap-3"}`}
         >
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Talk it out... completely anonymous"
-            className="flex-1 rounded-xl border bg-background px-4 py-3.5 text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+            className={`min-w-0 flex-1 border bg-background text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${mobile ? "h-12 rounded-2xl px-4" : "rounded-xl px-4 py-3.5"}`}
             disabled={isTyping}
           />
-          <Button type="submit" variant="hero" size="icon" className="rounded-xl h-12 w-12 shrink-0 shadow-md enabled:hover:scale-105 transition-transform active:scale-95" disabled={isTyping || !input.trim()}>
+          <Button type="submit" variant="hero" size="icon" className={`${mobile ? "h-12 w-12 rounded-2xl" : "h-12 w-12 rounded-xl"} shrink-0 shadow-md enabled:hover:scale-105 transition-transform active:scale-95`} disabled={isTyping || !input.trim()}>
             <Send className="h-5 w-5" />
           </Button>
         </form>

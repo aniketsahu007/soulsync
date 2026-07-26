@@ -6,6 +6,9 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 
+import { Toaster } from "@/components/ui/sonner";
+import { useServiceWorker } from "@/hooks/useServiceWorker";
+import "@/hooks/usePWAInstall";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -37,6 +40,11 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#10b981" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "SoulSync" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { title: "SoulSync - AI-Powered Peer Support" },
       {
         name: "description",
@@ -66,7 +74,15 @@ export const Route = createRootRoute({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,100&family=Manrope:wght@300..800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap",
+      },
+      {
+        rel: "manifest",
+        href: "/manifest.webmanifest",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/icons/apple-touch-icon.png",
       },
     ],
   }),
@@ -83,6 +99,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <Toaster position="top-center" richColors closeButton />
         <Scripts />
       </body>
     </html>
@@ -93,6 +110,7 @@ import { useAnonymousIdentity } from "../hooks/useAnonymousIdentity";
 
 function RootComponent() {
   useAnonymousIdentity(); // Initialize anonymous identity on mount
+  useServiceWorker();
   return <Outlet />;
 }
 

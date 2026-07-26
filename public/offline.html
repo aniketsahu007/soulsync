@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10b981" />
+    <title>SoulSync Offline</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+        background: #f7fbf8;
+        color: #0f172a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background:
+          radial-gradient(circle at 20% 0%, #ecfdf5 0, transparent 34%),
+          radial-gradient(circle at 90% 100%, #eff6ff 0, transparent 34%),
+          #f7fbf8;
+      }
+
+      main {
+        width: min(100%, 420px);
+        border: 1px solid #d1fae5;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 28px;
+        box-shadow: 0 24px 60px -36px rgba(15, 23, 42, 0.45);
+      }
+
+      img {
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+        border-radius: 18px;
+        border: 1px solid #d1fae5;
+        background: #ffffff;
+      }
+
+      h1 {
+        margin: 20px 0 10px;
+        font-size: 28px;
+        line-height: 1.1;
+      }
+
+      p {
+        margin: 0;
+        color: #475569;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      button {
+        min-height: 48px;
+        margin-top: 24px;
+        width: 100%;
+        border: 0;
+        border-radius: 16px;
+        background: #10b981;
+        color: #ffffff;
+        font: inherit;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/logo.png" alt="SoulSync" />
+      <h1>You are offline</h1>
+      <p>
+        SoulSync could not reach the network. Previously opened pages may still
+        work, and new support features will reconnect when your connection is
+        back.
+      </p>
+      <button type="button" onclick="window.location.reload()">Try again</button>
+    </main>
+  </body>
+</html>

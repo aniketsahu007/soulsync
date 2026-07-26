@@ -11,6 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAnonymousIdentity } from "@/hooks/useAnonymousIdentity";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { MobileCheckInPage } from "@/components/mobile/MobilePublicPages";
+import { ResponsivePage } from "@/components/responsive/ResponsivePage";
 
 export const Route = createFileRoute("/check-in")({
   component: CheckInPage,
@@ -23,6 +25,15 @@ const quickActions = [
 ];
 
 function CheckInPage() {
+  return (
+    <ResponsivePage
+      DesktopComponent={DesktopCheckInPage}
+      MobileComponent={MobileCheckInPage}
+    />
+  );
+}
+
+function DesktopCheckInPage() {
   const { aliasId, isLoading: identityLoading } = useAnonymousIdentity();
   const [selectedMood, setSelectedMood] = useState<MoodType | undefined>();
   const [moodEntries, setMoodEntries] = useState<ChartDataPoint[]>([]);

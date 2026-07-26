@@ -1,38 +1,21 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import {
-  BookOpen,
   ChevronDown,
-  ClipboardCheck,
   HeartHandshake,
-  HelpCircle,
   Menu,
-  MessageCircleHeart,
-  TrendingUp,
   UserCheck,
-  Users,
   X,
   ShieldCheck
 } from "lucide-react";
 import { useEffect, useRef, useState, memo } from "react";
 import { ALLOWED_ADMIN_EMAILS, normalizeEmail } from "@/lib/admin-governance";
+import { supportNavItems, toolsNavItems } from "@/config/navigation";
 
 import { Button } from "@/components/ui/button";
 import { IdentityRecoveryButton } from "@/components/IdentityRecoveryButton";
+import { InstallAppCard } from "@/components/pwa/InstallAppCard";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
-
-const supportLinks = [
-  { to: "/chat", label: "Talk to Someone", desc: "Safe, anonymous AI support", icon: MessageCircleHeart },
-  { to: "/peer-match", label: "Peer Support", desc: "Connect with a trained volunteer", icon: Users },
-  { to: "/partners", label: "NGO Partners", desc: "Our network of professional help", icon: HeartHandshake },
-  { to: "/community-qna", label: "Community Q&A", desc: "You are not alone in this", icon: HelpCircle },
-] as const;
-
-const toolsLinks = [
-  { to: "/check-in", label: "My Check-In", desc: "How are you feeling?", icon: ClipboardCheck },
-  { to: "/mood-tracker", label: "Mood Journal", desc: "Track your emotional journey", icon: TrendingUp },
-  { to: "/resources", label: "Wellness Hub", desc: "Behavioral patterns & focus intelligence", icon: BookOpen },
-] as const;
 
 export const Navbar = memo(() => {
   const location = useLocation();
@@ -202,10 +185,10 @@ export const Navbar = memo(() => {
                           Support
                         </div>
                         <div className="space-y-1">
-                          {supportLinks.map((link) => (
+                          {supportNavItems.map((link) => (
                             <Link
                               key={link.to}
-                              to={link.to}
+                              to={link.to as any}
                               onClick={() => setDropdownOpen(false)}
                               className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
                                 location.pathname === link.to
@@ -238,10 +221,15 @@ export const Navbar = memo(() => {
                           Tools
                         </div>
                         <div className="space-y-1">
-                          {toolsLinks.map((link) => (
+                          <InstallAppCard
+                            className="rounded-[1.1rem] px-3 py-3 shadow-none hover:bg-slate-50"
+                            onInstalled={() => setDropdownOpen(false)}
+                            showUnavailable
+                          />
+                          {toolsNavItems.map((link) => (
                             <Link
                               key={link.to}
-                              to={link.to}
+                              to={link.to as any}
                               onClick={() => setDropdownOpen(false)}
                               className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
                                 location.pathname === link.to
@@ -371,10 +359,10 @@ export const Navbar = memo(() => {
               Support
             </div>
 
-            {supportLinks.map((link) => (
+            {supportNavItems.map((link) => (
               <Link
                 key={link.to}
-                to={link.to}
+                to={link.to as any}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   location.pathname === link.to
@@ -396,10 +384,16 @@ export const Navbar = memo(() => {
               Tools
             </div>
 
-            {toolsLinks.map((link) => (
+            <InstallAppCard
+              className="rounded-xl px-4 py-3 shadow-none"
+              onInstalled={() => setMobileOpen(false)}
+              showUnavailable
+            />
+
+            {toolsNavItems.map((link) => (
               <Link
                 key={link.to}
-                to={link.to}
+                to={link.to as any}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   location.pathname === link.to

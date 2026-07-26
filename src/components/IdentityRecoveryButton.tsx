@@ -56,6 +56,7 @@ interface StudentIdentityProfile {
 }
 
 export function IdentityRecoveryButton({ className, variant = "default", forceView }: IdentityRecoveryButtonProps) {
+  const [hasSession, setHasSession] = useState(false);
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<IdentityView>("setup");
   const [setupStep, setSetupStep] = useState<1 | 2>(1);
@@ -386,6 +387,16 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
     }, 900);
   };
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setHasSession(!!session);
+    });
+  }, []);
+
+  if (hasSession) {
+    return null;
+  }
+
   return (
     <>
       {variant === "muted-link" ? (
@@ -661,18 +672,21 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
 
                 <div className="grid gap-4">
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium" htmlFor="recovery-key-input">
+                    <label className="text-sm font-medium" htmlFor="setup-key-input">
                       Type your recovery key
                     </label>
                     <div className="relative">
                       <Input
-                        id="recovery-key-input"
+                        id="setup-key-input"
                         type={showSetupRecoveryKey ? "text" : "password"}
                         value={recoveryKeyInput}
                         onChange={(event) => setRecoveryKeyInput(event.target.value)}
                         placeholder="At least 8 characters"
                         className="h-12 rounded-2xl px-4 pr-11"
-                        autoComplete="new-password"
+                        autoComplete="off"
+                        data-1p-ignore="true"
+                        data-lpignore="true"
+                        spellCheck={false}
                       />
                       <button
                         type="button"
@@ -689,18 +703,21 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium" htmlFor="recovery-key-confirm">
+                    <label className="text-sm font-medium" htmlFor="setup-key-confirm">
                       Confirm recovery key
                     </label>
                     <div className="relative">
                       <Input
-                        id="recovery-key-confirm"
+                        id="setup-key-confirm"
                         type={showSetupRecoveryKeyConfirm ? "text" : "password"}
                         value={confirmRecoveryKeyInput}
                         onChange={(event) => setConfirmRecoveryKeyInput(event.target.value)}
                         placeholder="Type it again"
                         className="h-12 rounded-2xl px-4 pr-11"
-                        autoComplete="new-password"
+                        autoComplete="off"
+                        data-1p-ignore="true"
+                        data-lpignore="true"
+                        spellCheck={false}
                       />
                       <button
                         type="button"
