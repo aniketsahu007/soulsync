@@ -15,7 +15,7 @@ import { VolunteerImpactMetrics } from "@/components/volunteer/VolunteerImpactMe
 import { SessionQueue } from "@/components/volunteer/SessionQueue";
 import { AvailabilityManager } from "@/components/volunteer/AvailabilityManager";
 import { SessionWorkspace } from "@/components/volunteer/SessionWorkspace";
-import { LayoutDashboard, MessageSquare, Calendar, BookOpen, LogOut, Award, Trophy, AlarmClock, ShieldCheck, Heart, ArrowRight } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Calendar, LogOut, Award, Trophy, AlarmClock, ShieldCheck, Heart, ArrowRight } from "lucide-react";
 import { z } from "zod";
 
 type Volunteer = Tables<"volunteers">;
@@ -618,14 +618,6 @@ function VolunteerDashboard() {
               );
             })}
             
-            <Link
-              to="/resources"
-              className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              title="Library"
-            >
-              <BookOpen className="h-5 w-5 shrink-0" />
-              {!isCollapsed && <span>Library</span>}
-            </Link>
           </nav>
 
           {/* Online/Offline availability toggle in the middle */}

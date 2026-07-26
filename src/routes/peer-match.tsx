@@ -574,7 +574,7 @@ function DesktopPeerMatchPage() {
         notes: notes.trim() || null,
         meeting_token: newToken,
         handoff_briefing: sessionStorage.getItem("soulSync_handoffBriefing"),
-        student_alias_id: profileExists ? aliasId : null,
+        student_alias_id: aliasId || localStorage.getItem("soulSync_alias_id") || null,
       };
 
       const { data: newBooking, error: insertError } = await supabase

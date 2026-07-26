@@ -1,0 +1,60 @@
+name: 🚀 Deploy SoulSync to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # 1. Checkout
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node 20 (matches package.json engines field)
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Fresh install — delete Windows-generated lockfile so Linux
+      #    resolves the correct native binaries (rollup, sharp, etc.)
+      - name: 📦 Install dependencies
+        run: |
+          rm -f package-lock.json
+          npm install
+
+      # 4. Build the app first (TanStack Start / Vite)
+      - name: 🏗️ Build app
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+
+      # 4b. Debug: show what the build produced
+      - name: 🔍 List build output
+        run: |
+          echo "=== Root ===" && ls -la
+          echo "=== .output (if exists) ===" && ls -la .output 2>/dev/null || echo "(no .output dir)"
+          echo "=== dist (if exists) ===" && ls -la dist 2>/dev/null || echo "(no dist dir)"
+          echo "=== .vinxi (if exists) ===" && ls -la .vinxi 2>/dev/null || echo "(no .vinxi dir)"
+
+      # 5. Deploy to Cloudflare Workers
+      # 5. Deploy to Cloudflare Workers via Wrangler
+      # Using npx wrangler directly because cloudflare/wrangler-action installs
+      # an outdated v3.x which fails silently with newer wrangler.jsonc configs.
+      - name: ☁️ Deploy to Cloudflare Workers
+        run: npx wrangler deploy --verbose
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
