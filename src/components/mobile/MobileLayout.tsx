@@ -65,7 +65,7 @@ export function MobileLayout({
   return (
     <div className={`min-h-[100dvh] max-w-full overflow-x-hidden bg-[#f7fbf8] text-slate-950 ${className}`}>
       {showHeader && (
-        <header className="fixed inset-x-0 top-0 z-50 border-b border-emerald-100/80 bg-white/95 px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)] shadow-sm backdrop-blur-xl">
+        <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)] shadow-sm">
           <div className="flex min-h-12 items-center justify-between gap-3">
             <Link to="/" className="flex min-w-0 items-center gap-3">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-sm">
@@ -95,7 +95,7 @@ export function MobileLayout({
       )}
 
       {exploreOpen && (
-        <div className="fixed inset-0 z-[70] bg-slate-950/35 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[70] bg-black/50">
           <button
             type="button"
             aria-label="Close explore menu"
@@ -226,7 +226,7 @@ export function MobileLayout({
         {children}
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-emerald-100/80 bg-white/95 px-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] pt-2 shadow-[0_-12px_30px_-22px_rgba(15,23,42,0.45)] backdrop-blur-xl">
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background px-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] pt-2 shadow-sm">
         <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
           {mobilePrimaryNavItems.map((item) => {
             const Icon = item.icon;

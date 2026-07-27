@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Play, Users, Star } from "lucide-react";
 import { Card } from "./ui/card";
 import { TestimonialVideoModal, Story } from "./TestimonialVideoModal";
@@ -44,55 +43,48 @@ export function CommunityStories() {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
 
   return (
-    <section className="relative px-4 py-24 sm:px-6 lg:px-8">
+    <section className="px-4 py-24 sm:px-6 lg:px-8 bg-background">
       <div className="mx-auto max-w-7xl">
         <div className="mb-14 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-primary/70">
+          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-primary">
             Real Impact
           </p>
-          <h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl text-foreground">
             Peers helping peers. Every single day.
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
             SoulSync isn't just an app—it's a community of resilient students who've been where you are. Hear how your peers reclaimed their focus and peace.
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {stories.map((story, index) => (
-            <motion.div
+          {stories.map((story) => (
+            <div
               key={story.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className="group cursor-pointer transition-transform duration-200 hover:-translate-y-1"
               onClick={() => setSelectedStory(story)}
             >
-              <Card className="h-full overflow-hidden rounded-[2.5rem] border-none bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                <div className="relative aspect-[4/3] overflow-hidden">
+              <Card className="h-full overflow-hidden rounded-[2rem] border border-border bg-background shadow-none">
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                   <img
                     src={story.thumbnail}
                     alt={story.name}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
-                    <div className="h-16 w-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 shadow-xl">
-                      <Play className="h-7 w-7 text-white fill-white" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-foreground/20">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-background/90 text-foreground">
+                      <Play className="h-6 w-6 ml-1" />
                     </div>
                   </div>
-
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="absolute bottom-4 left-4">
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1 text-xs font-semibold text-foreground">
                       <Users className="h-3 w-3" /> {story.role}
                     </div>
                   </div>
                 </div>
 
                 <div className="p-8">
-                  <div className="flex items-center gap-2 text-primary mb-4">
+                  <div className="mb-4 flex items-center gap-1 text-primary">
                     <Star className="h-4 w-4 fill-primary" />
                     <Star className="h-4 w-4 fill-primary" />
                     <Star className="h-4 w-4 fill-primary" />
@@ -100,28 +92,25 @@ export function CommunityStories() {
                     <Star className="h-4 w-4 fill-primary" />
                   </div>
 
-                  <h3 className="font-display text-2xl font-semibold leading-tight group-hover:text-primary transition-colors">
+                  <h3 className="font-display text-2xl font-semibold leading-tight text-foreground">
                     {story.title}
                   </h3>
 
-                  <div className="mt-6 border-t border-slate-50 pt-6">
-                    <div className="flex items-center gap-4">
-                      <div className="h-2 w-2 rounded-full bg-safe animate-pulse" />
-                      <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
-                        Initial Result: <span className="text-slate-800">{story.impact}</span>
-                      </p>
-                    </div>
+                  <div className="mt-6 border-t border-border pt-6">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      Initial Result: <span className="text-foreground">{story.impact}</span>
+                    </p>
                     <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground italic">
                       "{story.quote}"
                     </p>
                     <div className="mt-6 flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-800">— {story.name}</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Read More →</span>
+                      <span className="text-xs font-semibold text-foreground">— {story.name}</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-primary group-hover:underline">Read More →</span>
                     </div>
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

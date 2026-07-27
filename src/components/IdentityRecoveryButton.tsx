@@ -184,7 +184,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
 
   const buttonLabel = profileUsername
     ? `Hello, ${profileUsername} 👋`
-    : "Protect My Journey ⚠️";
+    : "Protect My Journey 🛡️";
   const isButtonLoading = !aliasId || profileLoading;
   const maskedStoredRecoveryKey = storedRecoveryKey
     ? "•".repeat(Math.max(12, storedRecoveryKey.length))
@@ -413,7 +413,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
       ) : (
         <Button
           type="button"
-          variant={profileUsername ? "outline" : "heroOutline"}
+          variant={profileUsername ? "outline" : "secondary"}
           className={cn(
             "min-w-0 rounded-full border-white/55 px-4 py-2 text-left shadow-sm hover:bg-white",
             profileUsername ? "bg-white/75" : "bg-amber-50 text-amber-700 border-amber-200/50 hover:bg-amber-100",
@@ -536,7 +536,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Button
                     type="button"
-                    variant="hero"
+                    variant="default"
                     className="flex-1 rounded-full"
                     onClick={() => {
                       if (!profileUsername || !storedRecoveryKey) {
@@ -638,7 +638,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
                   </button>
                   <Button
                     type="button"
-                    variant="hero"
+                    variant="default"
                     className="rounded-full"
                     onClick={handleNextFromUsername}
                     disabled={!aliasId || checkingUsername}
@@ -762,7 +762,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Button
                     type="button"
-                    variant="heroOutline"
+                    variant="secondary"
                     className="flex-1 rounded-full"
                     onClick={handleDownloadRecoveryFile}
                     disabled={!normalizedUsername || recoveryKeyInput.length < 8}
@@ -791,7 +791,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
 
                 <Button
                   type="button"
-                  variant="hero"
+                  variant="default"
                   className="w-full rounded-full"
                   disabled={!canFinishSetup || savingIdentity}
                   onClick={handleFinishSetup}
@@ -868,7 +868,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
                   </button>
                   <Button
                     type="button"
-                    variant="hero"
+                    variant="default"
                     className="rounded-full"
                     onClick={handleRecoverAccount}
                     disabled={recoveringIdentity}

@@ -25,14 +25,14 @@ const supportEmail = "Soulsyncsoul@gmail.com";
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-slate-100 bg-white/50 backdrop-blur-xl px-4 py-20 sm:px-6 lg:px-8">
+    <footer className="relative border-t border-border bg-background px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-2 gap-12 lg:grid-cols-5 lg:gap-8">
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl gradient-wellness shadow-lg shadow-primary/20">
-                <HeartHandshake className="h-6 w-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10">
+                <HeartHandshake className="h-6 w-6 text-primary" />
               </div>
               <span className="font-display text-2xl font-semibold tracking-tight">SoulSync</span>
             </Link>

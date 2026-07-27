@@ -14,6 +14,7 @@ import { ImpactDashboard } from "@/components/ImpactDashboard";
 import { Navbar } from "@/components/Navbar";
 import { WorkflowSection } from "@/components/WorkflowSection";
 import { EngagementHub } from "@/components/EngagementHub";
+import { PWAShowcaseSection } from "@/components/PWAShowcaseSection";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -35,16 +36,17 @@ function DesktopLandingPage() {
       <div className="relative z-10 bg-background/20 backdrop-blur-[2px]">
         <Navbar />
         <HeroSection />
-        <div className="relative z-20 bg-background/60 backdrop-blur-sm">
+        <div className="relative z-20">
+          <WorkflowSection />
           <EngagementHub />
           <FeaturesSection />
-          <NGOImpactSection />
-          <WorkflowSection />
+          <SafetyGovernance />
+          <PWAShowcaseSection />
         </div>
         <div className="relative z-10">
           <ImpactDashboard />
-          <SafetyGovernance />
           <ComparisonSection />
+          <NGOImpactSection />
           <CTASection />
           <Footer />
         </div>
@@ -52,4 +54,3 @@ function DesktopLandingPage() {
     </div>
   );
 }
-

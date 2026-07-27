@@ -249,7 +249,7 @@ export const CrisisMap: React.FC = () => {
       {/* Map Container */}
       <div
         ref={mapRef}
-        className="h-64 md:h-72 w-full rounded-2xl bg-slate-100 shadow-inner overflow-hidden border-2 border-slate-50 relative"
+        className="h-64 md:h-72 w-full rounded-[1.5rem] bg-muted overflow-hidden border border-border relative"
       >
         {loading && (
           <div className="flex h-full w-full items-center justify-center bg-slate-50/50 backdrop-blur-sm absolute inset-0 z-10">
@@ -265,19 +265,19 @@ export const CrisisMap: React.FC = () => {
       </div>
 
       {/* ✅ Helpline Section - Always Visible */}
-      <div className="p-4 bg-gradient-to-r from-red-50 to-red-100/70 rounded-xl border border-red-200 text-center shadow-sm">
+      <div className="p-4 bg-destructive/10 rounded-[1.25rem] border border-destructive/20 text-center">
         <div className="flex items-center justify-center gap-2 mb-1">
-          <Heart className="h-5 w-5 text-red-500 fill-red-500" />
-          <p className="font-bold text-red-700">Immediate Help Available</p>
+          <Heart className="h-5 w-5 text-destructive fill-destructive" />
+          <p className="font-bold text-destructive">Immediate Help Available</p>
         </div>
         <a
           href="tel:9152987821"
-          className="text-2xl font-bold text-red-600 block hover:text-red-800 hover:scale-105 transition-all duration-200"
+          className="text-2xl font-bold text-destructive block hover:opacity-80 transition-opacity duration-200"
         >
           📞 9152987821
         </a>
-        <p className="text-xs text-red-500 mt-1 font-medium">24/7 Mental Health Helpline</p>
-        <p className="text-[10px] text-red-400">Free · Confidential · Professional Counseling</p>
+        <p className="text-xs text-destructive/80 mt-1 font-medium">24/7 Mental Health Helpline</p>
+        <p className="text-[10px] text-destructive/60">Free · Confidential · Professional Counseling</p>
       </div>
 
       {/* Places List */}
@@ -291,7 +291,7 @@ export const CrisisMap: React.FC = () => {
             {places.map((place) => (
               <div
                 key={`${place.name}-${place.lat}`}
-                className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-100 hover:border-primary/30 hover:shadow-md transition-all duration-200 group"
+                className="flex items-center justify-between p-3 rounded-xl bg-background border border-border hover:border-primary/40 transition-colors duration-200 group"
               >
                 <div className="flex-1 min-w-0 text-left">
                   <p className="font-semibold text-sm text-slate-800 truncate">{place.name}</p>

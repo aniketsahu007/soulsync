@@ -74,7 +74,7 @@ export const Route = createRootRoute({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Plus+Jakarta+Sans:wght@500;600&display=swap",
       },
       {
         rel: "manifest",
@@ -107,10 +107,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 import { useAnonymousIdentity } from "../hooks/useAnonymousIdentity";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 function RootComponent() {
   useAnonymousIdentity(); // Initialize anonymous identity on mount
   useServiceWorker();
-  return <Outlet />;
+  return (
+    <ThemeProvider defaultTheme="light" storageKey="soulsync-ui-theme">
+      <Outlet />
+    </ThemeProvider>
+  );
 }
-
