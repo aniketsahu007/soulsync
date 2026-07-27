@@ -26,7 +26,7 @@ export function HALTDiagnostic() {
         {!selectedId ? (
           <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center w-full">
             <h3 className="text-2xl font-display font-black mb-2">HALT Check</h3>
-            <p className="text-slate-500 mb-8 max-w-[240px] mx-auto text-sm">
+            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-[240px] mx-auto text-sm">
               Stop. Which of these are you feeling right now?
             </p>
             <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
@@ -34,7 +34,7 @@ export function HALTDiagnostic() {
                 <button
                   key={f.id}
                   onClick={() => setSelectedId(f.id)}
-                  className="flex flex-col items-center gap-3 p-6 bg-white border border-slate-100 rounded-3xl hover:border-calm/40 hover:shadow-md transition-all active:scale-95"
+                  className="flex flex-col items-center gap-3 p-6 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-3xl hover:border-calm/40 hover:shadow-md dark:shadow-none transition-all active:scale-95"
                 >
                   {React.createElement(f.icon, { className: "h-8 w-8 text-calm" })}
                   <p className="font-bold text-sm">{f.label}</p>
@@ -48,8 +48,8 @@ export function HALTDiagnostic() {
                {current && React.createElement(current.icon, { className: "h-10 w-10" })}
             </div>
             <h3 className="text-2xl font-display font-black mb-4">You&apos;re feeling {selectedId}</h3>
-            <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm mb-8">
-              <p className="text-sm text-slate-600 leading-relaxed">
+            <div className="p-5 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none mb-8">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {current?.advice}
               </p>
             </div>

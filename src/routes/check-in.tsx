@@ -171,7 +171,7 @@ function DesktopCheckInPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mt-8 rounded-2xl border border-white/20 bg-card/60 backdrop-blur-xl shadow-xl shadow-primary/5 p-6 relative overflow-hidden"
+          className="mt-8 rounded-2xl border border-white/20 bg-card/60 backdrop-blur-xl shadow-xl dark:shadow-none shadow-primary/5 p-6 relative overflow-hidden"
         >
           <h2 className="font-display text-lg font-semibold mb-4 text-center">Quick Check-In</h2>
           <MoodSelector selected={selectedMood} onSelect={handleMoodSelect} />
@@ -199,7 +199,7 @@ function DesktopCheckInPage() {
             <h2 className="font-display text-lg font-semibold">What would you like to do?</h2>
             {quickActions.map((action) => (
               <Link key={action.label} to={action.to}>
-                <div className="group flex items-center gap-4 rounded-xl border border-border/50 bg-card/80 p-4 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 cursor-pointer">
+                <div className="group flex items-center gap-4 rounded-xl border border-border/50 bg-card/80 p-4 hover:-translate-y-1 hover:shadow-xl dark:shadow-none hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 cursor-pointer">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
                     <action.icon className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
                   </div>
@@ -212,7 +212,7 @@ function DesktopCheckInPage() {
             ))}
           </div>
 
-          <div className="lg:col-span-2 rounded-2xl border border-white/20 bg-card/60 backdrop-blur-xl shadow-xl shadow-primary/5 p-6">
+          <div className="lg:col-span-2 rounded-2xl border border-white/20 bg-card/60 backdrop-blur-xl shadow-xl dark:shadow-none shadow-primary/5 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display text-lg font-semibold">Your Mood Journey</h2>
               <span className="text-xs text-muted-foreground">Last 7 days</span>
@@ -245,7 +245,7 @@ function DesktopCheckInPage() {
               { icon: Shield, label: "Safety Score", value: `${stats.safetyScore}%`, color: "bg-safe/10 text-safe" },
               { icon: Sparkles, label: "Check-In Streak", value: `${stats.streak} day${stats.streak !== 1 ? 's' : ''}`, color: "bg-warm/10 text-warm" },
             ].map((stat) => (
-              <div key={stat.label} className="group rounded-xl border border-border/50 bg-card/80 p-4 text-center hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+              <div key={stat.label} className="group rounded-xl border border-border/50 bg-card/80 p-4 text-center hover:shadow-lg dark:shadow-none hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-xl ${stat.color} mb-2 group-hover:scale-110 transition-transform relative z-10`}>
                   <stat.icon className="h-5 w-5" />

@@ -29,13 +29,13 @@ export const AdminNavbar = memo(() => {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
       <div className="mx-auto max-w-[1600px]">
-        <div className="bg-white border border-slate-200 rounded-2xl px-6 py-3 flex items-center justify-between shadow-sm">
+        <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl px-6 py-3 flex items-center justify-between shadow-sm dark:shadow-none">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
               <ShieldCheck className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <span className="block text-sm font-black text-slate-900 uppercase tracking-widest">SoulSync Admin</span>
+              <span className="block text-sm font-black text-slate-900 dark:text-slate-50 uppercase tracking-widest">SoulSync Admin</span>
               <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Governance Control</span>
             </div>
           </div>
@@ -47,8 +47,8 @@ export const AdminNavbar = memo(() => {
                 to={link.to}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   location.pathname === link.to
-                    ? "bg-primary text-white shadow-lg shadow-primary/20"
-                    : "text-slate-400 hover:text-primary hover:bg-slate-50"
+                    ? "bg-primary text-white shadow-lg dark:shadow-none shadow-primary/20"
+                    : "text-slate-400 hover:text-primary hover:bg-slate-50 dark:bg-slate-900"
                 }`}
               >
                 <link.icon className="h-4 w-4" />

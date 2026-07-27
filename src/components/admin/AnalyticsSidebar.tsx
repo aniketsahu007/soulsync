@@ -17,8 +17,8 @@ interface AnalyticsSidebarProps {
 export const AnalyticsSidebar = memo(({ chartData, issueDistribution }: AnalyticsSidebarProps) => {
   return (
     <div className="space-y-8">
-      <Card className="overflow-hidden rounded-[3rem] border-white bg-white p-8 shadow-md ring-1 ring-slate-200/50">
-        <h2 className="mb-8 flex items-center gap-3 text-xl font-black tracking-tight text-slate-900">
+      <Card className="overflow-hidden rounded-[3rem] border-white bg-white dark:bg-slate-950 p-8 shadow-md dark:shadow-none ring-1 ring-slate-200/50">
+        <h2 className="mb-8 flex items-center gap-3 text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">
           <BarChart3 className="h-6 w-6 text-primary" />
           Impact Velocity
         </h2>
@@ -47,7 +47,7 @@ export const AnalyticsSidebar = memo(({ chartData, issueDistribution }: Analytic
             </AreaChart>
           </ResponsiveContainer>
         </div>
-        <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-6">
+        <div className="mt-8 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-6">
           <div>
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Growth Index</p>
             <p className="text-xl font-black text-emerald-600">+24.5%</p>
@@ -58,8 +58,8 @@ export const AnalyticsSidebar = memo(({ chartData, issueDistribution }: Analytic
         </div>
       </Card>
 
-      <Card className="overflow-hidden rounded-[3rem] border-white bg-white p-8 shadow-md ring-1 ring-slate-200/50">
-        <h2 className="mb-8 flex items-center gap-3 text-xl font-black tracking-tight text-slate-900">
+      <Card className="overflow-hidden rounded-[3rem] border-white bg-white dark:bg-slate-950 p-8 shadow-md dark:shadow-none ring-1 ring-slate-200/50">
+        <h2 className="mb-8 flex items-center gap-3 text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">
           <PieChart className="h-6 w-6 text-emerald-500" />
           Issue Distribution
         </h2>
@@ -101,7 +101,7 @@ export const AnalyticsSidebar = memo(({ chartData, issueDistribution }: Analytic
         </div>
       </Card>
 
-      <Card className="overflow-hidden rounded-[3rem] border-none bg-navy p-8 shadow-xl ring-1 ring-white/10 text-white relative">
+      <Card className="overflow-hidden rounded-[3rem] border-none bg-navy p-8 shadow-xl dark:shadow-none ring-1 ring-white/10 text-white relative">
         <h2 className="mb-6 flex items-center gap-3 text-xl font-black tracking-tight relative z-10">
           <Info className="h-6 w-6 text-primary" />
           System Intelligence
@@ -112,7 +112,7 @@ export const AnalyticsSidebar = memo(({ chartData, issueDistribution }: Analytic
             { name: "AI Protocol", status: "Active", color: "bg-primary" },
             { name: "Support API", status: "Stable", color: "bg-blue-500" },
           ].map((s, i) => (
-            <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+            <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 dark:bg-slate-950/5 border border-white/10 hover:bg-white/10 dark:bg-slate-950/10 transition-all">
               <p className="text-xs font-bold text-slate-400">{s.name}</p>
               <div className="flex items-center gap-2">
                 <div className={`h-2 w-2 rounded-full ${s.color} shadow-[0_0_10px_rgba(16,185,129,0.3)]`} />

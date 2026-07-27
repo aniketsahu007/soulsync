@@ -150,10 +150,10 @@ function AdminVolunteersPage() {
   }, [volunteers, activeTab, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-primary/10">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 selection:bg-primary/10">
       <Navbar />
       
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-slate-50">
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-slate-50 dark:bg-slate-900">
         <div className="absolute inset-0 bg-[radial-gradient(#00000005_1px,transparent_1px)] bg-[size:32px_32px]" />
       </div>
 
@@ -168,25 +168,25 @@ function AdminVolunteersPage() {
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div>
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 shadow-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 shadow-sm dark:shadow-none">
                   <BadgeCheck className="h-5 w-5 text-primary" />
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Vetting Infrastructure</span>
               </div>
-              <h1 className="font-display text-5xl font-black tracking-tight text-slate-900 lg:text-6xl">
+              <h1 className="font-display text-5xl font-black tracking-tight text-slate-900 dark:text-slate-50 lg:text-6xl">
                 Volunteer <span className="text-gradient">Verification</span>
               </h1>
-              <p className="mt-4 text-lg font-medium text-slate-500 max-w-2xl">
+              <p className="mt-4 text-lg font-medium text-slate-500 dark:text-slate-400 max-w-2xl">
                 Rigorous review of peer support candidates to ensure student safety and platform quality.
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="bg-white/90 shadow-sm ring-1 ring-slate-200/50 flex items-center gap-4 transition-all">
+              <div className="bg-white/90 dark:bg-slate-950/90 shadow-sm dark:shadow-none ring-1 ring-slate-200/50 flex items-center gap-4 transition-all">
                 <div className="flex flex-col items-center">
                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Queue</span>
-                   <span className="text-xl font-black text-slate-900">{pendingList.length}</span>
+                   <span className="text-xl font-black text-slate-900 dark:text-slate-50">{pendingList.length}</span>
                 </div>
-                <div className="w-px h-8 bg-slate-100" />
+                <div className="w-px h-8 bg-slate-100 dark:bg-slate-900" />
                 <div className="flex flex-col items-center">
                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Verified</span>
                    <span className="text-xl font-black text-emerald-600">{approvedList.length}</span>
@@ -203,8 +203,8 @@ function AdminVolunteersPage() {
                 onClick={() => setActiveTab("pending")}
                 className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "pending"
-                    ? "bg-white text-slate-900 shadow-lg border border-white"
-                    : "text-slate-500 hover:text-slate-700"
+                    ? "bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 shadow-lg dark:shadow-none border border-white"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:text-slate-300"
                 }`}
               >
                 <Clock className="h-3.5 w-3.5" />
@@ -214,8 +214,8 @@ function AdminVolunteersPage() {
                 onClick={() => setActiveTab("verified")}
                 className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "verified"
-                    ? "bg-white text-emerald-600 shadow-lg border border-white"
-                    : "text-slate-500 hover:text-slate-700"
+                    ? "bg-white dark:bg-slate-950 text-emerald-600 shadow-lg dark:shadow-none border border-white"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:text-slate-300"
                 }`}
               >
                 <ShieldCheck className="h-3.5 w-3.5" />
@@ -230,7 +230,7 @@ function AdminVolunteersPage() {
                 placeholder="Filter applicants..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-12 pl-12 pr-4 rounded-2xl border border-slate-200 bg-white shadow-sm transition-all outline-none"
+                className="w-full h-12 pl-12 pr-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm dark:shadow-none transition-all outline-none"
               />
            </div>
         </div>
@@ -253,12 +253,12 @@ function AdminVolunteersPage() {
                 key="empty"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center py-32 bg-white/40 rounded-[3rem] border-2 border-dashed border-slate-200"
+                className="text-center py-32 bg-white/40 dark:bg-slate-950/40 rounded-[3rem] border-2 border-dashed border-slate-200 dark:border-slate-800"
               >
-                <div className="h-20 w-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="h-20 w-20 bg-slate-100 dark:bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-6">
                   {activeTab === "pending" ? <CheckCircle className="h-10 w-10 text-slate-300" /> : <Globe className="h-10 w-10 text-slate-300" />}
                 </div>
-                <h3 className="text-xl font-black text-slate-800">No applicants found</h3>
+                <h3 className="text-xl font-black text-slate-800 dark:text-slate-200">No applicants found</h3>
                 <p className="text-sm text-slate-400 font-medium">The verification queue is currently empty.</p>
               </motion.div>
             ) : filteredVolunteers.map((vol, i) => (
@@ -268,7 +268,7 @@ function AdminVolunteersPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
-                <Card className="group overflow-hidden rounded-[3rem] border-white bg-white/70 backdrop-blur-xl shadow-sm ring-1 ring-slate-200/50 transition-all hover:bg-white transition-all duration-500">
+                <Card className="group overflow-hidden rounded-[3rem] border-white bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl shadow-sm dark:shadow-none ring-1 ring-slate-200/50 transition-all hover:bg-white dark:bg-slate-950 transition-all duration-500">
                   <div className="flex flex-col lg:flex-row">
                     <div className="flex-1 p-10">
                       <div className="flex items-center justify-between mb-8">
@@ -277,13 +277,13 @@ function AdminVolunteersPage() {
                             {vol.name?.charAt(0) || "V"}
                           </div>
                           <div>
-                            <h3 className="text-2xl font-black text-slate-900 leading-none">{vol.name || "Anonymous Volunteer"}</h3>
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-slate-50 leading-none">{vol.name || "Anonymous Volunteer"}</h3>
                             <p className="text-sm font-bold text-slate-400 mt-2">{vol.email}</p>
                           </div>
                         </div>
-                        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
                            <Zap className="h-3 w-3 text-amber-500" />
-                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">
+                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
                              {vol.verification_status === "verified" ? "Audit Passed: 100%" : "Audit Pending"}
                            </span>
                         </div>
@@ -297,7 +297,7 @@ function AdminVolunteersPage() {
                            </h4>
                            <div className="flex flex-wrap gap-2">
                               {vol.expertise?.map((exp: string) => (
-                                <span key={exp} className="px-3 py-1 rounded-lg bg-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-200/50">
+                                <span key={exp} className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-900 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-slate-800/50">
                                   {exp}
                                 </span>
                               ))}
@@ -308,19 +308,19 @@ function AdminVolunteersPage() {
                              <FileText className="h-3 w-3 text-indigo-500" />
                              Motivation Brief
                            </h4>
-                           <p className="text-sm text-slate-600 leading-relaxed font-medium italic line-clamp-3">
+                           <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium italic line-clamp-3">
                              "{vol.bio || "No motivation brief provided."}"
                            </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="w-full lg:w-72 bg-slate-50/50 p-10 border-t lg:border-t-0 lg:border-l border-slate-100 flex flex-col justify-center gap-4">
+                    <div className="w-full lg:w-72 bg-slate-50/50 dark:bg-slate-900/50 p-10 border-t lg:border-t-0 lg:border-l border-slate-100 dark:border-slate-800 flex flex-col justify-center gap-4">
                        {hasVolunteerCv(vol) ? (
                          <Button
                            onClick={() => handleViewCV(vol)}
                            disabled={cvLoading === vol.id}
-                           className="w-full h-14 rounded-2xl bg-slate-900 text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-xl shadow-slate-200 transition-all hover:bg-slate-800 active:scale-[0.98]"
+                           className="w-full h-14 rounded-2xl bg-slate-900 text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-xl dark:shadow-none shadow-slate-200 transition-all hover:bg-slate-800 active:scale-[0.98]"
                          >
                            {cvLoading === vol.id ? (
                              <RefreshCw className="h-4 w-4 animate-spin" />
@@ -339,13 +339,13 @@ function AdminVolunteersPage() {
                          <div className="flex gap-3">
                            <Button
                              variant="outline"
-                             className="flex-1 h-12 rounded-xl border-slate-200 bg-white text-red-600 font-black text-[9px] uppercase tracking-widest hover:bg-red-50 hover:border-red-100"
+                             className="flex-1 h-12 rounded-xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-red-600 font-black text-[9px] uppercase tracking-widest hover:bg-red-50 hover:border-red-100"
                              onClick={() => handleVerify(vol.id, false)}
                            >
                              Reject
                            </Button>
                            <Button
-                             className="flex-1 h-12 rounded-xl bg-emerald-500 text-white font-black text-[9px] uppercase tracking-widest hover:bg-emerald-600 shadow-lg shadow-emerald-500/20"
+                             className="flex-1 h-12 rounded-xl bg-emerald-500 text-white font-black text-[9px] uppercase tracking-widest hover:bg-emerald-600 shadow-lg dark:shadow-none shadow-emerald-500/20"
                              onClick={() => handleVerify(vol.id, true)}
                            >
                              Approve

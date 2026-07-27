@@ -42,7 +42,7 @@ export function EmotionalBackdrop() {
       <div className="absolute left-1/2 top-[-10rem] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-primary/8 blur-[120px]" />
       <div className="absolute -left-28 top-[6rem] h-[24rem] w-[24rem] rounded-full bg-warm/10 blur-[110px]" />
       <div className="absolute -right-24 top-[14rem] h-[26rem] w-[26rem] rounded-full bg-calm/8 blur-[120px]" />
-      <div className="absolute bottom-[-8rem] left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-white/40 blur-[130px]" />
+      <div className="absolute bottom-[-8rem] left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-white/40 dark:bg-slate-950/40 blur-[130px]" />
 
       <div className="absolute left-1/2 top-20 hidden h-[34rem] w-[34rem] -translate-x-1/2 xl:block perspective-deep">
         <motion.div
@@ -69,7 +69,7 @@ export function EmotionalBackdrop() {
           animate={{ y: [0, -18, 0], rotateZ: [-1, 1, -1] }}
           transition={{ repeat: Infinity, duration: panel.duration, ease: "easeInOut" }}
         >
-          <div className="glass-card w-64 rounded-[1.6rem] p-4 opacity-40 shadow-sm transition-opacity hover:opacity-100" style={{ transform: panel.transform }}>
+          <div className="glass-card w-64 rounded-[1.6rem] p-4 opacity-40 shadow-sm dark:shadow-none transition-opacity hover:opacity-100" style={{ transform: panel.transform }}>
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-primary/40">
               {panel.eyebrow}
             </p>

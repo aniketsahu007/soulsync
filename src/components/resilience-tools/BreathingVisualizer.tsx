@@ -58,7 +58,7 @@ export function BreathingVisualizer() {
             className="text-center"
           >
             <h3 className="text-2xl font-display font-black mb-2">Safe Breath</h3>
-            <p className="text-slate-500 mb-8 max-w-[240px] mx-auto text-sm">
+            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-[240px] mx-auto text-sm">
               Follow the expanding circle to regulate your nervous system.
             </p>
             <Button variant="hero" size="lg" className="rounded-2xl" onClick={startSession}>
@@ -90,7 +90,7 @@ export function BreathingVisualizer() {
                   backgroundColor: phase === "hold" ? "var(--primary)" : "rgba(var(--primary-rgb), 0.8)",
                 }}
                 transition={{ duration: 4, ease: "easeInOut" }}
-                className="w-32 h-32 bg-primary rounded-full flex items-center justify-center text-white shadow-2xl relative z-10"
+                className="w-32 h-32 bg-primary rounded-full flex items-center justify-center text-white shadow-2xl dark:shadow-none relative z-10"
               >
                 <div className="text-center">
                   <p className="text-[10px] font-black uppercase tracking-widest">{phase}</p>
@@ -110,7 +110,7 @@ export function BreathingVisualizer() {
 
       <div className="mt-8 flex gap-2">
          {[1, 2, 3, 4].map(i => (
-           <div key={i} className={`h-1 rounded-full transition-all duration-1000 ${i <= seconds && phase !== "idle" ? "w-8 bg-primary" : "w-4 bg-slate-100"}`} />
+           <div key={i} className={`h-1 rounded-full transition-all duration-1000 ${i <= seconds && phase !== "idle" ? "w-8 bg-primary" : "w-4 bg-slate-100 dark:bg-slate-900"}`} />
          ))}
       </div>
     </div>

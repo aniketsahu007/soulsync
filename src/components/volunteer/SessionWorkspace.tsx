@@ -190,22 +190,22 @@ export const SessionWorkspace = memo(({
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden bg-white rounded-[3.5rem] shadow-2xl flex flex-col"
+        className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden bg-white dark:bg-slate-950 rounded-[3.5rem] shadow-2xl dark:shadow-none flex flex-col"
       >
-        <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <div className="p-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
            <div className="flex items-center gap-4">
               <div className="h-12 w-12 rounded-2xl bg-primary text-white flex items-center justify-center font-black">
                  {selectedSession.student_profiles?.anonymous_username?.charAt(0)}
               </div>
               <div>
-                 <h2 className="text-xl font-black text-slate-900">Workspace: {selectedSession.student_profiles?.anonymous_username}</h2>
+                 <h2 className="text-xl font-black text-slate-900 dark:text-slate-50">Workspace: {selectedSession.student_profiles?.anonymous_username}</h2>
                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Session ID: {selectedSession.id.slice(0, 12)}</p>
               </div>
            </div>
            <div className="flex items-center gap-3">
               <Button 
                 asChild
-                className="h-12 px-6 rounded-2xl bg-emerald-500 text-white font-black text-xs shadow-lg shadow-emerald-500/10 hover:bg-emerald-600 transition-all"
+                className="h-12 px-6 rounded-2xl bg-emerald-500 text-white font-black text-xs shadow-lg dark:shadow-none shadow-emerald-500/10 hover:bg-emerald-600 transition-all"
               >
                 <a 
                   href={`https://meet.jit.si/SoulSync-Session-${selectedSession.id}`} 
@@ -217,7 +217,7 @@ export const SessionWorkspace = memo(({
                   Join Video Session
                 </a>
               </Button>
-              <button onClick={onClose} className="h-12 w-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-900 transition-all shadow-sm">
+              <button onClick={onClose} className="h-12 w-12 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-slate-400 hover:text-slate-900 dark:text-slate-50 transition-all shadow-sm dark:shadow-none">
                  <X className="h-5 w-5" />
               </button>
            </div>
@@ -232,7 +232,7 @@ export const SessionWorkspace = memo(({
                        <Info className="h-4 w-4" />
                        Handoff Context
                     </h3>
-                    <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 leading-relaxed text-slate-700 text-sm">
+                    <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 leading-relaxed text-slate-700 dark:text-slate-300 text-sm">
                        {selectedSession.handoff_briefing || "No pre-session handoff provided."}
                     </div>
                  </section>
@@ -242,7 +242,7 @@ export const SessionWorkspace = memo(({
                        <FileText className="h-4 w-4" />
                        Student's Booking Notes
                     </h3>
-                    <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 leading-relaxed text-slate-700 text-sm italic">
+                    <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 leading-relaxed text-slate-700 dark:text-slate-300 text-sm italic">
                        {selectedSession.notes ? `"${selectedSession.notes}"` : "No notes provided during booking."}
                     </div>
                  </section>
@@ -252,7 +252,7 @@ export const SessionWorkspace = memo(({
                        <Activity className="h-4 w-4" />
                        Student Mood History
                     </h3>
-                    <div className="h-64 w-full bg-slate-50 rounded-3xl border border-slate-100 p-6">
+                    <div className="h-64 w-full bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6">
                        {moodHistory.length > 0 ? (
                           <MoodChart 
                             data={moodHistory.map(m => ({ 
@@ -277,7 +277,7 @@ export const SessionWorkspace = memo(({
                      </h3>
                      
                      {saState && saState.privacySync ? (
-                        <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl space-y-6 relative overflow-hidden">
+                        <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl dark:shadow-none space-y-6 relative overflow-hidden">
                            {/* Background decorative gradient */}
                            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
                            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -376,7 +376,7 @@ export const SessionWorkspace = memo(({
                                              <div className="bg-blue-400 rounded-full" style={{ width: `${recoveryPct}%` }} title={`Recovery: ${recoveryPct}%`} />
                                              <div className="bg-slate-600 rounded-full" style={{ width: `${leakagePct}%` }} title={`Leakage: ${leakagePct}%`} />
                                           </div>
-                                          <span className="text-[9px] text-slate-500 font-bold block truncate">{balanceLabel}</span>
+                                          <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold block truncate">{balanceLabel}</span>
                                        </>
                                     ) : (
                                        <span className="text-xs font-bold text-slate-400">No logs yet</span>
@@ -399,7 +399,7 @@ export const SessionWorkspace = memo(({
                            {/* Raw memory context if exists and is not purely json */}
                            {memoryData.aiMemory && (
                               <div className="pt-2 border-t border-slate-800">
-                                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block mb-1">AI Clinical Memory Notes</span>
+                                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">AI Clinical Memory Notes</span>
                                  <p className="text-xs text-slate-400 leading-relaxed italic">
                                     "{memoryData.aiMemory}"
                                  </p>
@@ -423,7 +423,7 @@ export const SessionWorkspace = memo(({
                               </div>
                            </div>
                            {memoryData.aiMemory ? (
-                              <div className="p-4 rounded-2xl bg-white border border-indigo-100 text-xs text-slate-700 italic leading-relaxed">
+                              <div className="p-4 rounded-2xl bg-white dark:bg-slate-950 border border-indigo-100 text-xs text-slate-700 dark:text-slate-300 italic leading-relaxed">
                                  "{memoryData.aiMemory}"
                               </div>
                            ) : (
@@ -441,18 +441,18 @@ export const SessionWorkspace = memo(({
                     <div className="space-y-3">
                        {pastNotes.length > 0 ? (
                          pastNotes.map((note) => (
-                           <div key={note.id} className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                           <div key={note.id} className="p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
                                {new Date(note.created_at).toLocaleDateString()}
                              </p>
-                             <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                             <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
                                {note.volunteer_notes}
                              </p>
                            </div>
                          ))
                        ) : (
-                         <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 text-center">
-                           <p className="text-sm text-slate-500 italic">First time support session or no previous notes found.</p>
+                         <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-center">
+                           <p className="text-sm text-slate-500 dark:text-slate-400 italic">First time support session or no previous notes found.</p>
                          </div>
                        )}
                     </div>
@@ -484,7 +484,7 @@ export const SessionWorkspace = memo(({
                     
                     <div className="relative flex-1 group">
                        {!isEditing ? (
-                         <div className="w-full h-80 lg:h-full min-h-[400px] p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 overflow-y-auto text-sm text-slate-700 leading-relaxed">
+                         <div className="w-full h-80 lg:h-full min-h-[400px] p-8 rounded-[2.5rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 overflow-y-auto text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                             <div className="whitespace-pre-wrap">{newNote}</div>
                          </div>
                        ) : (
@@ -492,14 +492,14 @@ export const SessionWorkspace = memo(({
                            value={newNote}
                            onChange={(e) => setNewNote(e.target.value)}
                            placeholder="Synthesize the session, key takeaways, and handoff notes for the next volunteer..."
-                           className="w-full h-80 lg:h-full min-h-[400px] p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 focus:bg-white focus:ring-8 focus:ring-primary/5 transition-all outline-none text-sm text-slate-700 leading-relaxed resize-none"
+                           className="w-full h-80 lg:h-full min-h-[400px] p-8 rounded-[2.5rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 focus:bg-white dark:bg-slate-950 focus:ring-8 focus:ring-primary/5 transition-all outline-none text-sm text-slate-700 dark:text-slate-300 leading-relaxed resize-none"
                          />
                        )}
                        <div className="absolute bottom-6 right-6 flex items-center gap-3">
                           {!isEditing ? (
                             <Button 
                               onClick={() => setIsEditing(true)}
-                              className="h-12 px-8 rounded-2xl bg-white border border-slate-200 text-slate-700 font-black text-xs shadow-sm transition-all hover:bg-slate-50 active:scale-95"
+                              className="h-12 px-8 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-black text-xs shadow-sm dark:shadow-none transition-all hover:bg-slate-50 dark:bg-slate-900 active:scale-95"
                             >
                                Edit
                             </Button>
@@ -507,7 +507,7 @@ export const SessionWorkspace = memo(({
                             <Button 
                               onClick={onSaveNote}
                               disabled={notesLoading || !newNote.trim()}
-                              className="h-12 px-8 rounded-2xl bg-slate-900 text-white font-black text-xs shadow-xl transition-all hover:scale-105 active:scale-95"
+                              className="h-12 px-8 rounded-2xl bg-slate-900 text-white font-black text-xs shadow-xl dark:shadow-none transition-all hover:scale-105 active:scale-95"
                             >
                                {notesLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : "Secure Save"}
                             </Button>

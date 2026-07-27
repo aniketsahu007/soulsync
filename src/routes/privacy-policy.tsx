@@ -72,7 +72,7 @@ function PrivacyPolicyPage() {
 
 function DesktopPrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <Navbar />
 
       {/* Hero */}
@@ -88,10 +88,10 @@ function DesktopPrivacyPolicyPage() {
               <Shield className="h-4 w-4 text-indigo-500" />
               <span className="text-xs font-black text-indigo-700 uppercase tracking-widest">Privacy First</span>
             </div>
-            <h1 className="text-4xl sm:text-6xl font-black text-slate-900 leading-tight mb-6">
+            <h1 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-slate-50 leading-tight mb-6">
               Privacy <span className="text-primary">Policy</span>
             </h1>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
+            <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               At SoulSync, your privacy and anonymity are foundational — not afterthoughts. Here is exactly what we collect, how we use it, and how you stay in control.
             </p>
             <p className="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
@@ -110,15 +110,15 @@ function DesktopPrivacyPolicyPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow"
+              className="p-8 rounded-3xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none hover:shadow-md dark:shadow-none transition-shadow"
             >
               <div className="flex items-start gap-5">
                 <div className={`h-12 w-12 shrink-0 rounded-2xl ${section.bg} flex items-center justify-center`}>
                   <section.icon className={`h-6 w-6 ${section.color}`} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-black text-slate-900 mb-3">{section.title}</h2>
-                  <p className="text-sm text-slate-600 leading-relaxed">{section.content}</p>
+                  <h2 className="text-lg font-black text-slate-900 dark:text-slate-50 mb-3">{section.title}</h2>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{section.content}</p>
                 </div>
               </div>
             </motion.div>

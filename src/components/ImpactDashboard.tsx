@@ -27,7 +27,7 @@ export function ImpactDashboard() {
           
           <div className="flex-1 space-y-10">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-6 border border-white/10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/5 dark:bg-slate-950/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-6 border border-white/10">
                 <Sparkles className="h-3.5 w-3.5" />
                 Evidence of Impact
               </div>
@@ -41,26 +41,26 @@ export function ImpactDashboard() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10">
+              <div className="p-8 rounded-[2.5rem] bg-white/5 dark:bg-slate-950/5 border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 dark:bg-slate-950/10">
                 <div className="h-12 w-12 bg-rose-500/20 rounded-2xl flex items-center justify-center mb-4">
                   <TrendingDown className="h-6 w-6 text-rose-500" />
                 </div>
                 <p className="text-3xl font-black text-white">-72%</p>
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Avg. Stress Reduction</p>
+                <p className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">Avg. Stress Reduction</p>
               </div>
-              <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10">
+              <div className="p-8 rounded-[2.5rem] bg-white/5 dark:bg-slate-950/5 border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 dark:bg-slate-950/10">
                 <div className="h-12 w-12 bg-primary/20 rounded-2xl flex items-center justify-center mb-4">
                   <Activity className="h-6 w-6 text-primary" />
                 </div>
                 <p className="text-3xl font-black text-white">30+</p>
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Successful Pilot Sessions</p>
+                <p className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">Successful Pilot Sessions</p>
               </div>
             </div>
           </div>
 
           <div className="flex-1 w-full relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-emerald-600 rounded-[3.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
-            <div className="relative bg-navy p-10 rounded-[3.5rem] shadow-2xl border border-white/10 overflow-hidden ring-1 ring-white/5">
+            <div className="relative bg-navy p-10 rounded-[3.5rem] shadow-2xl dark:shadow-none border border-white/10 overflow-hidden ring-1 ring-white/5">
                <div className="flex items-center justify-between mb-10">
                   <h3 className="font-display font-black text-xl text-white">The Pilot Healing Curve</h3>
                   <div className="flex gap-6 text-[10px] font-black uppercase tracking-[0.2em]">
@@ -118,8 +118,8 @@ export function ImpactDashboard() {
                   </ResponsiveContainer>
                </div>
                
-               <div className="mt-12 p-6 bg-white/5 rounded-3xl border border-white/5 flex items-center gap-6">
-                  <div className="h-10 w-10 rounded-2xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
+               <div className="mt-12 p-6 bg-white/5 dark:bg-slate-950/5 rounded-3xl border border-white/5 flex items-center gap-6">
+                  <div className="h-10 w-10 rounded-2xl bg-primary flex items-center justify-center shrink-0 shadow-lg dark:shadow-none shadow-primary/20">
                      <Heart className="h-5 w-5 text-white" />
                   </div>
                   <p className="text-xs text-slate-400 font-bold leading-relaxed">

@@ -35,7 +35,7 @@ export function GroundingJourney() {
         {currentStep === -1 ? (
           <motion.div key="intro" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="text-center">
             <h3 className="text-2xl font-display font-black mb-2">Grounding Journey</h3>
-            <p className="text-slate-500 mb-8 max-w-[240px] mx-auto text-sm">
+            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-[240px] mx-auto text-sm">
               Use the 5-4-3-2-1 technique to reconnect with the physical world.
             </p>
             <Button variant="hero" className="rounded-2xl bg-safe hover:bg-safe/90" onClick={next}>
@@ -53,7 +53,7 @@ export function GroundingJourney() {
               </div>
             </div>
             <h4 className="text-xl font-display font-black mb-2">{steps[currentStep].label}</h4>
-            <p className="text-slate-500 mb-8 text-sm">{steps[currentStep].instruction}</p>
+            <p className="text-slate-500 dark:text-slate-400 mb-8 text-sm">{steps[currentStep].instruction}</p>
             <Button variant="outline" className="rounded-xl border-safe/20 text-safe w-full" onClick={next}>
               I've noticed them <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
@@ -64,7 +64,7 @@ export function GroundingJourney() {
               <Check className="h-10 w-10" />
             </div>
             <h3 className="text-2xl font-display font-black mb-2">Well Grounded</h3>
-            <p className="text-slate-500 mb-8 text-sm">You've finished your journey. How do you feel now?</p>
+            <p className="text-slate-500 dark:text-slate-400 mb-8 text-sm">You've finished your journey. How do you feel now?</p>
             <Button variant="outline" className="rounded-xl" onClick={reset}>Try Again</Button>
           </motion.div>
         )}
@@ -73,7 +73,7 @@ export function GroundingJourney() {
       {/* Progress indicators at bottom */}
       <div className="mt-8 flex gap-2">
         {steps.map((_, i) => (
-          <div key={i} className={`h-1.5 rounded-full transition-all duration-500 ${i <= currentStep ? "w-8 bg-safe" : "w-4 bg-slate-100"}`} />
+          <div key={i} className={`h-1.5 rounded-full transition-all duration-500 ${i <= currentStep ? "w-8 bg-safe" : "w-4 bg-slate-100 dark:bg-slate-900"}`} />
         ))}
       </div>
     </div>

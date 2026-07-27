@@ -164,7 +164,7 @@ function DesktopCommunityQnAPage() {
           <h1 className="font-display text-4xl sm:text-5xl font-black tracking-tight">
             Common <span className="text-gradient">Humanity</span>
           </h1>
-          <p className="mt-4 text-slate-500 max-w-lg mx-auto font-medium">
+          <p className="mt-4 text-slate-500 dark:text-slate-400 max-w-lg mx-auto font-medium">
              Reading these peer stories helps you realize that your internal struggles are a shared part of the student experience.
           </p>
         </motion.div>
@@ -176,17 +176,17 @@ function DesktopCommunityQnAPage() {
           className="relative mb-16 group"
         >
           <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-calm/20 to-primary/20 rounded-[3rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
-          <div className="relative rounded-[2.8rem] bg-white/70 backdrop-blur-xl border border-white/50 p-10 shadow-2xl overflow-hidden ring-1 ring-slate-100/50">
+          <div className="relative rounded-[2.8rem] bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border border-white/50 p-10 shadow-2xl dark:shadow-none overflow-hidden ring-1 ring-slate-100/50">
              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <Sparkles className="h-24 w-24 text-primary" />
              </div>
              
              <div className="flex items-center gap-4 mb-8">
-                <div className="h-12 w-12 rounded-2xl bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/25">
+                <div className="h-12 w-12 rounded-2xl bg-primary text-white flex items-center justify-center shadow-lg dark:shadow-none shadow-primary/25">
                    <Plus className="h-6 w-6" />
                 </div>
                 <div>
-                   <h3 className="font-display font-black text-xl text-slate-800">Ask Anonymously</h3>
+                   <h3 className="font-display font-black text-xl text-slate-800 dark:text-slate-200">Ask Anonymously</h3>
                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Share your thought, find your peers</p>
                 </div>
              </div>
@@ -197,7 +197,7 @@ function DesktopCommunityQnAPage() {
                      value={newQuestion}
                      onChange={(e) => setNewQuestion(e.target.value)}
                      placeholder="What's been on your mind? (e.g., 'Is it normal to feel like a fraud even when I succeed?')"
-                     className="w-full rounded-[2rem] border-2 border-slate-50 bg-white/80 p-6 text-sm font-medium placeholder:text-slate-300 focus:outline-none focus:border-primary/30 min-h-[140px] resize-none transition-all shadow-inner"
+                     className="w-full rounded-[2rem] border-2 border-slate-50 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 p-6 text-sm font-medium placeholder:text-slate-300 focus:outline-none focus:border-primary/30 min-h-[140px] resize-none transition-all shadow-inner"
                    />
                    <div className="absolute bottom-4 right-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                       <Info className="h-3 w-3" /> Anonymous by default
@@ -210,7 +210,7 @@ function DesktopCommunityQnAPage() {
                          <button 
                             key={cat}
                             onClick={() => setNewCategory(cat)}
-                            className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${newCategory === cat ? 'bg-slate-800 text-white shadow-xl scale-105' : 'bg-slate-100/50 text-slate-500 hover:bg-white hover:shadow-sm'}`}
+                            className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${newCategory === cat ? 'bg-slate-800 text-white shadow-xl dark:shadow-none scale-105' : 'bg-slate-100/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 hover:bg-white dark:bg-slate-950 hover:shadow-sm dark:shadow-none'}`}
                          >
                             {cat}
                          </button>
@@ -219,7 +219,7 @@ function DesktopCommunityQnAPage() {
                    <Button 
                       onClick={handleAsk}
                       disabled={isSubmitting || !newQuestion.trim()}
-                      className="h-14 rounded-full px-12 font-black gap-3 text-lg transition-all hover:scale-105 active:scale-95 shadow-xl shadow-primary/20"
+                      className="h-14 rounded-full px-12 font-black gap-3 text-lg transition-all hover:scale-105 active:scale-95 shadow-xl dark:shadow-none shadow-primary/20"
                    >
                       {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
                       Launch Question
@@ -237,8 +237,8 @@ function DesktopCommunityQnAPage() {
               onClick={() => setSelectedCategory(cat)}
               className={`rounded-full px-5 py-2 text-sm font-bold transition-all ${
                 selectedCategory === cat
-                  ? "bg-slate-900 text-white shadow-xl scale-105"
-                  : "bg-white text-slate-500 hover:bg-slate-50 border border-slate-100"
+                  ? "bg-slate-900 text-white shadow-xl dark:shadow-none scale-105"
+                  : "bg-white dark:bg-slate-950 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800"
               }`}
             >
               {cat}
@@ -251,10 +251,10 @@ function DesktopCommunityQnAPage() {
           {isLoading ? (
              <div className="flex flex-col items-center justify-center py-24 gap-4 opacity-30">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-800">Tuning Community Frequencies...</p>
+                <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-800 dark:text-slate-200">Tuning Community Frequencies...</p>
              </div>
           ) : filtered.length === 0 ? (
-             <div className="text-center py-24 bg-slate-50 rounded-[3.5rem] border-2 border-dashed border-slate-200">
+             <div className="text-center py-24 bg-slate-50 dark:bg-slate-900 rounded-[3.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800">
                 <HelpCircle className="mx-auto h-16 w-16 text-slate-200 mb-6" />
                 <p className="text-lg font-bold text-slate-400 italic">Be the first voice in this shared space.</p>
              </div>
@@ -264,7 +264,7 @@ function DesktopCommunityQnAPage() {
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-[3rem] border border-slate-100 bg-white/50 backdrop-blur-sm overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group"
+                className="rounded-[3rem] border border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm overflow-hidden shadow-sm dark:shadow-none hover:shadow-xl dark:shadow-none transition-all duration-500 group"
               >
                 <div className="p-8">
                   <div className="flex items-start gap-5">
@@ -276,26 +276,26 @@ function DesktopCommunityQnAPage() {
                         onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
                         className="text-left w-full group/title"
                       >
-                        <p className="text-lg font-bold leading-[1.6] text-slate-800 transition-colors group-hover/title:text-primary">{item.question}</p>
+                        <p className="text-lg font-bold leading-[1.6] text-slate-800 dark:text-slate-200 transition-colors group-hover/title:text-primary">{item.question}</p>
                       </button>
                       
                       <div className="flex flex-wrap items-center gap-4 mt-6">
                         <button 
                           onClick={() => handleRelate(item.id, item.relate_count)}
-                          className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-100/50 px-4 py-2 rounded-full hover:bg-primary/10 hover:text-primary transition-all"
+                          className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-100/50 dark:bg-slate-900/50 px-4 py-2 rounded-full hover:bg-primary/10 hover:text-primary transition-all"
                         >
                           <Heart className={`h-4 w-4 ${item.relate_count > 0 ? "fill-primary text-primary" : ""}`} /> 
                           <span>{item.relate_count}</span>
                           <span className="text-slate-400 font-medium">relate</span>
                         </button>
                         
-                        <div className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-100/50 px-4 py-2 rounded-full">
+                        <div className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-100/50 dark:bg-slate-900/50 px-4 py-2 rounded-full">
                           <MessageCircle className="h-4 w-4" /> 
                           <span>{item.responses_count || (item.responses?.length || 0)}</span>
                           <span className="text-slate-400 font-medium">responses</span>
                         </div>
                         
-                        <span className="text-[10px] font-black uppercase tracking-widest bg-slate-100 px-4 py-2 rounded-full text-slate-400 ml-auto">
+                        <span className="text-[10px] font-black uppercase tracking-widest bg-slate-100 dark:bg-slate-900 px-4 py-2 rounded-full text-slate-400 ml-auto">
                           {item.category}
                         </span>
                       </div>
@@ -311,7 +311,7 @@ function DesktopCommunityQnAPage() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mt-8 pt-8 border-t border-slate-50"
+                        className="mt-8 pt-8 border-t border-slate-50 dark:border-slate-800"
                       >
                         {/* SoulSync Guidance */}
                         <div className="mb-8 rounded-[2rem] bg-primary/5 p-6 border-l-4 border-primary">
@@ -319,13 +319,13 @@ function DesktopCommunityQnAPage() {
                              <Sparkles className="h-4 w-4 text-primary" />
                              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">SoulSync Guidance</span>
                           </div>
-                          <p className="text-sm text-slate-600 leading-relaxed italic">
+                          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed italic">
                              {item.answer || "This question is awaiting a peer or community response. You aren't alone in feeling this way."}
                           </p>
                         </div>
 
                         {/* Peer Responses Feed */}
-                        <div className="space-y-4 pl-4 border-l-2 border-slate-100">
+                        <div className="space-y-4 pl-4 border-l-2 border-slate-100 dark:border-slate-800">
                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Peer Voice</h4>
                            {item.responses && item.responses.length > 0 ? (
                               item.responses.map(resp => (
@@ -333,7 +333,7 @@ function DesktopCommunityQnAPage() {
                                    key={resp.id} 
                                    initial={{ opacity: 0, x: -10 }}
                                    animate={{ opacity: 1, x: 0 }}
-                                   className="rounded-2xl bg-slate-50 p-4 text-xs text-slate-600 leading-relaxed"
+                                   className="rounded-2xl bg-slate-50 dark:bg-slate-900 p-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed"
                                  >
                                     {resp.response_text}
                                     <div className="mt-2 text-[9px] font-bold text-slate-300 uppercase tracking-widest">
@@ -346,14 +346,14 @@ function DesktopCommunityQnAPage() {
                            )}
 
                            {/* Add Response Input */}
-                           <div className="mt-6 pt-4 border-t border-slate-50">
+                           <div className="mt-6 pt-4 border-t border-slate-50 dark:border-slate-800">
                               <div className="flex items-center gap-3">
                                  <input 
                                    type="text"
                                    value={activeResponse}
                                    onChange={(e) => setActiveResponse(e.target.value)}
                                    placeholder="Add a word of support..."
-                                   className="flex-1 rounded-xl border border-slate-100 bg-white px-4 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary/30"
+                                   className="flex-1 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary/30"
                                  />
                                  <Button 
                                    variant="ghost" 

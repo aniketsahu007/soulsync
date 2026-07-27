@@ -33,9 +33,9 @@ export function ComparisonSection() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-[3rem] border border-slate-100 bg-slate-50/50 p-10 sm:p-14"
+            className="rounded-[3rem] border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-10 sm:p-14"
           >
-            <h3 className="font-display text-2xl font-semibold text-slate-500">
+            <h3 className="font-display text-2xl font-semibold text-slate-500 dark:text-slate-400">
               The Ordinary Experience
             </h3>
             <ul className="mt-8 space-y-6">
@@ -44,7 +44,7 @@ export function ComparisonSection() {
                   <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200/50 text-slate-400">
                     <X className="h-4 w-4" />
                   </div>
-                  <p className="text-sm leading-7 text-slate-500 font-medium">{item}</p>
+                  <p className="text-sm leading-7 text-slate-500 dark:text-slate-400 font-medium">{item}</p>
                 </li>
               ))}
             </ul>
@@ -57,7 +57,7 @@ export function ComparisonSection() {
             className="relative perspective-deep"
           >
             <div
-              className="glass-card rounded-[3rem] p-10 sm:p-14 border-primary/20 shadow-2xl shadow-primary/10"
+              className="glass-card rounded-[3rem] p-10 sm:p-14 border-primary/20 shadow-2xl dark:shadow-none shadow-primary/10"
               style={{ transform: "rotateY(-4deg)" }}
             >
               <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 h-32 w-32 bg-primary/10 blur-3xl" />

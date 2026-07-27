@@ -269,7 +269,7 @@ function VolunteerPage() {
                                 form.setValue("expertise", next, { shouldValidate: true });
                               }}
                               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                                isSelected ? "bg-primary text-primary-foreground shadow-md" : "bg-muted text-muted-foreground hover:bg-accent"
+                                isSelected ? "bg-primary text-primary-foreground shadow-md dark:shadow-none" : "bg-muted text-muted-foreground hover:bg-accent"
                               }`}
                             >
                               {opt}
@@ -301,7 +301,7 @@ function VolunteerPage() {
                                 form.setValue("languages", next, { shouldValidate: true });
                               }}
                               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                                isSelected ? "bg-calm text-calm-foreground shadow-md" : "bg-muted text-muted-foreground hover:bg-accent"
+                                isSelected ? "bg-calm text-calm-foreground shadow-md dark:shadow-none" : "bg-muted text-muted-foreground hover:bg-accent"
                               }`}
                             >
                               {lang}
@@ -405,13 +405,13 @@ function VolunteerPage() {
 
         {/* Success */}
         {formState === "submitted" && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-[2.5rem] border-none shadow-2xl bg-white p-12 text-center">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-[2.5rem] border-none shadow-2xl dark:shadow-none bg-white dark:bg-slate-950 p-12 text-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-safe/10 mx-auto mb-6">
               <CheckCircle className="h-10 w-10 text-safe" />
             </div>
             <h2 className="font-display text-2xl font-black text-safe uppercase tracking-tight">Application Submitted!</h2>
-            <div className="mt-6 p-6 bg-slate-50 rounded-3xl border border-slate-100 max-w-sm mx-auto">
-              <p className="text-sm text-slate-600 font-medium italic">
+            <div className="mt-6 p-6 bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 max-w-sm mx-auto">
+              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium italic">
                 "Your journey as a peer listener begins here. Every student's heart you touch matters."
               </p>
             </div>

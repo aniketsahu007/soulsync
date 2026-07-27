@@ -16,12 +16,12 @@ export function CTASection() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-[0.3em] text-primary-foreground border border-white/20 mb-8 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 dark:bg-slate-950/10 px-5 py-2 text-xs font-bold uppercase tracking-[0.3em] text-primary-foreground border border-white/20 mb-8 backdrop-blur-md">
             <Sparkles className="h-4 w-4 text-emerald-300" />
             <span className="text-white">Take the First Step</span>
           </div>
 
-          <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-tight mb-8 drop-shadow-lg">
+          <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-tight mb-8 drop-shadow-lg dark:shadow-none">
             "I don't have to go through this alone."
           </h2>
 
@@ -32,7 +32,7 @@ export function CTASection() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link to="/chat">
-              <button className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-white px-8 py-5 font-bold text-slate-900 transition-all hover:scale-105 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-950 shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] w-full sm:w-auto text-lg">
+              <button className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-white dark:bg-slate-950 px-8 py-5 font-bold text-slate-900 dark:text-slate-50 transition-all hover:scale-105 hover:bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-950 shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] w-full sm:w-auto text-lg">
                 <span className="relative z-10 flex items-center gap-2">
                   Start a Conversation
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -40,7 +40,7 @@ export function CTASection() {
               </button>
             </Link>
             <Link to="/resources">
-              <button className="inline-flex items-center justify-center gap-3 rounded-full bg-white/10 border border-white/20 px-8 py-5 font-bold text-white transition-all hover:bg-white/20 hover:scale-105 w-full sm:w-auto text-lg backdrop-blur-md">
+              <button className="inline-flex items-center justify-center gap-3 rounded-full bg-white/10 dark:bg-slate-950/10 border border-white/20 px-8 py-5 font-bold text-white transition-all hover:bg-white/20 dark:bg-slate-950/20 hover:scale-105 w-full sm:w-auto text-lg backdrop-blur-md">
                 Explore Resources
               </button>
             </Link>

@@ -106,7 +106,7 @@ function MyBookingCard({ booking }: { booking: Booking }) {
       animate={{ opacity: 1, y: 0 }}
       className={`mb-8 rounded-2xl border-2 p-5 ${
         isLive
-          ? "bg-red-50 border-red-300 shadow-md"
+          ? "bg-red-50 border-red-300 shadow-md dark:shadow-none"
           : "bg-primary/5 border-primary/30"
       }`}
     >
@@ -137,7 +137,7 @@ function MyBookingCard({ booking }: { booking: Booking }) {
             >
               {isLive ? "🔴 Session Live Now" : "Your Booked Session"}
             </p>
-            <p className="text-sm font-bold text-slate-800">
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-200">
               {volunteer?.name
                 ? `Peer: ${volunteer.name}`
                 : "Peer Support Session"}
@@ -152,7 +152,7 @@ function MyBookingCard({ booking }: { booking: Booking }) {
               ? "bg-red-100 text-red-600"
               : isUpcoming
               ? "bg-primary/10 text-primary"
-              : "bg-slate-100 text-slate-400"
+              : "bg-slate-100 dark:bg-slate-900 text-slate-400"
           }`}
         >
           {isLive ? "Live" : isUpcoming ? "Upcoming" : "Active"}
@@ -160,7 +160,7 @@ function MyBookingCard({ booking }: { booking: Booking }) {
       </div>
 
       {/* Date / time row */}
-      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-600">
+      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-600 dark:text-slate-400">
         <span className="flex items-center gap-1.5">
           <Calendar className="h-3.5 w-3.5 text-slate-400" />
           {format(startDt, "EEE, MMM d, yyyy")}
@@ -181,16 +181,16 @@ function MyBookingCard({ booking }: { booking: Booking }) {
       {roomId ? (
         <div
           className={`mt-4 rounded-xl p-4 ${
-            isLive ? "bg-red-100/60" : "bg-white/70"
+            isLive ? "bg-red-100/60" : "bg-white/70 dark:bg-slate-950/70"
           } border ${isLive ? "border-red-200" : "border-primary/10"}`}
         >
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">
             Room Credentials
           </p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="flex-1">
-              <p className="text-xs text-slate-500">Room ID</p>
-              <p className="font-mono font-bold text-sm text-slate-800 break-all">
+              <p className="text-xs text-slate-500 dark:text-slate-400">Room ID</p>
+              <p className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 break-all">
                 {roomId}
               </p>
             </div>
@@ -198,7 +198,7 @@ function MyBookingCard({ booking }: { booking: Booking }) {
               <Button
                 variant={isLive ? "hero" : "outline"}
                 size="sm"
-                className={`rounded-xl shrink-0 ${isLive ? "animate-pulse shadow-md" : "border-primary/30"}`}
+                className={`rounded-xl shrink-0 ${isLive ? "animate-pulse shadow-md dark:shadow-none" : "border-primary/30"}`}
                 onClick={() => window.open(joinUrl, "_blank")}
               >
                 {isLive ? (
@@ -778,7 +778,7 @@ function DesktopPeerMatchPage() {
 
           {/* ── My Booked Session card (reads from DB, persistent) ── */}
           {bookingLoading || identityLoading ? (
-            <div className="mb-8 h-28 rounded-2xl bg-slate-100 animate-pulse" />
+            <div className="mb-8 h-28 rounded-2xl bg-slate-100 dark:bg-slate-900 animate-pulse" />
           ) : myBooking ? (
             <MyBookingCard booking={myBooking} />
           ) : (
@@ -787,8 +787,8 @@ function DesktopPeerMatchPage() {
                 <Calendar className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-700">No upcoming session</p>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No upcoming session</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Book a session below — your room ID will appear here automatically.
                 </p>
               </div>
@@ -829,7 +829,7 @@ function DesktopPeerMatchPage() {
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.9, opacity: 0 }}
-                  className="bg-card rounded-2xl p-8 max-w-md w-full shadow-xl"
+                  className="bg-card rounded-2xl p-8 max-w-md w-full shadow-xl dark:shadow-none"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="text-center">
@@ -921,7 +921,7 @@ function DesktopPeerMatchPage() {
                   {issueTypes.map((issue) => (
                     <Card
                       key={issue.id}
-                      className={`cursor-pointer hover:border-primary/50 hover:shadow-md transition-all text-center ${isMobile ? "p-4 rounded-[1.25rem]" : "p-4"}`}
+                      className={`cursor-pointer hover:border-primary/50 hover:shadow-md dark:shadow-none transition-all text-center ${isMobile ? "p-4 rounded-[1.25rem]" : "p-4"}`}
                       onClick={() => handleIssueSelect(issue.id)}
                     >
                       <span className="text-3xl">{issue.icon}</span>
@@ -934,7 +934,7 @@ function DesktopPeerMatchPage() {
 
             {step === "survey" && (
               <motion.div key="survey" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 bg-white shadow-xl rounded-[2.5rem]"} border-none bg-white shadow-xl`}>
+                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 bg-white dark:bg-slate-950 shadow-xl dark:shadow-none rounded-[2.5rem]"} border-none bg-white dark:bg-slate-950 shadow-xl dark:shadow-none`}>
                   <div className="mb-8">
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
@@ -944,7 +944,7 @@ function DesktopPeerMatchPage() {
                         {currentSurveyIdx + 1} / {surveyQuestions.length}
                       </span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden">
                       <motion.div 
                         className="h-full bg-primary" 
                         initial={{ width: 0 }}
@@ -962,7 +962,7 @@ function DesktopPeerMatchPage() {
                       <button
                         key={opt}
                         onClick={() => handleSurveyOption(opt)}
-                        className={`w-full border-2 border-slate-100 text-left font-bold transition-all hover:border-primary/40 hover:bg-primary/5 active:scale-[0.98] ${isMobile ? "rounded-[1.1rem] p-4 text-sm" : "rounded-2xl p-5"}`}
+                        className={`w-full border-2 border-slate-100 dark:border-slate-800 text-left font-bold transition-all hover:border-primary/40 hover:bg-primary/5 active:scale-[0.98] ${isMobile ? "rounded-[1.1rem] p-4 text-sm" : "rounded-2xl p-5"}`}
                       >
                         {opt}
                       </button>
@@ -999,7 +999,7 @@ function DesktopPeerMatchPage() {
                     {sortedVolunteers.map((vol) => (
                       <Card
                         key={vol.id}
-                        className={`cursor-pointer hover:border-primary/50 hover:shadow-md transition-all ${isMobile ? "p-4 rounded-[1.25rem]" : "p-5"}`}
+                        className={`cursor-pointer hover:border-primary/50 hover:shadow-md dark:shadow-none transition-all ${isMobile ? "p-4 rounded-[1.25rem]" : "p-5"}`}
                         onClick={() => handleVolunteerSelect(vol)}
                       >
                         <div className="flex items-start gap-4">
@@ -1060,7 +1060,7 @@ function DesktopPeerMatchPage() {
                 <motion.div key="slots" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                   <div className={`mb-6 flex ${isMobile ? "flex-col items-start gap-2" : "items-center justify-between"}`}>
                     <div>
-                      <h2 className="font-display text-xl font-black text-slate-900">
+                      <h2 className="font-display text-xl font-black text-slate-900 dark:text-slate-50">
                         Pick a Date & Time
                       </h2>
                       <p className="text-xs text-slate-400 font-medium mt-0.5">All times shown in IST · with {selectedVolunteer?.name}</p>
@@ -1080,8 +1080,8 @@ function DesktopPeerMatchPage() {
                           onClick={() => setSelectedDate(dateStr)}
                           className={`flex flex-col items-center shrink-0 ${isMobile ? "w-[4.5rem]" : "w-16"} py-3 rounded-2xl border transition-all duration-200 ${
                             isActive
-                              ? "bg-slate-900 border-slate-900 text-white shadow-lg"
-                              : "bg-white border-slate-200 text-slate-600 hover:border-primary/40 hover:bg-primary/5"
+                              ? "bg-slate-900 border-slate-900 text-white shadow-lg dark:shadow-none"
+                              : "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-primary/40 hover:bg-primary/5"
                           }`}
                         >
                           <span className={`text-[10px] font-black uppercase tracking-widest ${
@@ -1090,7 +1090,7 @@ function DesktopPeerMatchPage() {
                             {d.toLocaleDateString("en-IN", { weekday: "short" })}
                           </span>
                           <span className={`text-2xl font-black leading-tight ${
-                            isActive ? "text-white" : "text-slate-800"
+                            isActive ? "text-white" : "text-slate-800 dark:text-slate-200"
                           }`}>
                             {d.getDate()}
                           </span>
@@ -1118,10 +1118,10 @@ function DesktopPeerMatchPage() {
                             <button
                               key={slot.id}
                               onClick={() => handleSlotSelect(slot)}
-                               className={`flex flex-col items-center justify-center border-2 border-slate-100 bg-white hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 group ${isMobile ? "rounded-[1.25rem] p-4" : "rounded-2xl p-4"}`}
+                               className={`flex flex-col items-center justify-center border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-primary hover:bg-primary/5 hover:shadow-md dark:shadow-none transition-all duration-200 group ${isMobile ? "rounded-[1.25rem] p-4" : "rounded-2xl p-4"}`}
                             >
                               <Clock className="h-5 w-5 text-slate-300 group-hover:text-primary mb-2 transition-colors" />
-                              <span className="font-black text-slate-800 text-sm">{toIST(slot.slot_date, slot.start_time)}</span>
+                              <span className="font-black text-slate-800 dark:text-slate-200 text-sm">{toIST(slot.slot_date, slot.start_time)}</span>
                               <span className="text-[10px] text-slate-400 font-medium mt-0.5">to {toIST(slot.slot_date, slot.end_time)}</span>
                               <span className="mt-2 text-[9px] font-black uppercase tracking-widest text-emerald-500">Available</span>
                             </button>
@@ -1230,7 +1230,7 @@ function DesktopPeerMatchPage() {
                     {!hasJoined ? (
                       <Button 
                         variant="hero" 
-                        className="rounded-xl h-14 text-lg shadow-xl" 
+                        className="rounded-xl h-14 text-lg shadow-xl dark:shadow-none" 
                         onClick={() => {
                           setHasJoined(true);
                           const roomIdToJoin = myBooking?.id && myBooking.id !== "pending" ? myBooking.id : meetingToken;
@@ -1255,7 +1255,7 @@ function DesktopPeerMatchPage() {
                     >
                       <Calendar className="h-4 w-4 mr-2" /> Add to Google Calendar
                     </Button>
-                    <Button variant="ghost" className="rounded-xl text-slate-400 hover:text-slate-600" onClick={resetFlow}>
+                    <Button variant="ghost" className="rounded-xl text-slate-400 hover:text-slate-600 dark:text-slate-400" onClick={resetFlow}>
                       Return to Start
                     </Button>
                   </div>
@@ -1265,7 +1265,7 @@ function DesktopPeerMatchPage() {
 
             {step === "feedback" && (
               <motion.div key="feedback" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 rounded-[2.5rem]"} text-center bg-white shadow-xl`}>
+                <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 rounded-[2.5rem]"} text-center bg-white dark:bg-slate-950 shadow-xl dark:shadow-none`}>
                    <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Heart className="h-8 w-8 text-primary" />
                   </div>
@@ -1276,7 +1276,7 @@ function DesktopPeerMatchPage() {
                         key={num}
                         onClick={() => setMoodRating(num)}
                         className={`h-12 w-12 rounded-xl border-2 transition-all font-bold flex items-center justify-center ${
-                          moodRating === num ? "border-primary bg-primary text-white" : "border-slate-100 bg-slate-50"
+                          moodRating === num ? "border-primary bg-primary text-white" : "border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900"
                         }`}
                       >
                         {num === 1 ? "😞" : num === 2 ? "😕" : num === 3 ? "😐" : num === 4 ? "🙂" : "😊"}
@@ -1286,7 +1286,7 @@ function DesktopPeerMatchPage() {
 
                   <Button 
                     variant="hero" 
-                    className="w-full h-14 rounded-2xl text-lg font-bold shadow-xl"
+                    className="w-full h-14 rounded-2xl text-lg font-bold shadow-xl dark:shadow-none"
                     disabled={moodRating === null || loading}
                     onClick={handleFeedback}
                   >

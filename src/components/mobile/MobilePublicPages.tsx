@@ -55,13 +55,13 @@ const moodOptions = [
 
 function QuickMoodStrip() {
   return (
-    <div className="rounded-[1.6rem] border border-emerald-100 bg-white p-4 shadow-sm">
+    <div className="rounded-[1.6rem] border border-emerald-100 bg-white dark:bg-slate-950 p-4 shadow-sm dark:shadow-none">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.22em] text-emerald-600">
             Quick Mood
           </p>
-          <h2 className="mt-1 font-display text-xl font-black text-slate-950">
+          <h2 className="mt-1 font-display text-xl font-black text-slate-950 dark:text-slate-50">
             How are you arriving?
           </h2>
         </div>
@@ -76,7 +76,7 @@ function QuickMoodStrip() {
             <a
               key={mood.label}
               href="/check-in?view=full"
-              className="flex min-h-[64px] flex-col items-center justify-center gap-1 rounded-2xl border border-slate-100 bg-slate-50/70 text-[10px] font-black text-slate-600 transition active:scale-95"
+              className="flex min-h-[64px] flex-col items-center justify-center gap-1 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/70 text-[10px] font-black text-slate-600 dark:text-slate-400 transition active:scale-95"
             >
               <span className={`flex h-7 w-7 items-center justify-center rounded-full ${mood.color} text-white`}>
                 <Icon className="h-3.5 w-3.5" />
@@ -94,7 +94,7 @@ export function MobileHomePage() {
   return (
     <MobileLayout subtitle="Harmony, healing, growth">
       <div className="space-y-5">
-        <MotionPanel className="rounded-[1.8rem] bg-slate-950 p-5 text-white shadow-xl">
+        <MotionPanel className="rounded-[1.8rem] bg-slate-950 p-5 text-white shadow-xl dark:shadow-none">
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-emerald-300">
             Anonymous by design
           </p>
@@ -111,7 +111,7 @@ export function MobileHomePage() {
               </Button>
             </Link>
             <a href="/peer-match?view=full">
-              <Button variant="outline" className="h-12 w-full rounded-2xl border-white/20 bg-white/10 font-black text-white hover:bg-white/15">
+              <Button variant="outline" className="h-12 w-full rounded-2xl border-white/20 bg-white/10 dark:bg-slate-950/10 font-black text-white hover:bg-white/15 dark:bg-slate-950/15">
                 Peer Help
               </Button>
             </a>
@@ -157,8 +157,8 @@ export function MobileHomePage() {
 
 export function MobileChatPage() {
   return (
-    <MobileLayout title="Companion" subtitle="Private support" className="bg-white">
-      <div className="-mx-4 -mt-2 h-[calc(100dvh-11.35rem)] min-h-[28rem] overflow-hidden border-y border-slate-100 bg-white">
+    <MobileLayout title="Companion" subtitle="Private support" className="bg-white dark:bg-slate-950">
+      <div className="-mx-4 -mt-2 h-[calc(100dvh-11.35rem)] min-h-[28rem] overflow-hidden border-y border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950">
         <ChatInterface showHeader={false} mobile />
       </div>
     </MobileLayout>
@@ -217,16 +217,16 @@ export function MobileMoodTrackerPage() {
           title="Track the shape of your week."
           description="Use the full journal tools when you want notes, trends, and saved reflections."
         />
-        <div className="rounded-[1.6rem] border border-slate-100 bg-white p-5 shadow-sm">
+        <div className="rounded-[1.6rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-5 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
               <TrendingUp className="h-5 w-5" />
             </span>
             <div>
-              <h2 className="font-display text-xl font-black text-slate-950">
+              <h2 className="font-display text-xl font-black text-slate-950 dark:text-slate-50">
                 Your journal lives here
               </h2>
-              <p className="mt-1 text-xs font-medium leading-5 text-slate-500">
+              <p className="mt-1 text-xs font-medium leading-5 text-slate-500 dark:text-slate-400">
                 Mobile keeps the path simple: log a feeling, add context, and return when you are ready.
               </p>
             </div>
@@ -292,7 +292,7 @@ export function MobileResourcesPage() {
               <Button className="h-11 w-full rounded-2xl font-black">Chat</Button>
             </Link>
             <a href="/peer-match?view=full">
-              <Button variant="outline" className="h-11 w-full rounded-2xl bg-white font-black">Peer</Button>
+              <Button variant="outline" className="h-11 w-full rounded-2xl bg-white dark:bg-slate-950 font-black">Peer</Button>
             </a>
           </div>
         </div>
@@ -310,7 +310,7 @@ export function MobilePeerMatchPage() {
           title="Find a listener at your pace."
           description="Use peer support when a human conversation would feel better than self-guided tools."
         />
-        <div className="rounded-[1.6rem] bg-slate-950 p-5 text-white shadow-xl">
+        <div className="rounded-[1.6rem] bg-slate-950 p-5 text-white shadow-xl dark:shadow-none">
           <CalendarClock className="h-7 w-7 text-emerald-300" />
           <h2 className="mt-4 font-display text-2xl font-black">Book private support</h2>
           <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
@@ -428,9 +428,9 @@ export function MobilePrivacyPolicyPage() {
           ["Secure storage", "Supabase policies and app-side boundaries protect sensitive records."],
           ["Data questions", "Contact SoulSync for privacy questions or deletion requests."],
         ].map(([title, description]) => (
-          <div key={title} className="rounded-[1.35rem] border border-slate-100 bg-white p-4 shadow-sm">
-            <h2 className="text-sm font-black text-slate-950">{title}</h2>
-            <p className="mt-2 text-xs font-medium leading-5 text-slate-500">{description}</p>
+          <div key={title} className="rounded-[1.35rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-4 shadow-sm dark:shadow-none">
+            <h2 className="text-sm font-black text-slate-950 dark:text-slate-50">{title}</h2>
+            <p className="mt-2 text-xs font-medium leading-5 text-slate-500 dark:text-slate-400">{description}</p>
           </div>
         ))}
         <a href="mailto:Soulsyncsoul@gmail.com">

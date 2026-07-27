@@ -351,11 +351,11 @@ function CommandCenter() {
 
   if (loading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white">
+      <div className="flex h-screen w-full items-center justify-center bg-white dark:bg-slate-950">
         <div className="flex flex-col items-center gap-6">
           <div className="relative h-20 w-20">
             <div className="absolute inset-0 animate-ping rounded-full bg-primary/10" />
-            <div className="relative flex h-full w-full items-center justify-center rounded-full bg-white border border-slate-100">
+            <div className="relative flex h-full w-full items-center justify-center rounded-full bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800">
               <RefreshCw className="h-8 w-8 animate-spin text-primary" />
             </div>
           </div>
@@ -367,15 +367,15 @@ function CommandCenter() {
 
   if (authError) {
     return (
-      <div className="flex h-screen w-full flex-col items-center justify-center bg-white px-6 text-center">
-        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-[2.5rem] bg-red-50 text-red-500 shadow-xl shadow-red-100 ring-1 ring-red-100">
+      <div className="flex h-screen w-full flex-col items-center justify-center bg-white dark:bg-slate-950 px-6 text-center">
+        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-[2.5rem] bg-red-50 text-red-500 shadow-xl dark:shadow-none shadow-red-100 ring-1 ring-red-100">
           <AlertTriangle className="h-10 w-10" />
         </div>
-        <h2 className="text-2xl font-black tracking-tight text-slate-900">Access Restricted</h2>
+        <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">Access Restricted</h2>
         <div className="mt-6 flex flex-col items-center gap-2">
-           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 mb-2">
+           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 mb-2">
               <UserCircle className="h-4 w-4 text-slate-400" />
-              <span className="text-xs font-bold text-slate-600">{currentEmail || "Unknown identity"}</span>
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-400">{currentEmail || "Unknown identity"}</span>
            </div>
            <p className="max-w-md text-sm font-medium text-slate-400 leading-relaxed">
              {authError}
@@ -385,14 +385,14 @@ function CommandCenter() {
            <Button 
              variant="outline"
              onClick={() => window.location.reload()}
-             className="h-14 rounded-2xl border-slate-200 px-8 text-sm font-bold text-slate-600 shadow-sm transition-all hover:bg-slate-50"
+             className="h-14 rounded-2xl border-slate-200 dark:border-slate-800 px-8 text-sm font-bold text-slate-600 dark:text-slate-400 shadow-sm dark:shadow-none transition-all hover:bg-slate-50 dark:bg-slate-900"
            >
              <RefreshCw className="mr-2 h-4 w-4" />
              Retry Access
            </Button>
            <Button 
              onClick={handleLogout}
-             className="h-14 rounded-2xl bg-slate-900 px-8 text-sm font-bold text-white shadow-xl transition-all hover:bg-slate-800"
+             className="h-14 rounded-2xl bg-slate-900 px-8 text-sm font-bold text-white shadow-xl dark:shadow-none transition-all hover:bg-slate-800"
            >
              Switch Account
            </Button>
@@ -402,10 +402,10 @@ function CommandCenter() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-primary/10">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 selection:bg-primary/10">
       <AdminNavbar />
       
-      <div className="fixed inset-0 z-0 bg-white pointer-events-none">
+      <div className="fixed inset-0 z-0 bg-white dark:bg-slate-950 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#00000003_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
@@ -419,10 +419,10 @@ function CommandCenter() {
               </div>
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Governance Level Access</span>
             </div>
-            <h1 className="font-display text-5xl font-black tracking-tight text-slate-900 lg:text-6xl">
+            <h1 className="font-display text-5xl font-black tracking-tight text-slate-900 dark:text-slate-50 lg:text-6xl">
               Command Center
             </h1>
-            <p className="mt-4 text-lg font-medium text-slate-500 max-w-2xl">
+            <p className="mt-4 text-lg font-medium text-slate-500 dark:text-slate-400 max-w-2xl">
               Managing the SoulSync global resilience network and peer-support infrastructure.
             </p>
           </div>
@@ -430,14 +430,14 @@ function CommandCenter() {
             <Button 
               variant="outline" 
               onClick={() => fetchGlobalData(true)}
-              className="h-14 rounded-2xl border-slate-200 bg-white text-slate-600 px-6 font-bold shadow-sm transition-all hover:bg-slate-50"
+              className="h-14 rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 px-6 font-bold shadow-sm dark:shadow-none transition-all hover:bg-slate-50 dark:bg-slate-900"
             >
               <RefreshCw className="mr-2 h-4 w-4" />
               Sync Data
             </Button>
             <Button 
               onClick={handleLogout}
-              className="h-14 rounded-2xl bg-primary text-white px-6 font-bold shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 active:scale-[0.98]"
+              className="h-14 rounded-2xl bg-primary text-white px-6 font-bold shadow-xl dark:shadow-none shadow-primary/20 transition-all hover:bg-primary/90 active:scale-[0.98]"
             >
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out

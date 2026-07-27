@@ -70,7 +70,7 @@ export function PathfinderSurvey() {
 
   return (
     <div className="relative mx-auto max-w-4xl px-4">
-      <div className="glass-card rounded-[3rem] p-10 sm:p-16 shadow-2xl relative overflow-hidden">
+      <div className="glass-card rounded-[3rem] p-10 sm:p-16 shadow-2xl dark:shadow-none relative overflow-hidden">
         {/* Background Accents */}
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
         
@@ -88,7 +88,7 @@ export function PathfinderSurvey() {
                   {questions.map((_, i) => (
                     <div 
                       key={i} 
-                      className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i <= step ? "bg-primary" : "bg-slate-100"}`} 
+                      className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i <= step ? "bg-primary" : "bg-slate-100 dark:bg-slate-900"}`} 
                     />
                   ))}
                 </div>
@@ -102,7 +102,7 @@ export function PathfinderSurvey() {
                   <button
                     key={option.id}
                     onClick={() => handleSelect(questions[step].id, option.id)}
-                    className="group relative flex flex-col items-center gap-6 rounded-[2.5rem] bg-white/50 border border-slate-100 p-8 text-center transition-all duration-500 hover:bg-white hover:shadow-2xl hover:border-primary/20 hover:-translate-y-2"
+                    className="group relative flex flex-col items-center gap-6 rounded-[2.5rem] bg-white/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800 p-8 text-center transition-all duration-500 hover:bg-white dark:bg-slate-950 hover:shadow-2xl dark:shadow-none hover:border-primary/20 hover:-translate-y-2"
                   >
                     <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-primary/5 group-hover:bg-primary group-hover:text-white transition-colors duration-500">
                       <option.icon className="h-7 w-7" />
@@ -129,14 +129,14 @@ export function PathfinderSurvey() {
                 {recommendation.desc}
               </p>
 
-              <div className="rounded-[2.5rem] bg-slate-50 border border-slate-100 p-10 mb-10 inline-block text-left w-full max-w-2xl">
+              <div className="rounded-[2.5rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-10 mb-10 inline-block text-left w-full max-w-2xl">
                  <div className="flex items-center gap-4 mb-4">
                     <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center">
                        <Sparkles className="h-5 w-5 text-primary" />
                     </div>
                     <h4 className="font-display text-xl font-semibold">{recommendation.title}</h4>
                  </div>
-                 <p className="text-sm text-slate-500 leading-relaxed">
+                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                     Based on your pace today, this path offers the softest entry point to the support SoulSync provides.
                  </p>
               </div>
@@ -144,7 +144,7 @@ export function PathfinderSurvey() {
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Button 
                   onClick={() => window.location.href = recommendation.link}
-                  className="h-14 rounded-full px-8 bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20"
+                  className="h-14 rounded-full px-8 bg-primary hover:bg-primary/90 text-white shadow-xl dark:shadow-none shadow-primary/20"
                 >
                   {recommendation.cta}
                   <ArrowRight className="h-4 w-4 ml-2" />

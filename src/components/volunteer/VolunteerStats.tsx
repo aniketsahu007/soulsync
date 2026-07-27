@@ -22,7 +22,7 @@ export const VolunteerStats = memo(({
   return (
     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
       <div>
-        <h1 className="text-4xl font-display font-black flex items-center gap-4 text-slate-900 tracking-tight">
+        <h1 className="text-4xl font-display font-black flex items-center gap-4 text-slate-900 dark:text-slate-50 tracking-tight">
           Welcome, {volunteerName.split(" ")[0]}
           <span className="rounded-full bg-emerald-50 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 border border-emerald-100">Verified Peer Supporter</span>
         </h1>
@@ -35,15 +35,15 @@ export const VolunteerStats = memo(({
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
-         <div className="bg-white px-8 py-4 rounded-3xl shadow-sm border border-slate-100 text-center min-w-[140px]">
+         <div className="bg-white dark:bg-slate-950 px-8 py-4 rounded-3xl shadow-sm dark:shadow-none border border-slate-100 dark:border-slate-800 text-center min-w-[140px]">
            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Impact Hours</p>
-           <p className="text-2xl font-black text-slate-900">{formatDuration(activeMinutes)}</p>
+           <p className="text-2xl font-black text-slate-900 dark:text-slate-50">{formatDuration(activeMinutes)}</p>
          </div>
-         <div className="bg-white px-8 py-4 rounded-3xl shadow-sm border border-slate-100 text-center min-w-[140px]">
+         <div className="bg-white dark:bg-slate-950 px-8 py-4 rounded-3xl shadow-sm dark:shadow-none border border-slate-100 dark:border-slate-800 text-center min-w-[140px]">
            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Sessions</p>
-           <p className="text-2xl font-black text-slate-900">{totalSessions}</p>
+           <p className="text-2xl font-black text-slate-900 dark:text-slate-50">{totalSessions}</p>
          </div>
-         <div className="bg-navy px-8 py-4 rounded-3xl shadow-xl text-center min-w-[140px] border border-white/10">
+         <div className="bg-navy px-8 py-4 rounded-3xl shadow-xl dark:shadow-none text-center min-w-[140px] border border-white/10">
            <p className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">Upcoming</p>
            <p className="text-2xl font-black text-white">{upcomingSessionsCount}</p>
          </div>

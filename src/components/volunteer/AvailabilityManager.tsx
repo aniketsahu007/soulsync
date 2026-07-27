@@ -106,20 +106,20 @@ export const AvailabilityManager = memo(({
       className="grid grid-cols-1 xl:grid-cols-3 gap-10"
     >
       {/* Left Card: Add a slot */}
-      <Card className="xl:col-span-1 p-8 rounded-[2rem] border border-slate-100 bg-white shadow-xl shadow-slate-100/40 flex flex-col">
+      <Card className="xl:col-span-1 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-xl dark:shadow-none shadow-slate-100/40 flex flex-col">
         <h2 className="text-xl font-display font-black text-[#0D1B2A] mb-8">
           Add a slot
         </h2>
         <form onSubmit={onAddSlot} className="flex-1 flex flex-col">
           <div className="space-y-5">
             <div className="space-y-2">
-               <label className="text-xs font-bold text-slate-700">Date</label>
+               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Date</label>
                <Popover>
                  <PopoverTrigger asChild>
                    <Button 
                      variant="outline" 
                      className={cn(
-                       "w-full h-12 justify-start text-left font-semibold rounded-xl border-slate-200 hover:bg-slate-50 transition-all",
+                       "w-full h-12 justify-start text-left font-semibold rounded-xl border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:bg-slate-900 transition-all",
                        !slotDate && "text-slate-400"
                      )}
                    >
@@ -127,7 +127,7 @@ export const AvailabilityManager = memo(({
                      {slotDate ? format(parseISO(slotDate), "MMMM d, yyyy") : <span>Select date</span>}
                    </Button>
                  </PopoverTrigger>
-                 <PopoverContent className="w-auto p-0 rounded-2xl shadow-xl border-slate-100" align="start">
+                 <PopoverContent className="w-auto p-0 rounded-2xl shadow-xl dark:shadow-none border-slate-100 dark:border-slate-800" align="start">
                    <Calendar
                      mode="single"
                      selected={slotDate ? parseISO(slotDate) : undefined}
@@ -141,9 +141,9 @@ export const AvailabilityManager = memo(({
             </div>
 
             <div className="space-y-2">
-               <label className="text-xs font-bold text-slate-700">Start time</label>
+               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Start time</label>
                <Select value={startTime} onValueChange={setStartTime}>
-                 <SelectTrigger className="w-full h-12 rounded-xl border-slate-200 font-semibold text-slate-700 focus:ring-[#00C48C]/20">
+                 <SelectTrigger className="w-full h-12 rounded-xl border-slate-200 dark:border-slate-800 font-semibold text-slate-700 dark:text-slate-300 focus:ring-[#00C48C]/20">
                    <SelectValue placeholder="Select start time" />
                  </SelectTrigger>
                  <SelectContent className="max-h-[300px] rounded-xl">
@@ -157,9 +157,9 @@ export const AvailabilityManager = memo(({
             </div>
 
             <div className="space-y-2">
-               <label className="text-xs font-bold text-slate-700">End time</label>
+               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">End time</label>
                <Select value={endTime} onValueChange={setEndTime}>
-                 <SelectTrigger className="w-full h-12 rounded-xl border-slate-200 font-semibold text-slate-700 focus:ring-[#00C48C]/20">
+                 <SelectTrigger className="w-full h-12 rounded-xl border-slate-200 dark:border-slate-800 font-semibold text-slate-700 dark:text-slate-300 focus:ring-[#00C48C]/20">
                    <SelectValue placeholder="Select end time" />
                  </SelectTrigger>
                  <SelectContent className="max-h-[300px] rounded-xl">
@@ -192,7 +192,7 @@ export const AvailabilityManager = memo(({
              <Button 
                type="submit" 
                disabled={slotsLoading || !slotDate || !startTime || !endTime}
-               className="w-full h-14 rounded-xl bg-[#0D1B2A] text-white font-bold text-sm shadow-xl hover:bg-slate-800 transition-all"
+               className="w-full h-14 rounded-xl bg-[#0D1B2A] text-white font-bold text-sm shadow-xl dark:shadow-none hover:bg-slate-800 transition-all"
              >
                {slotsLoading ? <RefreshCw className="h-5 w-5 animate-spin" /> : "Add Slot"}
              </Button>
@@ -201,7 +201,7 @@ export const AvailabilityManager = memo(({
       </Card>
 
       {/* Right Card: Your slots */}
-      <Card className="xl:col-span-2 p-8 rounded-[2rem] border border-slate-100 bg-white shadow-xl shadow-slate-100/40 h-fit">
+      <Card className="xl:col-span-2 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-xl dark:shadow-none shadow-slate-100/40 h-fit">
         <h2 className="text-xl font-display font-black text-[#0D1B2A] mb-8">
           Your slots
         </h2>
@@ -212,8 +212,8 @@ export const AvailabilityManager = memo(({
               <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 px-1">Upcoming</h3>
               
               {activeUpcoming.length === 0 ? (
-                <div className="p-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50 text-center">
-                   <p className="text-sm font-semibold text-slate-500">No sessions booked yet</p>
+                <div className="p-6 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-center">
+                   <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">No sessions booked yet</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 gap-3">
@@ -231,13 +231,13 @@ export const AvailabilityManager = memo(({
                     const duration = hrs > 0 && mins > 0 ? `${hrs}h ${mins}m` : hrs > 0 ? `${hrs}h` : `${mins}m`;
                     
                     return (
-                      <div key={session.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-white border border-slate-100 shadow-sm gap-4 transition-all hover:border-slate-200">
+                      <div key={session.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none gap-4 transition-all hover:border-slate-200 dark:border-slate-800">
                         <div>
                            <div className="flex items-center gap-2 mb-1.5">
                               <span className="px-2 py-0.5 rounded-full bg-[#0D1B2A] text-white text-[9px] font-black uppercase tracking-widest">Booked</span>
-                              <span className="text-sm font-bold text-slate-800">{format(parseISO(slot.slot_date), "MMM d, yyyy")}</span>
+                              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{format(parseISO(slot.slot_date), "MMM d, yyyy")}</span>
                            </div>
-                           <p className="text-xs font-semibold text-slate-500 flex items-center gap-2">
+                           <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-2">
                               <span>{formatTimeTo12Hr(slot.start_time)} – {formatTimeTo12Hr(slot.end_time)}</span>
                               <span className="w-1 h-1 rounded-full bg-slate-300" />
                               <span>{duration}</span>
@@ -246,7 +246,7 @@ export const AvailabilityManager = memo(({
                         <div className="flex items-center gap-2 w-full sm:w-auto mt-4 sm:mt-0">
                           <Button 
                              onClick={() => window.open(`https://meet.jit.si/SoulSync-Session-${session.id}`, "_blank")}
-                             className="bg-[#00C48C] hover:bg-emerald-500 text-white font-bold rounded-xl shadow-md transition-all flex-1 sm:flex-none"
+                             className="bg-[#00C48C] hover:bg-emerald-500 text-white font-bold rounded-xl shadow-md dark:shadow-none transition-all flex-1 sm:flex-none"
                           >
                              <Video className="w-4 h-4 mr-2" />
                              Join Session
@@ -254,7 +254,7 @@ export const AvailabilityManager = memo(({
                           {onMarkCompleted && (
                              <Button
                                onClick={() => onMarkCompleted(session.id)}
-                               className="bg-slate-50 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 border border-slate-200 hover:border-emerald-200 rounded-xl shadow-sm transition-all h-10 w-10 p-0 shrink-0"
+                               className="bg-slate-50 dark:bg-slate-900 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 border border-slate-200 dark:border-slate-800 hover:border-emerald-200 rounded-xl shadow-sm dark:shadow-none transition-all h-10 w-10 p-0 shrink-0"
                                title="Mark as completed"
                              >
                                <CheckCircle className="w-4 h-4" />
@@ -273,8 +273,8 @@ export const AvailabilityManager = memo(({
               <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-4 px-1">Available</h3>
               
               {activeOpenSlots.length === 0 ? (
-                <div className="p-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50 text-center">
-                   <p className="text-sm font-semibold text-slate-500">No slots added yet — add one to get started</p>
+                <div className="p-6 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-center">
+                   <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">No slots added yet — add one to get started</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -289,13 +289,13 @@ export const AvailabilityManager = memo(({
                     const duration = hrs > 0 && mins > 0 ? `${hrs}h ${mins}m` : hrs > 0 ? `${hrs}h` : `${mins}m`;
                     
                     return (
-                      <div key={slot.id} className="group flex items-center justify-between p-5 rounded-2xl bg-white border border-slate-100 shadow-sm transition-all hover:border-[#00C48C]/30 hover:shadow-md">
+                      <div key={slot.id} className="group flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none transition-all hover:border-[#00C48C]/30 hover:shadow-md dark:shadow-none">
                         <div>
                            <div className="flex items-center gap-2 mb-1.5">
                               <span className="px-2 py-0.5 rounded-full bg-[#00C48C]/10 text-[#00C48C] border border-[#00C48C]/20 text-[9px] font-black uppercase tracking-widest">Open</span>
-                              <span className="text-sm font-bold text-slate-800">{format(parseISO(slot.slot_date), "MMM d")}</span>
+                              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{format(parseISO(slot.slot_date), "MMM d")}</span>
                            </div>
-                           <p className="text-xs font-semibold text-slate-500 flex items-center gap-2">
+                           <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-2">
                               <span>{formatTimeTo12Hr(slot.start_time)} – {formatTimeTo12Hr(slot.end_time)}</span>
                               <span className="w-1 h-1 rounded-full bg-slate-300" />
                               <span>{duration}</span>
@@ -303,7 +303,7 @@ export const AvailabilityManager = memo(({
                         </div>
                         <button 
                           onClick={() => onDeleteSlot(slot.id)}
-                          className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all md:opacity-0 group-hover:opacity-100 shrink-0 ml-2"
+                          className="h-10 w-10 rounded-xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all md:opacity-0 group-hover:opacity-100 shrink-0 ml-2"
                           title="Delete slot"
                         >
                            <Trash2 className="h-4 w-4" />

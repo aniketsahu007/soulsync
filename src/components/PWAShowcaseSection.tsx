@@ -35,7 +35,7 @@ export function PWAShowcaseSection() {
 
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="flex items-start gap-4">
-                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 dark:bg-slate-950/10 text-white">
                   <Zap className="h-5 w-5" />
                 </div>
                 <div>
@@ -44,7 +44,7 @@ export function PWAShowcaseSection() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 dark:bg-slate-950/10 text-white">
                   <Shield className="h-5 w-5" />
                 </div>
                 <div>
@@ -53,7 +53,7 @@ export function PWAShowcaseSection() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 dark:bg-slate-950/10 text-white">
                   <Smartphone className="h-5 w-5" />
                 </div>
                 <div>
@@ -67,7 +67,7 @@ export function PWAShowcaseSection() {
               {!isInstalled && canInstall && (
                 <button
                   onClick={install}
-                  className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-white px-8 py-4 font-semibold text-slate-900 transition-all hover:scale-105 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+                  className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-white dark:bg-slate-950 px-8 py-4 font-semibold text-slate-900 dark:text-slate-50 transition-all hover:scale-105 hover:bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
                 >
                   <span className="relative z-10 flex items-center gap-3">
                     <Download className="h-5 w-5 transition-transform group-hover:-translate-y-1" />
@@ -76,13 +76,13 @@ export function PWAShowcaseSection() {
                 </button>
               )}
               {isInstalled && (
-                <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-8 py-4 font-semibold text-white border border-white/20">
+                <div className="inline-flex items-center gap-3 rounded-full bg-white/10 dark:bg-slate-950/10 px-8 py-4 font-semibold text-white border border-white/20">
                   <Shield className="h-5 w-5 text-emerald-400" />
                   App Installed & Ready
                 </div>
               )}
               {!isInstalled && !canInstall && (
-                <div className="inline-flex items-center gap-3 rounded-full bg-white/5 px-8 py-4 font-medium text-slate-400 border border-white/10">
+                <div className="inline-flex items-center gap-3 rounded-full bg-white/5 dark:bg-slate-950/5 px-8 py-4 font-medium text-slate-400 border border-white/10">
                   <Smartphone className="h-5 w-5" />
                   Open in Safari/Chrome to install
                 </div>
@@ -101,7 +101,7 @@ export function PWAShowcaseSection() {
             <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-90" />
             
             {/* Phone Mockup Frame */}
-            <div className="relative z-10 rounded-[2.5rem] sm:rounded-[3rem] border-[6px] sm:border-[8px] border-slate-800 bg-slate-50 shadow-2xl overflow-hidden aspect-[9/16]">
+            <div className="relative z-10 rounded-[2.5rem] sm:rounded-[3rem] border-[6px] sm:border-[8px] border-slate-800 bg-slate-50 dark:bg-slate-900 shadow-2xl dark:shadow-none overflow-hidden aspect-[9/16]">
               {/* Dynamic Island / Notch */}
               <div className="absolute top-0 inset-x-0 h-5 sm:h-7 flex justify-center z-20">
                 <div className="w-1/3 h-full bg-slate-800 rounded-b-xl sm:rounded-b-2xl" />

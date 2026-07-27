@@ -113,7 +113,7 @@ function RootComponent() {
   useAnonymousIdentity(); // Initialize anonymous identity on mount
   useServiceWorker();
   return (
-    <ThemeProvider defaultTheme="light" storageKey="soulsync-ui-theme">
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <Outlet />
     </ThemeProvider>
   );

@@ -19,7 +19,7 @@ export function EngagementHub() {
           <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">
             Explore the Platform
           </p>
-          <h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl text-white drop-shadow-sm">
+          <h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl text-white drop-shadow-sm dark:shadow-none">
             Experience SoulSync
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-400">
@@ -29,17 +29,17 @@ export function EngagementHub() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex flex-col items-center mb-16">
-            <TabsList className="h-auto p-2 bg-white/5 rounded-[2rem] shadow-2xl ring-1 ring-white/10 backdrop-blur-2xl">
+            <TabsList className="h-auto p-2 bg-white/5 dark:bg-slate-950/5 rounded-[2rem] shadow-2xl dark:shadow-none ring-1 ring-white/10 backdrop-blur-2xl">
               <TabsTrigger 
                 value="stories" 
-                className="px-8 py-3 rounded-[1.5rem] text-sm font-bold transition-all text-slate-400 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-lg hover:text-white"
+                className="px-8 py-3 rounded-[1.5rem] text-sm font-bold transition-all text-slate-400 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-lg dark:shadow-none hover:text-white"
               >
                 <PlayCircle className="mr-2 h-4 w-4" /> 
                 See the Impact
               </TabsTrigger>
               <TabsTrigger 
                 value="survey" 
-                className="px-8 py-3 rounded-[1.5rem] text-sm font-bold transition-all text-slate-400 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-lg hover:text-white"
+                className="px-8 py-3 rounded-[1.5rem] text-sm font-bold transition-all text-slate-400 data-[state=active]:bg-white/10 dark:bg-slate-950/10 data-[state=active]:text-white data-[state=active]:shadow-lg dark:shadow-none hover:text-white"
               >
                 <Compass className="mr-2 h-4 w-4" />
                 Find Your Path
@@ -57,7 +57,7 @@ export function EngagementHub() {
             </motion.div>
           </div>
 
-          <div className="relative rounded-[2.5rem] bg-white/5 backdrop-blur-2xl ring-1 ring-white/10 p-4 sm:p-8 md:p-12 shadow-2xl overflow-hidden">
+          <div className="relative rounded-[2.5rem] bg-white/5 dark:bg-slate-950/5 backdrop-blur-2xl ring-1 ring-white/10 p-4 sm:p-8 md:p-12 shadow-2xl dark:shadow-none overflow-hidden">
             {/* Inner glow */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
             

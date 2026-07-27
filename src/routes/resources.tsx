@@ -799,17 +799,17 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
   if (identityLoading || !isMounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
           <RefreshCw className="mx-auto h-10 w-10 animate-spin text-primary" />
-          <p className="mt-4 text-sm font-semibold text-slate-500">Loading Schedule Architect...</p>
+          <p className="mt-4 text-sm font-semibold text-slate-500 dark:text-slate-400">Loading Schedule Architect...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 bg-slate-50 relative overflow-x-hidden">
+    <div className="min-h-screen pt-20 bg-slate-50 dark:bg-slate-900 relative overflow-x-hidden">
       <Navbar />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -835,7 +835,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card rounded-[3rem] p-8 sm:p-12 border border-emerald-100 shadow-2xl relative"
+              className="glass-card rounded-[3rem] p-8 sm:p-12 border border-emerald-100 shadow-2xl dark:shadow-none relative"
             >
               <div className="absolute -top-10 -left-10 h-32 w-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute -bottom-10 -right-10 h-32 w-32 bg-calm/5 rounded-full blur-2xl pointer-events-none" />
@@ -845,15 +845,15 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                 Schedule Architect Onboarding
               </div>
 
-              <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight text-slate-800 mb-2">
+              <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight text-slate-800 dark:text-slate-200 mb-2">
                 Find Your <span className="text-gradient">Habit Blueprint</span>
               </h1>
-              <p className="text-slate-500 font-semibold mb-8 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 font-semibold mb-8 text-sm sm:text-base leading-relaxed">
                 Atomic Habits states: "You do not rise to the level of your goals. You fall to the level of your systems." Let's identify your productivity type and build your system.
               </p>
 
               {/* Progress Indicator */}
-              <div className="w-full bg-slate-100 h-2 rounded-full mb-8 overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-slate-900 h-2 rounded-full mb-8 overflow-hidden">
                 <div 
                   className="bg-primary h-full transition-all duration-350"
                   style={{ width: `${((quizStep + 1) / onboardingQuestions.length) * 100}%` }}
@@ -862,7 +862,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
               <div className="mb-8">
                 <p className="text-xs uppercase font-black text-primary tracking-widest mb-2">Question {quizStep + 1} of {onboardingQuestions.length}</p>
-                <h3 className="font-display text-2xl font-black text-slate-800 leading-snug">
+                <h3 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 leading-snug">
                   {onboardingQuestions[quizStep].question}
                 </h3>
               </div>
@@ -872,12 +872,12 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   <button
                     key={i}
                     onClick={() => handleQuizAnswer(opt.val)}
-                    className="w-full text-left p-5 rounded-3xl bg-white border border-slate-100 hover:border-primary/40 hover:bg-emerald-50/20 active:bg-emerald-50/50 transition-all duration-200 flex gap-4 items-center group shadow-sm"
+                    className="w-full text-left p-5 rounded-3xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 hover:border-primary/40 hover:bg-emerald-50/20 active:bg-emerald-50/50 transition-all duration-200 flex gap-4 items-center group shadow-sm dark:shadow-none"
                   >
-                    <div className="h-8 w-8 rounded-2xl bg-slate-50 group-hover:bg-primary/10 flex items-center justify-center font-black text-slate-400 group-hover:text-primary transition-colors text-xs shrink-0">
+                    <div className="h-8 w-8 rounded-2xl bg-slate-50 dark:bg-slate-900 group-hover:bg-primary/10 flex items-center justify-center font-black text-slate-400 group-hover:text-primary transition-colors text-xs shrink-0">
                       {String.fromCharCode(65 + i)}
                     </div>
-                    <span className="text-slate-700 font-bold text-sm leading-relaxed">{opt.text}</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-bold text-sm leading-relaxed">{opt.text}</span>
                   </button>
                 ))}
               </div>
@@ -894,18 +894,18 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   <Zap className="h-4 w-4" />
                   Wellness Intelligence Hub
                 </div>
-                <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight text-slate-800">
+                <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight text-slate-800 dark:text-slate-200">
                   Your Behavioral <span className="text-gradient">Story</span>
                 </h1>
-                <p className="mt-2 text-slate-500 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
+                <p className="mt-2 text-slate-500 dark:text-slate-400 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
                   Based on the framework of Atomic Habits, build consistency, manage leakage, and protect your mind. Every pattern you log here becomes the context your volunteer uses to support you better.
                 </p>
               </div>
 
               {/* Profile Card Summary */}
               {state.profile && (
-                <div className="glass-card rounded-[2.5rem] border border-slate-200 p-6 flex items-center gap-4 relative overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <div className="h-16 w-16 shrink-0 rounded-[1.75rem] gradient-wellness flex items-center justify-center text-white shadow-lg">
+                <div className="glass-card rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-6 flex items-center gap-4 relative overflow-hidden shadow-sm dark:shadow-none hover:shadow-md dark:shadow-none transition-shadow">
+                  <div className="h-16 w-16 shrink-0 rounded-[1.75rem] gradient-wellness flex items-center justify-center text-white shadow-lg dark:shadow-none">
                     {state.profile === "Achiever" && <Zap className="h-8 w-8" />}
                     {state.profile === "Overthinker" && <Brain className="h-8 w-8" />}
                     {state.profile === "Caregiver" && <Users className="h-8 w-8" />}
@@ -914,10 +914,10 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   </div>
                   <div>
                     <span className="text-[9px] font-black uppercase tracking-widest text-primary">Your Focus Profile</span>
-                    <h3 className="font-display text-xl font-black text-slate-800 mt-0.5">
+                    <h3 className="font-display text-xl font-black text-slate-800 dark:text-slate-200 mt-0.5">
                       {profileDetails[state.profile].title}
                     </h3>
-                    <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1 line-clamp-2">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed mt-1 line-clamp-2">
                       {profileDetails[state.profile].desc}
                     </p>
                   </div>
@@ -929,7 +929,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         setQuizStep(0);
                       }
                     }}
-                    className="absolute right-4 top-4 p-1 hover:bg-slate-100 rounded-full text-slate-300 hover:text-slate-500 transition-colors"
+                    className="absolute right-4 top-4 p-1 hover:bg-slate-100 dark:bg-slate-900 rounded-full text-slate-300 hover:text-slate-500 dark:text-slate-400 transition-colors"
                     title="Retake Onboarding Questionnaire"
                   >
                     <RefreshCw className="h-3 w-3" />
@@ -939,7 +939,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex border-b border-slate-200 overflow-x-auto gap-2 pb-1 scrollbar-none">
+            <div className="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto gap-2 pb-1 scrollbar-none">
               {[
                 { id: "dashboard", label: "My Overview", icon: Activity },
                 { id: "habits", label: "Daily Patterns", icon: BookOpen },
@@ -952,8 +952,8 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     onClick={() => setActiveTab(tab.id as any)}
                     className={`flex items-center gap-2 px-5 py-3 rounded-full text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all duration-200 ${
                       active
-                        ? "bg-slate-900 text-white shadow-md"
-                        : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                        ? "bg-slate-900 text-white shadow-md dark:shadow-none"
+                        : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:bg-slate-900 hover:text-slate-800 dark:text-slate-200"
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -977,17 +977,17 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   {/* XP / Reward HUD & Risk Indicators */}
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     {/* XP Scoreboard Card */}
-                    <div className="md:col-span-2 glass-card rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div className="md:col-span-2 glass-card rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex flex-col justify-between">
                       <div>
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total System XP</span>
                           <span className="text-[10px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-full">{totalXp} XP</span>
                         </div>
-                        <h2 className="font-display text-5xl font-black text-slate-800 tracking-tight leading-none mb-1">
+                        <h2 className="font-display text-5xl font-black text-slate-800 dark:text-slate-200 tracking-tight leading-none mb-1">
                           {totalXp}
                           <span className="text-2xl text-slate-400 font-bold ml-1">XP</span>
                         </h2>
-                        <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                           Consistency reward system. Complete study sessions and recovery blocks to build leveling streaks.
                         </p>
                       </div>
@@ -1020,11 +1020,11 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             { label: "⚠ Leakage (Doomscroll, Comparison)", ratio: leakageRatio, color: "bg-rose-500", text: "text-rose-600", mins: leakageMins }
                           ].map((item) => (
                             <div key={item.label} className="space-y-1">
-                              <div className="flex justify-between text-xs font-black text-slate-700">
+                              <div className="flex justify-between text-xs font-black text-slate-700 dark:text-slate-300">
                                 <span>{item.label}</span>
                                 <span className={item.text}>{item.ratio}% <span className="text-slate-300 font-bold">({item.mins}m)</span></span>
                               </div>
-                              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                              <div className="w-full bg-slate-100 dark:bg-slate-900 h-2.5 rounded-full overflow-hidden">
                                 <div className={`${item.color} h-full rounded-full transition-all duration-500`} style={{ width: `${item.ratio}%` }} />
                               </div>
                             </div>
@@ -1060,13 +1060,13 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         }
 
                         return (
-                          <div key={risk.label} className="p-5 rounded-3xl border border-slate-100 flex flex-col justify-between hover:shadow-sm transition-shadow">
+                          <div key={risk.label} className="p-5 rounded-3xl border border-slate-100 dark:border-slate-800 flex flex-col justify-between hover:shadow-sm dark:shadow-none transition-shadow">
                             <div>
                               <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider block">{risk.label}</span>
                               <h4 className={`font-display text-3xl font-black mt-2 ${colorClass}`}>
                                 {risk.val}%
                               </h4>
-                              <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-1">
+                              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed mt-1">
                                 {risk.desc}
                               </p>
                             </div>
@@ -1082,16 +1082,16 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   {/* Log Activity and AI Routine Optimization block */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Log Activity Form */}
-                    <div className="lg:col-span-1 glass-card rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div className="lg:col-span-1 glass-card rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex flex-col justify-between">
                       <form onSubmit={handleAddActivity} className="space-y-4">
                         <div>
                           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Log Daily Activity</span>
-                          <h3 className="font-display text-2xl font-black text-slate-800">Track Behavior</h3>
+                          <h3 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200">Track Behavior</h3>
                         </div>
 
                         <div>
                           <label className="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Category</label>
-                          <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-2xl">
+                          <div className="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-2xl">
                             {["Growth", "Recovery", "Leakage"].map((cat) => (
                               <button
                                 type="button"
@@ -1100,7 +1100,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                 className={`py-2 text-[10px] font-black uppercase tracking-wider rounded-xl transition-all ${
                                   newActivity.category === cat
                                     ? "bg-slate-900 text-white"
-                                    : "text-slate-500 hover:text-slate-800"
+                                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200"
                                 }`}
                               >
                                 {cat}
@@ -1117,7 +1117,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             placeholder="e.g. studied math, browsed reels, gym"
                             value={newActivity.description}
                             onChange={(e) => setNewActivity({ ...newActivity, description: e.target.value })}
-                            className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm font-bold text-slate-700 focus:outline-none focus:border-primary/40 bg-white mb-4"
+                            className="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-primary/40 bg-white dark:bg-slate-950 mb-4"
                           />
                           <Button type="submit" className="w-full rounded-2xl py-3 bg-slate-950 hover:bg-slate-900 font-black text-xs uppercase tracking-widest shrink-0">
                             Log Activity
@@ -1127,13 +1127,13 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     </div>
 
                     {/* AI Suggestions Box */}
-                    <div className="lg:col-span-2 surface-card rounded-[2.5rem] p-8 border border-slate-100 flex flex-col justify-between">
+                    <div className="lg:col-span-2 surface-card rounded-[2.5rem] p-8 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
                       <div>
                         <div className="flex items-center gap-2 text-[10px] font-black uppercase text-primary tracking-widest mb-4">
                           <Sparkles className="h-4 w-4" />
                           AI Optimization Insights
                         </div>
-                        <h3 className="font-display text-2xl font-black text-slate-800 mb-6">Schedule Advisor Recommendations</h3>
+                        <h3 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 mb-6">Schedule Advisor Recommendations</h3>
 
                         <div className="space-y-4">
                           {aiSuggestions.map((sug, i) => {
@@ -1159,7 +1159,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         </div>
                       </div>
 
-                      <div className="mt-6 p-4 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-between text-xs text-slate-500 font-bold">
+                      <div className="mt-6 p-4 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-bold">
                         <span>Profile Blueprints loaded automatically</span>
                         <span className="text-[10px] font-black uppercase tracking-widest text-primary">Zero-Trace Security</span>
                       </div>
@@ -1174,7 +1174,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     ) : (
                       <div className="space-y-2 max-h-[250px] overflow-y-auto pr-2">
                         {state.activities.slice().reverse().map((a) => (
-                          <div key={a.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 hover:bg-slate-100/60 border border-slate-100 transition-colors">
+                          <div key={a.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-slate-100/60 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 transition-colors">
                             <div className="flex items-center gap-3">
                               <span className={`text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${
                                 a.category === "Growth" ? "bg-emerald-100 text-emerald-700" :
@@ -1182,7 +1182,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                               }`}>
                                 {a.category}
                               </span>
-                              <span className="text-sm font-bold text-slate-700">{a.description}</span>
+                              <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{a.description}</span>
                             </div>
                             <div className="flex items-center gap-4 text-slate-400 font-bold text-xs">
                               <span>{a.duration} mins</span>
@@ -1218,14 +1218,14 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   className="space-y-8"
                 >
                   {/* Atomic Habit Builder Form */}
-                  <div className="glass-card rounded-[3.5rem] p-8 sm:p-12 border border-slate-200 shadow-sm">
+                  <div className="glass-card rounded-[3.5rem] p-8 sm:p-12 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
                     <div className="max-w-3xl">
                       <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-150 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-primary mb-4">
                         <Sparkles className="h-4 w-4" />
                         Atomic Habit Builder
                       </div>
-                      <h2 className="font-display text-4xl font-black text-slate-800 leading-tight mb-2">Schedule Architect</h2>
-                      <p className="text-slate-500 font-semibold mb-8 text-sm sm:text-base leading-relaxed">
+                      <h2 className="font-display text-4xl font-black text-slate-800 dark:text-slate-200 leading-tight mb-2">Schedule Architect</h2>
+                      <p className="text-slate-500 dark:text-slate-400 font-semibold mb-8 text-sm sm:text-base leading-relaxed">
                         Design specific, obvious routines. Complete studies (Growth) or restorative buffers (Recovery) directly from your checklist.
                       </p>
 
@@ -1239,7 +1239,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                               placeholder="e.g. After dinner, After waking up"
                               value={newHabit.cue}
                               onChange={(e) => setNewHabit({ ...newHabit, cue: e.target.value })}
-                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm font-bold text-slate-700 focus:outline-none focus:border-primary/40 bg-white shadow-inner"
+                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-primary/40 bg-white dark:bg-slate-950 shadow-inner"
                             />
                           </div>
 
@@ -1251,7 +1251,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                               placeholder="e.g. At hostel desk, In room balcony"
                               value={newHabit.location}
                               onChange={(e) => setNewHabit({ ...newHabit, location: e.target.value })}
-                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm font-bold text-slate-700 focus:outline-none focus:border-primary/40 bg-white shadow-inner"
+                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-primary/40 bg-white dark:bg-slate-950 shadow-inner"
                             />
                           </div>
 
@@ -1263,7 +1263,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                               placeholder="e.g. Solve 1 DSA question, Read 5 pages"
                               value={newHabit.action}
                               onChange={(e) => setNewHabit({ ...newHabit, action: e.target.value })}
-                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm font-bold text-slate-700 focus:outline-none focus:border-primary/40 bg-white shadow-inner"
+                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-primary/40 bg-white dark:bg-slate-950 shadow-inner"
                             />
                           </div>
                         </div>
@@ -1298,7 +1298,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                 const val = e.target.value.replace(/[^0-9]/g, "");
                                 setNewHabit({ ...newHabit, duration: val === "" ? 0 : parseInt(val) || 0 });
                               }}
-                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm font-bold text-slate-700 focus:outline-none focus:border-primary/40 bg-white shadow-inner"
+                              className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-primary/40 bg-white dark:bg-slate-950 shadow-inner"
                             />
                           </div>
 
@@ -1315,7 +1315,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                     className={`px-4 py-2.5 rounded-full text-xs font-black uppercase tracking-widest border transition-all ${
                                       newHabit.category === cat
                                         ? "bg-slate-900 border-slate-900 text-white"
-                                        : "border-slate-200 text-slate-500 hover:border-slate-450 hover:text-slate-800"
+                                        : "border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-slate-450 hover:text-slate-800 dark:text-slate-200"
                                     }`}
                                   >
                                     {cat}
@@ -1324,7 +1324,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                               </div>
                             </div>
 
-                            <Button type="submit" className="rounded-full bg-primary hover:bg-primary/95 text-white font-black text-xs uppercase tracking-widest px-8 py-3.5 shadow-lg shadow-primary/20 shrink-0 self-end">
+                            <Button type="submit" className="rounded-full bg-primary hover:bg-primary/95 text-white font-black text-xs uppercase tracking-widest px-8 py-3.5 shadow-lg dark:shadow-none shadow-primary/20 shrink-0 self-end">
                               <Plus className="h-4 w-4 mr-2" /> Add System Habit
                             </Button>
                           </div>
@@ -1333,12 +1333,12 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         {/* Live preview + 30-Day Projections */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {/* Live habits output rendering */}
-                          <div className="p-6 rounded-[2rem] bg-indigo-50/40 border border-indigo-150 flex flex-col justify-center shadow-sm">
+                          <div className="p-6 rounded-[2rem] bg-indigo-50/40 border border-indigo-150 flex flex-col justify-center shadow-sm dark:shadow-none">
                             <span className="text-[9px] font-black uppercase tracking-widest text-primary mb-2.5">A Gentle Promise to Myself</span>
                             <p className="text-sm font-bold text-slate-650 leading-relaxed">
                               {newHabit.cue && newHabit.location && newHabit.action ? (
                                 <span>
-                                  "When <span className="text-slate-900 font-extrabold">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 font-extrabold">{newHabit.location}</span> and spend <span className="text-slate-950 font-black">{newHabit.duration} minutes</span> to <span className="text-primary font-black underline">{newHabit.action}</span>, because I deserve to grow."
+                                  "When <span className="text-slate-900 dark:text-slate-50 font-extrabold">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 dark:text-slate-50 font-extrabold">{newHabit.location}</span> and spend <span className="text-slate-950 dark:text-slate-50 font-black">{newHabit.duration} minutes</span> to <span className="text-primary font-black underline">{newHabit.action}</span>, because I deserve to grow."
                                 </span>
                               ) : (
                                 <span className="text-slate-400 italic font-medium">
@@ -1349,7 +1349,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                           </div>
 
                           {/* 30-Day Projection (Gamified Motivation) */}
-                          <div className="p-6 rounded-[2rem] bg-emerald-50/60 border border-emerald-250 flex flex-col justify-between shadow-sm">
+                          <div className="p-6 rounded-[2rem] bg-emerald-50/60 border border-emerald-250 flex flex-col justify-between shadow-sm dark:shadow-none">
                             <div>
                               <span className="text-[10px] font-black uppercase tracking-widest text-emerald-800 mb-2.5 flex items-center gap-1">
                                 <TrendingUp className="h-4 w-4 text-emerald-700" />
@@ -1361,11 +1361,11 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                 return (
                                   <div className="space-y-4">
                                     {/* Identity Statement */}
-                                    <div className="p-3 rounded-2xl bg-white border border-emerald-100/80 shadow-sm flex items-start gap-3">
+                                    <div className="p-3 rounded-2xl bg-white dark:bg-slate-950 border border-emerald-100/80 shadow-sm dark:shadow-none flex items-start gap-3">
                                       <div className="text-2xl shrink-0 mt-0.5">{motive.icon}</div>
                                       <div>
                                         <span className="text-[9px] font-black uppercase text-emerald-800 tracking-wider block">Atomic Identity Shift</span>
-                                        <p className="text-xs font-bold text-slate-800 leading-normal">
+                                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-normal">
                                           Casting 30 daily votes to become: <span className="text-emerald-700 font-extrabold underline block sm:inline">{motive.identity}</span>
                                         </p>
                                       </div>
@@ -1374,7 +1374,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                     {/* Projections List */}
                                     <div className="space-y-2">
                                       <p className="text-xs font-black text-slate-650 tracking-wide">30-Day Compounded Outcomes:</p>
-                                      <ul className="text-xs font-extrabold text-slate-800 space-y-1.5 pl-1">
+                                      <ul className="text-xs font-extrabold text-slate-800 dark:text-slate-200 space-y-1.5 pl-1">
                                         <li className="flex items-center gap-2">
                                           <span className="text-emerald-600">🚀</span>
                                           <span>Earn <span className="text-emerald-700 font-black">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span></span>
@@ -1426,7 +1426,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                   <circle cx="300" cy="0" r="4.5" className="fill-emerald-700 stroke-white stroke-2" />
                                 </svg>
                               </div>
-                              <div className="flex justify-between w-full text-[9px] font-black text-slate-500 mt-2">
+                              <div className="flex justify-between w-full text-[9px] font-black text-slate-500 dark:text-slate-400 mt-2">
                                 <span>(1.01)³⁰ = +35% Compound Interest</span>
                                 <span className="text-emerald-700">Friction drops by 80%</span>
                               </div>
@@ -1439,7 +1439,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
                   {/* Active Habits list */}
                   <div>
-                    <h2 className="font-display text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
+                    <h2 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 mb-6 flex items-center gap-2">
                       <BookOpen className="h-6 w-6 text-primary" /> Active Habits System ({state.habits.length})
                     </h2>
 
@@ -1452,7 +1452,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         {state.habits.map((habit) => (
                           <div
                             key={habit.id}
-                            className="surface-card rounded-[2.5rem] p-8 border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group"
+                            className="surface-card rounded-[2.5rem] p-8 border border-slate-100 dark:border-slate-800 flex flex-col justify-between hover:shadow-md dark:shadow-none transition-shadow relative overflow-hidden group"
                           >
                             {/* Top row */}
                             <div className="flex justify-between items-start gap-4">
@@ -1466,7 +1466,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{habit.streak}d Streak 🔥</span>
                                 <button 
                                   onClick={() => handleDeleteHabit(habit.id)}
-                                  className="text-slate-355 hover:text-rose-500 p-1 rounded-full hover:bg-slate-50 transition-colors"
+                                  className="text-slate-355 hover:text-rose-500 p-1 rounded-full hover:bg-slate-50 dark:bg-slate-900 transition-colors"
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </button>
@@ -1476,9 +1476,9 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             {/* Habit specification */}
                             <div className="my-6">
                               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Atomic Formula</span>
-                              <p className="text-base font-bold text-slate-700 leading-relaxed">
-                                After <span className="text-slate-900 font-extrabold">{habit.cue}</span>, at <span className="text-slate-900 font-extrabold">{habit.location}</span>, I will:
-                                <span className="block text-slate-900 font-black text-lg mt-2 group-hover:text-primary transition-colors">
+                              <p className="text-base font-bold text-slate-700 dark:text-slate-300 leading-relaxed">
+                                After <span className="text-slate-900 dark:text-slate-50 font-extrabold">{habit.cue}</span>, at <span className="text-slate-900 dark:text-slate-50 font-extrabold">{habit.location}</span>, I will:
+                                <span className="block text-slate-900 dark:text-slate-50 font-black text-lg mt-2 group-hover:text-primary transition-colors">
                                   {habit.action}
                                 </span>
                               </p>
@@ -1490,14 +1490,14 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                                 <span>Success Rate</span>
                                 <span className="text-primary">{habit.successRate}%</span>
                               </div>
-                              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                              <div className="w-full bg-slate-100 dark:bg-slate-900 h-2 rounded-full overflow-hidden">
                                 <div className="bg-primary h-full rounded-full transition-all duration-300" style={{ width: `${habit.successRate}%` }} />
                               </div>
                               <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold pt-2">
                                 <span>Completions: {habit.completionCount} / {habit.totalTarget}</span>
                                 <Button 
                                   onClick={() => startTimer(habit)}
-                                  className="rounded-full bg-slate-900 hover:bg-slate-800 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 shrink-0 flex items-center gap-1.5 shadow-sm"
+                                  className="rounded-full bg-slate-900 hover:bg-slate-800 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 shrink-0 flex items-center gap-1.5 shadow-sm dark:shadow-none"
                                 >
                                   <Play className="h-3 w-3" /> Focus ({habit.duration || 25}m)
                                 </Button>
@@ -1520,7 +1520,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   exit={{ opacity: 0, y: -15 }}
                   className="mx-auto max-w-4xl w-full h-[650px]"
                 >
-                  <div className="surface-card rounded-[3.5rem] border border-slate-200 overflow-hidden h-full flex flex-col shadow-sm">
+                  <div className="surface-card rounded-[3.5rem] border border-slate-200 dark:border-slate-800 overflow-hidden h-full flex flex-col shadow-sm dark:shadow-none">
                     <ChatInterface />
                   </div>
                 </motion.div>
@@ -1539,8 +1539,8 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     <Sparkles className="h-4 w-4" />
                     Emergency Recovery Suite
                   </div>
-                  <h2 className="font-display text-4xl font-black text-slate-800 leading-tight">Mental Resilience Toolkit</h2>
-                  <p className="text-slate-500 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
+                  <h2 className="font-display text-4xl font-black text-slate-800 dark:text-slate-200 leading-tight">Mental Resilience Toolkit</h2>
+                  <p className="text-slate-500 dark:text-slate-400 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
                     Access immediate grounding guides, breathing visualizers, HALT checks, or reflections. Completing these logs recovery XP to prevent burnout.
                   </p>
 
@@ -1556,13 +1556,13 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         <div
                           key={tool.key}
                           onClick={() => setSelectedResilienceTool(tool.key)}
-                          className={`surface-card rounded-[2.5rem] p-8 cursor-pointer border hover:shadow-md transition-all hover:-translate-y-1 ${tool.color}`}
+                          className={`surface-card rounded-[2.5rem] p-8 cursor-pointer border hover:shadow-md dark:shadow-none transition-all hover:-translate-y-1 ${tool.color}`}
                         >
-                          <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-primary shadow-inner mb-6">
+                          <div className="h-12 w-12 rounded-2xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-primary shadow-inner mb-6">
                             <Icon className="h-6 w-6 text-primary" />
                           </div>
-                          <h3 className="font-display text-2xl font-black text-slate-800 mb-2">{tool.title}</h3>
-                          <p className="text-xs text-slate-500 font-bold leading-relaxed">{tool.desc}</p>
+                          <h3 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 mb-2">{tool.title}</h3>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 font-bold leading-relaxed">{tool.desc}</p>
                           <div className="flex items-center gap-1 text-[10px] font-black uppercase text-primary tracking-widest mt-6">
                             Launch Tool <ChevronRight className="h-3.5 w-3.5" />
                           </div>
@@ -1586,17 +1586,17 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     <Phone className="h-4 w-4" />
                     Indian Emergency Support
                   </div>
-                  <h2 className="font-display text-4xl font-black text-slate-800 leading-tight">24/7 Verified Helplines</h2>
-                  <p className="text-slate-500 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
+                  <h2 className="font-display text-4xl font-black text-slate-800 dark:text-slate-200 leading-tight">24/7 Verified Helplines</h2>
+                  <p className="text-slate-500 dark:text-slate-400 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
                     If you are experiencing severe distress or a crisis, please connect with these verified professional helplines immediately.
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {CRISIS_HELPLINES.map((helpline) => (
-                      <div key={helpline.name} className="surface-card rounded-[2.5rem] p-8 border border-rose-100 flex flex-col justify-between hover:shadow-sm transition-shadow">
+                      <div key={helpline.name} className="surface-card rounded-[2.5rem] p-8 border border-rose-100 flex flex-col justify-between hover:shadow-sm dark:shadow-none transition-shadow">
                         <div>
                           <div className="flex justify-between items-start gap-4">
-                            <h3 className="font-display text-2xl font-black text-slate-800 leading-tight">{helpline.name}</h3>
+                            <h3 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 leading-tight">{helpline.name}</h3>
                             <span className="text-[8px] font-black uppercase tracking-wider bg-rose-50 text-rose-600 border border-rose-100 px-2.5 py-0.5 rounded-full shrink-0">
                               {helpline.type}
                             </span>
@@ -1604,10 +1604,10 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Hours: {helpline.hours}</p>
                         </div>
                         
-                        <div className="flex items-center justify-between mt-8 pt-4 border-t border-slate-50">
-                          <span className="text-lg font-black text-slate-700">{helpline.number}</span>
+                        <div className="flex items-center justify-between mt-8 pt-4 border-t border-slate-50 dark:border-slate-800">
+                          <span className="text-lg font-black text-slate-700 dark:text-slate-300">{helpline.number}</span>
                           <a href={`tel:${helpline.number.replace(/\s+/g, "")}`}>
-                            <Button className="rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest px-6 py-2.5 shadow-md shadow-rose-200">
+                            <Button className="rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest px-6 py-2.5 shadow-md dark:shadow-none shadow-rose-200">
                               Call Now
                             </Button>
                           </a>
@@ -1620,21 +1620,21 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             </AnimatePresence>
 
             {/* Volunteer share sync config footer panel */}
-            <div className="surface-card rounded-[2.5rem] p-8 border border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-12 bg-emerald-50/10">
+            <div className="surface-card rounded-[2.5rem] p-8 border border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-12 bg-emerald-50/10">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-2xl bg-emerald-50 flex items-center justify-center border border-emerald-100 shrink-0">
                   <Heart className="h-6 w-6 text-primary animate-pulse" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-slate-800 leading-tight">Share my behavioral summary with my volunteer</h4>
-                  <p className="text-xs text-slate-500 font-bold leading-normal mt-1">
+                  <h4 className="text-sm font-black text-slate-800 dark:text-slate-200 leading-tight">Share my behavioral summary with my volunteer</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-bold leading-normal mt-1">
                     When enabled, your chosen volunteer sees your focus patterns, habit consistency, and behavioral trends before your session — not your personal data. This helps them support you more meaningfully.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 self-end sm:self-center shrink-0">
-                <span className="text-xs font-black uppercase text-slate-500 tracking-widest">
+                <span className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-widest">
                   {state.privacySync ? "Enabled (Encrypted)" : "Disabled (Local only)"}
                 </span>
                 <button
@@ -1647,7 +1647,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   }`}
                 >
                   <div
-                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
+                    className={`bg-white dark:bg-slate-950 w-6 h-6 rounded-full shadow-md dark:shadow-none transform transition-transform duration-300 ${
                       state.privacySync ? "translate-x-6" : "translate-x-0"
                     }`}
                   />
@@ -1674,7 +1674,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             />
           </div>
 
-          <div className="relative z-10 max-w-md w-full bg-slate-900 text-white rounded-[3.5rem] border border-white/10 p-8 sm:p-12 text-center shadow-2xl">
+          <div className="relative z-10 max-w-md w-full bg-slate-900 text-white rounded-[3.5rem] border border-white/10 p-8 sm:p-12 text-center shadow-2xl dark:shadow-none">
             <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
               Focus Session (Atomic Habit)
             </span>
@@ -1732,7 +1732,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             <div className="flex justify-center items-center gap-4 mb-8">
               <button
                 onClick={togglePauseTimer}
-                className="h-16 w-16 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all border border-white/15"
+                className="h-16 w-16 rounded-full bg-white/10 dark:bg-slate-950/10 hover:bg-white/20 dark:bg-slate-950/20 flex items-center justify-center transition-all border border-white/15"
                 title={timerPaused ? "Resume Session" : "Pause Session"}
               >
                 {timerPaused ? <Play className="h-6 w-6 text-emerald-400" /> : <Pause className="h-6 w-6 text-white" />}
@@ -1744,7 +1744,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     stopTimer();
                   }
                 }}
-                className="h-12 w-12 rounded-full bg-white/5 hover:bg-rose-500/20 hover:text-rose-400 flex items-center justify-center transition-all border border-white/5 text-slate-400"
+                className="h-12 w-12 rounded-full bg-white/5 dark:bg-slate-950/5 hover:bg-rose-500/20 hover:text-rose-400 flex items-center justify-center transition-all border border-white/5 text-slate-400"
                 title="Cancel Focus Session"
               >
                 <X className="h-5 w-5" />
@@ -1762,7 +1762,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
               </button>
             </div>
 
-            <div className="text-[10px] text-slate-500 font-bold leading-normal">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold leading-normal">
               Rule 3: Make it Easy. Start with a breath, block out the environment, and focus purely on the action step.
             </div>
           </div>
@@ -1785,7 +1785,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
               initial={{ opacity: 0, scale: 0.95, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
-              className="relative w-full max-w-2xl bg-white rounded-[3.5rem] shadow-2xl overflow-hidden max-h-[85vh] flex flex-col border border-slate-100"
+              className="relative w-full max-w-2xl bg-white dark:bg-slate-950 rounded-[3.5rem] shadow-2xl dark:shadow-none overflow-hidden max-h-[85vh] flex flex-col border border-slate-100 dark:border-slate-800"
             >
               <div className="p-8 sm:p-12 overflow-y-auto">
                 <div className="flex justify-between items-start mb-6">
@@ -1795,7 +1795,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   
                   <button
                     onClick={closeResilienceTool}
-                    className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-350 hover:text-slate-600"
+                    className="p-2 hover:bg-slate-100 dark:bg-slate-900 rounded-full transition-colors text-slate-350 hover:text-slate-600 dark:text-slate-400"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -1803,7 +1803,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
                 <div className="mb-8">
                   <span className="text-[9px] font-black uppercase text-primary tracking-widest block mb-1">SoulSync Resilience Center</span>
-                  <h2 className="font-display text-3xl font-black text-slate-800 leading-snug">
+                  <h2 className="font-display text-3xl font-black text-slate-800 dark:text-slate-200 leading-snug">
                     {selectedResilienceTool === "breathing" && "4-7-8 Breathing Room"}
                     {selectedResilienceTool === "grounding" && "5-4-3-2-1 Grounding Journey"}
                     {selectedResilienceTool === "halt" && "HALT Diagnostic"}
@@ -1819,7 +1819,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                 </div>
               </div>
 
-              <div className="p-6 bg-slate-50 border-t border-slate-150 flex items-center justify-between text-xs text-slate-400 font-bold">
+              <div className="p-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-150 flex items-center justify-between text-xs text-slate-400 font-bold">
                 <span>Active Recovery Mode</span>
                 <span>Complete to award Self-Care XP</span>
               </div>

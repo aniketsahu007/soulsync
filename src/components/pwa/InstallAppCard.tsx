@@ -20,16 +20,16 @@ export function InstallAppCard({
 
     return (
       <div
-        className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3 text-left shadow-sm ${className}`}
+        className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3 text-left shadow-sm dark:shadow-none ${className}`}
       >
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-700">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white dark:bg-slate-950 text-emerald-700">
           <CheckCircle2 className="h-5 w-5" />
         </span>
         <span className="min-w-0">
-          <span className="block text-sm font-black text-slate-950">
+          <span className="block text-sm font-black text-slate-950 dark:text-slate-50">
             App installed
           </span>
-          <span className="mt-0.5 block truncate text-xs font-medium text-slate-500">
+          <span className="mt-0.5 block truncate text-xs font-medium text-slate-500 dark:text-slate-400">
             Use Chrome's Open in app button
           </span>
         </span>
@@ -54,16 +54,16 @@ export function InstallAppCard({
         const result = await install();
         if (result === "accepted") onInstalled?.();
       }}
-      className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border border-slate-100 bg-white p-3 text-left shadow-sm transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-75 ${className}`}
+      className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-left shadow-sm dark:shadow-none transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-75 ${className}`}
     >
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
         <Download className="h-5 w-5" />
       </span>
       <span className="min-w-0">
-        <span className="block text-sm font-black text-slate-950">
+        <span className="block text-sm font-black text-slate-950 dark:text-slate-50">
           {isActionable ? "Install app" : unavailableTitle}
         </span>
-        <span className="mt-0.5 block truncate text-xs font-medium text-slate-500">
+        <span className="mt-0.5 block truncate text-xs font-medium text-slate-500 dark:text-slate-400">
           {isActionable ? "Add SoulSync to your phone" : unavailableMessage}
         </span>
       </span>

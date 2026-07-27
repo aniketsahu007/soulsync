@@ -61,11 +61,11 @@ export function MoodChart({ data = [] }: { data: ChartDataPoint[] }) {
                 const moodEmoji = moodLabels[roundedValue]?.split(" ")[0] || "";
                 
                 return (
-                  <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-xl">
+                  <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-4 shadow-xl dark:shadow-none">
                     <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{data.date}</div>
                     <div className="flex items-center gap-2">
                        <span className="text-xl">{moodEmoji}</span>
-                       <span className="font-bold text-slate-800 capitalize">
+                       <span className="font-bold text-slate-800 dark:text-slate-200 capitalize">
                          {data.isAverage ? `Avg Score: ${data.value.toFixed(1)}` : data.moodLabel}
                        </span>
                     </div>

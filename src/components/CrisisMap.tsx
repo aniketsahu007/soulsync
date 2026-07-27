@@ -202,7 +202,7 @@ export const CrisisMap: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Search for a city (e.g., Mumbai, Delhi, Bangalore)"
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 pl-10 text-sm focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-2.5 pl-10 text-sm focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
             disabled={isSearching}
           />
           <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -252,14 +252,14 @@ export const CrisisMap: React.FC = () => {
         className="h-64 md:h-72 w-full rounded-[1.5rem] bg-muted overflow-hidden border border-border relative"
       >
         {loading && (
-          <div className="flex h-full w-full items-center justify-center bg-slate-50/50 backdrop-blur-sm absolute inset-0 z-10">
+          <div className="flex h-full w-full items-center justify-center bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-sm absolute inset-0 z-10">
             <Loader2 className="h-8 w-8 animate-spin text-primary opacity-60" />
           </div>
         )}
         {error && !places.length && (
           <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
             <MapPin className="h-10 w-10 text-slate-300 mb-3" />
-            <p className="text-sm text-slate-500 font-medium">{error}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{error}</p>
           </div>
         )}
       </div>
@@ -283,7 +283,7 @@ export const CrisisMap: React.FC = () => {
       {/* Places List */}
       {!loading && places.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
             <MapPin className="h-3 w-3" />
             Nearby Support Centers ({places.length})
           </p>
@@ -294,8 +294,8 @@ export const CrisisMap: React.FC = () => {
                 className="flex items-center justify-between p-3 rounded-xl bg-background border border-border hover:border-primary/40 transition-colors duration-200 group"
               >
                 <div className="flex-1 min-w-0 text-left">
-                  <p className="font-semibold text-sm text-slate-800 truncate">{place.name}</p>
-                  <p className="text-[10px] text-slate-500 truncate flex items-center gap-1">
+                  <p className="font-semibold text-sm text-slate-800 dark:text-slate-200 truncate">{place.name}</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate flex items-center gap-1">
                     <MapPin className="h-3 w-3 inline" />
                     {place.vicinity}
                   </p>
@@ -320,9 +320,9 @@ export const CrisisMap: React.FC = () => {
 
       {/* Fallback when no places found */}
       {!loading && places.length === 0 && !error && (
-        <div className="flex flex-col items-center justify-center p-4 text-center bg-slate-50 rounded-xl border border-slate-200">
+        <div className="flex flex-col items-center justify-center p-4 text-center bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
           <MapPin className="h-8 w-8 text-slate-300 mb-2" />
-          <p className="text-sm text-slate-500 font-medium">No nearby centers found.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">No nearby centers found.</p>
           <p className="text-xs text-slate-400">Please call the helpline above for immediate support.</p>
         </div>
       )}

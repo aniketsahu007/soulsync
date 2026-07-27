@@ -143,12 +143,12 @@ function DesktopMoodTrackerPage() {
       case 'okay': return 'text-amber-500 bg-amber-50';
       case 'low': return 'text-rose-400 bg-rose-50';
       case 'struggling': return 'text-rose-600 bg-rose-100';
-      default: return 'text-slate-400 bg-slate-50';
+      default: return 'text-slate-400 bg-slate-50 dark:bg-slate-900';
     }
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden pt-16 bg-slate-50/50">
+    <div className="min-h-screen overflow-x-hidden pt-16 bg-slate-50/50 dark:bg-slate-900/50">
       <Navbar />
       
       <main className={`mx-auto ${isMobile ? "max-w-none px-3 py-6" : "max-w-6xl px-4 py-12 sm:px-6 lg:px-8"}`}>
@@ -156,10 +156,10 @@ function DesktopMoodTrackerPage() {
         {/* Header Section */}
         <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 ${isMobile ? "mb-8" : "mb-12"}`}>
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-            <h1 className={`${isMobile ? "text-[2rem] leading-tight" : "text-4xl"} font-black tracking-tight text-slate-900`}>
+            <h1 className={`${isMobile ? "text-[2rem] leading-tight" : "text-4xl"} font-black tracking-tight text-slate-900 dark:text-slate-50`}>
               Mood <span className="text-gradient">Journal</span>
             </h1>
-            <p className={`mt-2 text-slate-500 font-medium ${isMobile ? "max-w-none text-sm leading-6" : "max-w-md"}`}>
+            <p className={`mt-2 text-slate-500 dark:text-slate-400 font-medium ${isMobile ? "max-w-none text-sm leading-6" : "max-w-md"}`}>
               Reflect on your emotional patterns and discover the factors that influence your wellbeing.
             </p>
           </motion.div>
@@ -167,7 +167,7 @@ function DesktopMoodTrackerPage() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
             <Button 
               onClick={() => setIsAdding(!isAdding)}
-              className={`${isMobile ? "h-12 w-full rounded-2xl justify-center" : "h-14 rounded-full px-8"} font-black gap-3 shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all`}
+              className={`${isMobile ? "h-12 w-full rounded-2xl justify-center" : "h-14 rounded-full px-8"} font-black gap-3 shadow-xl dark:shadow-none shadow-primary/20 hover:scale-105 active:scale-95 transition-all`}
             >
               {isAdding ? <Plus className="h-5 w-5 rotate-45 transition-transform" /> : <Plus className="h-5 w-5" />}
               {isAdding ? "Cancel Entry" : "Add New Entry"}
@@ -183,8 +183,8 @@ function DesktopMoodTrackerPage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden mb-12"
             >
-              <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 rounded-[3rem]"} border-white bg-white shadow-2xl shadow-primary/5 ring-1 ring-slate-200/50`}>
-                <h3 className={`${isMobile ? "mb-6 text-lg" : "mb-8 text-xl"} text-slate-800 text-center font-black`}>How are you feeling right now?</h3>
+              <Card className={`${isMobile ? "p-5 rounded-[1.5rem]" : "p-8 rounded-[3rem]"} border-white bg-white dark:bg-slate-950 shadow-2xl dark:shadow-none shadow-primary/5 ring-1 ring-slate-200/50`}>
+                <h3 className={`${isMobile ? "mb-6 text-lg" : "mb-8 text-xl"} text-slate-800 dark:text-slate-200 text-center font-black`}>How are you feeling right now?</h3>
                 
                 <div className={`mx-auto ${isMobile ? "max-w-none space-y-6" : "max-w-2xl space-y-10"}`}>
                   <MoodSelector selected={newMood} onSelect={setNewMood} />
@@ -198,7 +198,7 @@ function DesktopMoodTrackerPage() {
                       value={newNote}
                       onChange={(e) => setNewNote(e.target.value)}
                       placeholder="What's contributing to your mood today? Any specific events or thoughts?"
-                      className="w-full rounded-[2rem] border-2 border-slate-50 bg-slate-50/50 p-6 text-sm font-medium focus:outline-none focus:border-primary/30 min-h-[120px] resize-none transition-all"
+                      className="w-full rounded-[2rem] border-2 border-slate-50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-6 text-sm font-medium focus:outline-none focus:border-primary/30 min-h-[120px] resize-none transition-all"
                     />
                   </div>
 
@@ -222,19 +222,19 @@ function DesktopMoodTrackerPage() {
           
           {/* Stats & Trends Column */}
           <div className={`space-y-5 lg:col-span-1 ${isMobile ? "order-2" : ""}`}>
-            <Card className={`${isMobile ? "p-4 rounded-[1.35rem]" : "p-6 rounded-[2.5rem]"} border-white bg-white shadow-sm ring-1 ring-slate-200/50`}>
+            <Card className={`${isMobile ? "p-4 rounded-[1.35rem]" : "p-6 rounded-[2.5rem]"} border-white bg-white dark:bg-slate-950 shadow-sm dark:shadow-none ring-1 ring-slate-200/50`}>
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-black text-slate-900 flex items-center gap-2">
+                <h3 className="font-black text-slate-900 dark:text-slate-50 flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
                   Insights
                 </h3>
               </div>
               
               <div className="space-y-6">
-                <div className="p-4 rounded-2xl bg-slate-50 flex items-center justify-between">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 flex items-center justify-between">
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Average Mood</p>
-                    <p className="text-xl font-black text-slate-800">
+                    <p className="text-xl font-black text-slate-800 dark:text-slate-200">
                       {averageMoodValue >= 80 ? "Radiant" : averageMoodValue >= 60 ? "Steady" : averageMoodValue >= 40 ? "Balanced" : "Challenging"}
                     </p>
                   </div>
@@ -248,10 +248,10 @@ function DesktopMoodTrackerPage() {
                   {Object.entries(moodCounts).map(([mood, count]) => (
                     <div key={mood} className="space-y-1.5">
                       <div className="flex justify-between text-[10px] font-bold uppercase tracking-tight">
-                        <span className="text-slate-500">{mood}</span>
-                        <span className="text-slate-900">{count} entries</span>
+                        <span className="text-slate-500 dark:text-slate-400">{mood}</span>
+                        <span className="text-slate-900 dark:text-slate-50">{count} entries</span>
                       </div>
-                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
                           animate={{ width: entries.length > 0 ? `${(count / entries.length) * 100}%` : 0 }}
@@ -264,7 +264,7 @@ function DesktopMoodTrackerPage() {
               </div>
             </Card>
 
-            <Card className={`${isMobile ? "p-4 rounded-[1.35rem]" : "p-6 rounded-[2.5rem]"} border-white bg-slate-900 shadow-xl overflow-hidden relative group`}>
+            <Card className={`${isMobile ? "p-4 rounded-[1.35rem]" : "p-6 rounded-[2.5rem]"} border-white bg-slate-900 shadow-xl dark:shadow-none overflow-hidden relative group`}>
                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform">
                   <TrendingUp className="h-32 w-32 text-white" />
                </div>
@@ -285,9 +285,9 @@ function DesktopMoodTrackerPage() {
 
           {/* History Column */}
           <div className={`space-y-5 lg:col-span-2 ${isMobile ? "order-1" : ""}`}>
-            <Card className={`${isMobile ? "p-4 rounded-[1.5rem]" : "p-8 rounded-[3rem]"} border-white bg-white shadow-sm ring-1 ring-slate-200/50`}>
+            <Card className={`${isMobile ? "p-4 rounded-[1.5rem]" : "p-8 rounded-[3rem]"} border-white bg-white dark:bg-slate-950 shadow-sm dark:shadow-none ring-1 ring-slate-200/50`}>
               <div className={`flex items-center justify-between ${isMobile ? "mb-5" : "mb-8"}`}>
-                <h3 className="font-black text-slate-900 flex items-center gap-2">
+                <h3 className="font-black text-slate-900 dark:text-slate-50 flex items-center gap-2">
                   <Calendar className="h-5 w-5 text-primary" />
                   Your Journey
                 </h3>
@@ -313,7 +313,7 @@ function DesktopMoodTrackerPage() {
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 mb-2">History</h4>
                  {isLoading || identityLoading ? (
                    <div className="space-y-4">
-                      {[1,2,3].map(i => <div key={i} className="h-20 w-full bg-slate-50 animate-pulse rounded-2xl" />)}
+                      {[1,2,3].map(i => <div key={i} className="h-20 w-full bg-slate-50 dark:bg-slate-900 animate-pulse rounded-2xl" />)}
                    </div>
                  ) : entries.length > 0 ? (
                     <div className="space-y-3">
@@ -323,16 +323,16 @@ function DesktopMoodTrackerPage() {
                             layout
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className={`group relative flex items-start gap-4 border border-transparent bg-slate-50/50 transition-all duration-300 hover:bg-white hover:border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 ${isMobile ? "rounded-[1.25rem] p-4" : "rounded-3xl p-5"}`}
+                            className={`group relative flex items-start gap-4 border border-transparent bg-slate-50/50 dark:bg-slate-900/50 transition-all duration-300 hover:bg-white dark:bg-slate-950 hover:border-slate-100 dark:border-slate-800 hover:shadow-xl dark:shadow-none hover:shadow-slate-200/50 ${isMobile ? "rounded-[1.25rem] p-4" : "rounded-3xl p-5"}`}
                           >
-                            <div className={`h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${getMoodColor(entry.mood)}`}>
+                            <div className={`h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm dark:shadow-none ${getMoodColor(entry.mood)}`}>
                                <span className="text-xl">
                                   {entry.mood === 'great' ? '🌟' : entry.mood === 'good' ? '😊' : entry.mood === 'okay' ? '😐' : entry.mood === 'low' ? '😔' : '😫'}
                                </span>
                             </div>
                             <div className="flex-1 pt-1">
                                 <div className={`mb-1 flex ${isMobile ? "flex-col items-start gap-1" : "items-center justify-between"}`}>
-                                  <span className="text-sm font-black text-slate-800 capitalize">{entry.mood}</span>
+                                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 capitalize">{entry.mood}</span>
                                    <div className={`flex ${isMobile ? "w-full items-center justify-between gap-2" : "items-center gap-3"}`}>
                                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
                                         <Clock className="h-3 w-3" />
@@ -347,7 +347,7 @@ function DesktopMoodTrackerPage() {
                                   </div>
                                </div>
                                {entry.note && (
-                                 <p className="text-xs text-slate-500 leading-relaxed font-medium mt-2 bg-white/50 p-3 rounded-xl border border-slate-50 italic">
+                                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium mt-2 bg-white/50 dark:bg-slate-950/50 p-3 rounded-xl border border-slate-50 dark:border-slate-800 italic">
                                    "{entry.note}"
                                  </p>
                                )}
@@ -356,7 +356,7 @@ function DesktopMoodTrackerPage() {
                        ))}
                     </div>
                  ) : (
-                   <div className="text-center py-12 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+                   <div className="text-center py-12 bg-slate-50 dark:bg-slate-900 rounded-[3rem] border-2 border-dashed border-slate-200 dark:border-slate-800">
                       <p className="text-sm font-bold text-slate-400 italic">Your emotional map will appear here.</p>
                    </div>
                  )}

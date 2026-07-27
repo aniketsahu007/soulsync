@@ -92,14 +92,14 @@ export const Navbar = memo(() => {
     <nav
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         !isGlassMode 
-          ? "bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm text-slate-900" 
-          : "bg-white/5 backdrop-blur-sm border-b border-white/10 text-white"
+          ? "bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none text-slate-900 dark:text-slate-50" 
+          : "bg-white/5 dark:bg-slate-950/5 backdrop-blur-sm border-b border-white/10 text-white"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.25rem] items-center justify-between gap-4">
           <Link to="/" className="flex min-w-0 shrink-0 items-center gap-3 group">
-            <div className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1 transition-transform group-hover:scale-105 ${isGlassMode ? "bg-white/10 backdrop-blur-md" : ""}`}>
+            <div className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl p-1 transition-transform group-hover:scale-105 ${isGlassMode ? "bg-white/10 dark:bg-slate-950/10 backdrop-blur-md" : ""}`}>
               <img 
                 src="/logo.png" 
                 alt="SoulSync Logo" 
@@ -111,10 +111,10 @@ export const Navbar = memo(() => {
               />
             </div>
             <div className="min-w-0">
-              <span className={`block truncate font-display text-[1.35rem] font-semibold leading-none sm:text-[1.5rem] transition-colors ${!isGlassMode ? 'text-slate-900' : 'text-white'}`}>
+              <span className={`block truncate font-display text-[1.35rem] font-semibold leading-none sm:text-[1.5rem] transition-colors ${!isGlassMode ? 'text-slate-900 dark:text-slate-50' : 'text-white'}`}>
                 SoulSync
               </span>
-              <p className={`mt-0.5 hidden text-[0.58rem] font-bold uppercase tracking-[0.2em] sm:block transition-colors ${!isGlassMode ? 'text-slate-500' : 'text-white/70'}`}>
+              <p className={`mt-0.5 hidden text-[0.58rem] font-bold uppercase tracking-[0.2em] sm:block transition-colors ${!isGlassMode ? 'text-slate-500 dark:text-slate-400' : 'text-white/70'}`}>
                 Harmony · Healing · Growth
               </p>
             </div>
@@ -126,8 +126,8 @@ export const Navbar = memo(() => {
                 to="/"
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                   location.pathname === "/"
-                    ? !isGlassMode ? "bg-primary/10 text-primary font-semibold" : "bg-white/20 text-white font-semibold shadow-inner"
-                    : !isGlassMode ? "text-slate-600 hover:bg-slate-100/50 hover:text-slate-900" : "text-white/80 hover:bg-white/10 hover:text-white"
+                    ? !isGlassMode ? "bg-primary/10 text-primary font-semibold" : "bg-white/20 dark:bg-slate-950/20 text-white font-semibold shadow-inner"
+                    : !isGlassMode ? "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:bg-slate-900/50 hover:text-slate-900 dark:text-slate-50" : "text-white/80 hover:bg-white/10 dark:bg-slate-950/10 hover:text-white"
                 }`}
               >
                 Home
@@ -138,8 +138,8 @@ export const Navbar = memo(() => {
                   onClick={() => setDropdownOpen((value) => !value)}
                   className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                     dropdownOpen || location.pathname.includes("/support") || location.pathname.includes("/tools")
-                      ? !isGlassMode ? "bg-primary/10 text-primary font-semibold" : "bg-white/20 text-white font-semibold shadow-inner"
-                      : !isGlassMode ? "text-slate-600 hover:bg-slate-100/50 hover:text-slate-900" : "text-white/80 hover:bg-white/10 hover:text-white"
+                      ? !isGlassMode ? "bg-primary/10 text-primary font-semibold" : "bg-white/20 dark:bg-slate-950/20 text-white font-semibold shadow-inner"
+                      : !isGlassMode ? "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:bg-slate-900/50 hover:text-slate-900 dark:text-slate-50" : "text-white/80 hover:bg-white/10 dark:bg-slate-950/10 hover:text-white"
                   }`}
                 >
                   Explore
@@ -148,9 +148,9 @@ export const Navbar = memo(() => {
 
                 {dropdownOpen && (
                   <div
-                    className="absolute left-1/2 top-full mt-4 w-[36rem] -translate-x-1/2 rounded-[1.5rem] border border-slate-200 bg-white/95 backdrop-blur-xl p-4 shadow-2xl animate-in fade-in slide-in-from-top-4"
+                    className="absolute left-1/2 top-full mt-4 w-[36rem] -translate-x-1/2 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl p-4 shadow-2xl dark:shadow-none animate-in fade-in slide-in-from-top-4"
                   >
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-4 text-slate-900">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-4 text-slate-900 dark:text-slate-50">
                       {/* Support Section */}
                       <div>
                         <div className="mb-2 px-3 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-slate-400">
@@ -165,7 +165,7 @@ export const Navbar = memo(() => {
                               className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
                                 location.pathname === link.to
                                   ? "bg-primary/10 text-primary"
-                                  : "hover:bg-slate-50"
+                                  : "hover:bg-slate-50 dark:bg-slate-900"
                               }`}
                             >
                               <div
@@ -174,8 +174,8 @@ export const Navbar = memo(() => {
                                 <link.icon className="h-4 w-4 text-primary" />
                               </div>
                               <div>
-                                <div className="text-sm font-semibold text-slate-900">{link.label}</div>
-                                <div className="mt-0.5 text-xs leading-relaxed text-slate-500">{link.desc}</div>
+                                <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">{link.label}</div>
+                                <div className="mt-0.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{link.desc}</div>
                               </div>
                             </Link>
                           ))}
@@ -189,7 +189,7 @@ export const Navbar = memo(() => {
                         </div>
                         <div className="space-y-1">
                           <InstallAppCard
-                            className="rounded-[1.1rem] px-3 py-3 shadow-none hover:bg-slate-50 border-transparent bg-transparent"
+                            className="rounded-[1.1rem] px-3 py-3 shadow-none hover:bg-slate-50 dark:bg-slate-900 border-transparent bg-transparent"
                             onInstalled={() => setDropdownOpen(false)}
                             showUnavailable
                           />
@@ -201,7 +201,7 @@ export const Navbar = memo(() => {
                               className={`flex items-start gap-3 rounded-[1.1rem] px-3 py-3 transition-all duration-150 ${
                                 location.pathname === link.to
                                   ? "bg-primary/10 text-primary"
-                                  : "hover:bg-slate-50"
+                                  : "hover:bg-slate-50 dark:bg-slate-900"
                               }`}
                             >
                               <div
@@ -210,8 +210,8 @@ export const Navbar = memo(() => {
                                 <link.icon className="h-4 w-4 text-primary" />
                               </div>
                               <div>
-                                <div className="text-sm font-semibold text-slate-900">{link.label}</div>
-                                <div className="mt-0.5 text-xs leading-relaxed text-slate-500">{link.desc}</div>
+                                <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">{link.label}</div>
+                                <div className="mt-0.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{link.desc}</div>
                               </div>
                             </Link>
                           ))}
@@ -226,8 +226,8 @@ export const Navbar = memo(() => {
                 to="/volunteer"
                 className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                   location.pathname === "/volunteer"
-                    ? !isGlassMode ? "bg-primary/10 text-primary font-semibold" : "bg-white/20 text-white font-semibold shadow-inner"
-                    : !isGlassMode ? "text-slate-600 hover:bg-slate-100/50 hover:text-slate-900" : "text-white/80 hover:bg-white/10 hover:text-white"
+                    ? !isGlassMode ? "bg-primary/10 text-primary font-semibold" : "bg-white/20 dark:bg-slate-950/20 text-white font-semibold shadow-inner"
+                    : !isGlassMode ? "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:bg-slate-900/50 hover:text-slate-900 dark:text-slate-50" : "text-white/80 hover:bg-white/10 dark:bg-slate-950/10 hover:text-white"
                 }`}
               >
                 <UserCheck className="h-4 w-4" />
@@ -241,7 +241,7 @@ export const Navbar = memo(() => {
               <div className="flex items-center gap-3">
                 <div className="hidden flex-col items-end xl:flex">
                   <span className={`text-[0.6rem] font-bold uppercase tracking-wider transition-colors ${!isGlassMode ? 'text-slate-400' : 'text-white/70'}`}>Signed in</span>
-                  <span className={`text-sm font-semibold truncate max-w-[12rem] transition-colors ${!isGlassMode ? 'text-slate-900' : 'text-white'}`}>{userEmail}</span>
+                  <span className={`text-sm font-semibold truncate max-w-[12rem] transition-colors ${!isGlassMode ? 'text-slate-900 dark:text-slate-50' : 'text-white'}`}>{userEmail}</span>
                 </div>
                 {isAdmin && (
                   <Link to="/admin/command-center">
@@ -288,8 +288,8 @@ export const Navbar = memo(() => {
           <button
             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-colors md:hidden ${
               !isGlassMode 
-                ? "border-slate-200 bg-white text-slate-900 hover:bg-slate-50 shadow-sm" 
-                : "border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"
+                ? "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:bg-slate-900 shadow-sm dark:shadow-none" 
+                : "border-white/20 bg-white/10 dark:bg-slate-950/10 text-white hover:bg-white/20 dark:bg-slate-950/20 backdrop-blur-md"
             }`}
             onClick={() => setMobileOpen((value) => !value)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -301,7 +301,7 @@ export const Navbar = memo(() => {
 
       {mobileOpen && (
         <div 
-          className="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl text-slate-900 shadow-2xl animate-in slide-in-from-top-4"
+          className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl text-slate-900 dark:text-slate-50 shadow-2xl dark:shadow-none animate-in slide-in-from-top-4"
         >
           <div className="mx-auto max-w-7xl px-4 py-4 space-y-1">
             <Link
@@ -310,7 +310,7 @@ export const Navbar = memo(() => {
               className={`block rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
                 location.pathname === "/"
                   ? "bg-primary/10 text-primary"
-                  : "hover:bg-slate-50 text-slate-900"
+                  : "hover:bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50"
               }`}
             >
               Home
@@ -328,7 +328,7 @@ export const Navbar = memo(() => {
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   location.pathname === link.to
                     ? "bg-primary/10 text-primary"
-                    : "hover:bg-slate-50 text-slate-900"
+                    : "hover:bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50"
                 }`}
               >
                 <div className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${location.pathname === link.to ? "bg-primary/20" : "bg-primary/10"}`}>
@@ -336,7 +336,7 @@ export const Navbar = memo(() => {
                 </div>
                 <div>
                   <div className="font-semibold">{link.label}</div>
-                  <div className="text-xs font-normal text-slate-500">{link.desc}</div>
+                  <div className="text-xs font-normal text-slate-500 dark:text-slate-400">{link.desc}</div>
                 </div>
               </Link>
             ))}
@@ -346,7 +346,7 @@ export const Navbar = memo(() => {
             </div>
 
             <InstallAppCard
-              className="rounded-xl px-4 py-3 shadow-none border-transparent bg-transparent hover:bg-slate-50"
+              className="rounded-xl px-4 py-3 shadow-none border-transparent bg-transparent hover:bg-slate-50 dark:bg-slate-900"
               onInstalled={() => setMobileOpen(false)}
               showUnavailable
             />
@@ -359,7 +359,7 @@ export const Navbar = memo(() => {
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   location.pathname === link.to
                     ? "bg-primary/10 text-primary"
-                    : "hover:bg-slate-50 text-slate-900"
+                    : "hover:bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50"
                 }`}
               >
                 <div className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${location.pathname === link.to ? "bg-primary/20" : "bg-primary/10"}`}>
@@ -367,12 +367,12 @@ export const Navbar = memo(() => {
                 </div>
                 <div>
                   <div className="font-semibold">{link.label}</div>
-                  <div className="text-xs font-normal text-slate-500">{link.desc}</div>
+                  <div className="text-xs font-normal text-slate-500 dark:text-slate-400">{link.desc}</div>
                 </div>
               </Link>
             ))}
 
-            <div className="h-px bg-slate-100 my-2" />
+            <div className="h-px bg-slate-100 dark:bg-slate-900 my-2" />
 
             <Link
               to="/volunteer"
@@ -380,7 +380,7 @@ export const Navbar = memo(() => {
               className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                 location.pathname === "/volunteer"
                   ? "bg-primary text-white"
-                  : "text-slate-700 hover:bg-slate-50"
+                  : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900"
               }`}
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 shrink-0">
@@ -388,7 +388,7 @@ export const Navbar = memo(() => {
               </div>
               <div>
                 <div className="font-semibold">I Want to Volunteer</div>
-                <div className="text-xs font-normal text-slate-500">
+                <div className="text-xs font-normal text-slate-500 dark:text-slate-400">
                   Support others as a trained peer listener
                 </div>
               </div>

@@ -50,9 +50,9 @@ export const VolunteerGovernance = memo(({
   }, [searchQuery, filterStatus]);
 
   return (
-    <Card className="overflow-hidden rounded-[3rem] border-white bg-white shadow-md ring-1 ring-slate-200/50">
+    <Card className="overflow-hidden rounded-[3rem] border-white bg-white dark:bg-slate-950 shadow-md dark:shadow-none ring-1 ring-slate-200/50">
       <div className="flex flex-col gap-6 p-10">
-        <h2 className="flex items-center gap-3 text-2xl font-black tracking-tight text-slate-900">
+        <h2 className="flex items-center gap-3 text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">
           <Globe className="h-6 w-6 text-primary" />
           Volunteer Governance
         </h2>
@@ -64,18 +64,18 @@ export const VolunteerGovernance = memo(({
               placeholder="Search Identity..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-12 pl-12 pr-4 rounded-2xl border border-slate-100 bg-slate-50 text-sm focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+              className="w-full h-12 pl-12 pr-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-sm focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
             />
           </div>
-          <div className="flex gap-2 bg-slate-100 p-1 rounded-2xl overflow-x-auto max-w-full">
+          <div className="flex gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-2xl overflow-x-auto max-w-full">
             {['all', 'pending', 'verified', 'rejected'].map(status => (
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
                 className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   filterStatus === status 
-                  ? "bg-white text-slate-900 shadow-sm" 
-                  : "text-slate-500 hover:text-slate-700"
+                  ? "bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 shadow-sm dark:shadow-none" 
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:text-slate-300"
                 }`}
               >
                 {status}
@@ -87,7 +87,7 @@ export const VolunteerGovernance = memo(({
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-slate-50 bg-slate-50/50">
+            <tr className="border-b border-slate-50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Identity Profile</th>
               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Governance Status</th>
               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Audit Date</th>
@@ -99,24 +99,24 @@ export const VolunteerGovernance = memo(({
               <tr>
                 <td colSpan={4} className="px-8 py-20 text-center">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="h-20 w-20 rounded-3xl bg-slate-50 flex items-center justify-center mb-6">
+                    <div className="h-20 w-20 rounded-3xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center mb-6">
                       <UserCheck className="h-10 w-10 text-slate-200" />
                     </div>
-                    <h3 className="text-lg font-black text-slate-800">No Match Found</h3>
+                    <h3 className="text-lg font-black text-slate-800 dark:text-slate-200">No Match Found</h3>
                     <p className="text-sm font-bold text-slate-400">Adjust your search or filters to locate volunteers.</p>
                   </div>
                 </td>
               </tr>
             ) : paginatedVolunteers.map((vol) => (
-              <tr key={vol.id} className="group transition-colors hover:bg-slate-50/50">
+              <tr key={vol.id} className="group transition-colors hover:bg-slate-50/50 dark:bg-slate-900/50">
                 <td className="px-8 py-6 cursor-pointer" onClick={() => onSelectVolunteer(vol)}>
                   <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-black text-slate-400 text-xs">
+                    <div className="h-10 w-10 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center font-black text-slate-400 text-xs">
                       {vol.name?.charAt(0) || "V"}
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900 group-hover:text-primary transition-colors">{vol.name || "Anonymous Volunteer"}</p>
-                      <p className="text-xs text-slate-500">{vol.email}</p>
+                      <p className="font-bold text-slate-900 dark:text-slate-50 group-hover:text-primary transition-colors">{vol.name || "Anonymous Volunteer"}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{vol.email}</p>
                     </div>
                   </div>
                 </td>
@@ -143,7 +143,7 @@ export const VolunteerGovernance = memo(({
                       <Button 
                         size="sm" 
                         onClick={() => onStatusChange(vol.id, "verified")}
-                        className="h-9 w-9 rounded-xl bg-emerald-500 p-0 text-white shadow-lg shadow-emerald-500/20 transition-all hover:scale-110 active:scale-95"
+                        className="h-9 w-9 rounded-xl bg-emerald-500 p-0 text-white shadow-lg dark:shadow-none shadow-emerald-500/20 transition-all hover:scale-110 active:scale-95"
                       >
                         <CheckCircle className="h-4 w-4" />
                       </Button>
@@ -153,7 +153,7 @@ export const VolunteerGovernance = memo(({
                         size="sm" 
                         variant="destructive" 
                         onClick={() => onStatusChange(vol.id, "rejected")}
-                        className="h-9 w-9 rounded-xl bg-red-500 p-0 text-white shadow-lg shadow-red-500/20 transition-all hover:scale-110 active:scale-95"
+                        className="h-9 w-9 rounded-xl bg-red-500 p-0 text-white shadow-lg dark:shadow-none shadow-red-500/20 transition-all hover:scale-110 active:scale-95"
                       >
                         <XCircle className="h-4 w-4" />
                       </Button>
@@ -164,10 +164,10 @@ export const VolunteerGovernance = memo(({
                       onClick={() => onViewCV(vol)}
                       disabled={cvLoading === vol.id}
                       title={hasVolunteerCv(vol) ? "View CV" : "No CV uploaded"}
-                      className={`h-9 w-9 rounded-xl border border-slate-100 text-slate-400 hover:text-slate-900 ${!hasVolunteerCv(vol) ? "opacity-50" : ""}`}
+                      className={`h-9 w-9 rounded-xl border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-slate-900 dark:text-slate-50 ${!hasVolunteerCv(vol) ? "opacity-50" : ""}`}
                     >
                       {cvLoading === vol.id ? (
-                        <RefreshCw className="h-4 w-4 animate-spin text-slate-600" />
+                        <RefreshCw className="h-4 w-4 animate-spin text-slate-600 dark:text-slate-400" />
                       ) : (
                         <Eye className="h-4 w-4" />
                       )}
@@ -180,7 +180,7 @@ export const VolunteerGovernance = memo(({
         </table>
       </div>
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-10 py-6 border-t border-slate-50">
+        <div className="flex items-center justify-between px-10 py-6 border-t border-slate-50 dark:border-slate-800">
           <p className="text-xs font-bold text-slate-400">
             Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, filteredVolunteers.length)} of {filteredVolunteers.length}
           </p>

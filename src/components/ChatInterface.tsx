@@ -201,7 +201,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
       {/* Crisis Map Modal */}
       {showCrisisMap && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-background p-4 shadow-2xl">
+          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-background p-4 shadow-2xl dark:shadow-none">
             <Button
               variant="ghost"
               size="icon"
@@ -217,7 +217,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
 
       {/* Header */}
       {showHeader && (
-      <div className="flex items-center gap-3 p-4 border-b bg-card shadow-sm z-10">
+      <div className="flex items-center gap-3 p-4 border-b bg-card shadow-sm dark:shadow-none z-10">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-wellness shadow-inner">
           <Bot className="h-5 w-5 text-primary-foreground" />
         </div>
@@ -288,7 +288,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
               className={`flex ${mobile ? "gap-2" : "gap-3"} ${msg.role === "user" ? "flex-row-reverse" : ""}`}
             >
               <div
-                className={`flex ${mobile ? "h-7 w-7 rounded-lg" : "h-8 w-8 rounded-xl"} shrink-0 items-center justify-center shadow-sm ${
+                className={`flex ${mobile ? "h-7 w-7 rounded-lg" : "h-8 w-8 rounded-xl"} shrink-0 items-center justify-center shadow-sm dark:shadow-none ${
                   msg.role === "assistant" ? "bg-primary/10 border border-primary/5" : "bg-muted border"
                 }`}
               >
@@ -299,7 +299,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
                 )}
               </div>
               <div
-                className={`${mobile ? "max-w-[82%] rounded-[1.15rem] px-4 py-3" : "max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3"} text-sm leading-relaxed shadow-sm ${
+                className={`${mobile ? "max-w-[82%] rounded-[1.15rem] px-4 py-3" : "max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3"} text-sm leading-relaxed shadow-sm dark:shadow-none ${
                   msg.role === "assistant"
                     ? "bg-card border text-card-foreground"
                     : "gradient-wellness text-primary-foreground"
@@ -321,7 +321,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
                             className="mt-3 p-4 rounded-xl bg-primary/5 border border-primary/20 flex flex-col gap-3"
                           >
                             <div className="flex items-center gap-3">
-                              <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-white shadow-sm">
+                              <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-950 shadow-sm dark:shadow-none">
                                 {tool.type === "audio" && <Play className="h-5 w-5 text-primary" />}
                                 {tool.type === "text" && <FileText className="h-5 w-5 text-primary" />}
                                 {tool.type === "video" && <ExternalLink className="h-5 w-5 text-primary" />}
@@ -368,7 +368,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
             >
               <motion.div 
                 initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
-                className="w-full max-w-lg bg-card rounded-3xl shadow-2xl border flex flex-col max-h-[85vh]"
+                className="w-full max-w-lg bg-card rounded-3xl shadow-2xl dark:shadow-none border flex flex-col max-h-[85vh]"
               >
                 <div className="p-4 border-b flex items-center justify-between shrink-0">
                   <h3 className="font-display font-bold">{activeTool.title}</h3>
@@ -492,7 +492,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
               <button
                 key={prompt}
                 onClick={() => send(prompt)}
-                className="inline-flex items-center gap-1.5 rounded-full border bg-card px-4 py-2 text-xs font-medium text-muted-foreground hover:text-primary hover:border-primary/40 hover:shadow-sm transition-all"
+                className="inline-flex items-center gap-1.5 rounded-full border bg-card px-4 py-2 text-xs font-medium text-muted-foreground hover:text-primary hover:border-primary/40 hover:shadow-sm dark:shadow-none transition-all"
               >
                 <Sparkles className="h-3 w-3 text-primary/50" />
                 {prompt}
@@ -566,7 +566,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
             className={`min-w-0 flex-1 border bg-background text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${mobile ? "h-12 rounded-2xl px-4" : "rounded-xl px-4 py-3.5"}`}
             disabled={isTyping}
           />
-          <Button type="submit" variant="hero" size="icon" className={`${mobile ? "h-12 w-12 rounded-2xl" : "h-12 w-12 rounded-xl"} shrink-0 shadow-md enabled:hover:scale-105 transition-transform active:scale-95`} disabled={isTyping || !input.trim()}>
+          <Button type="submit" variant="hero" size="icon" className={`${mobile ? "h-12 w-12 rounded-2xl" : "h-12 w-12 rounded-xl"} shrink-0 shadow-md dark:shadow-none enabled:hover:scale-105 transition-transform active:scale-95`} disabled={isTyping || !input.trim()}>
             <Send className="h-5 w-5" />
           </Button>
         </form>

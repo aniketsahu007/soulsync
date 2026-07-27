@@ -30,7 +30,7 @@ export function TestimonialVideoModal({ isOpen, onClose, story }: TestimonialVid
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-4xl rounded-[3rem] overflow-hidden border-none p-0 bg-white shadow-2xl">
+      <DialogContent className="sm:max-w-4xl rounded-[3rem] overflow-hidden border-none p-0 bg-white dark:bg-slate-950 shadow-2xl dark:shadow-none">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Left Side: Optimized Video Player */}
           <div className="relative aspect-video lg:aspect-auto bg-black flex items-center justify-center overflow-hidden">
@@ -57,7 +57,7 @@ export function TestimonialVideoModal({ isOpen, onClose, story }: TestimonialVid
               </>
             ) : (
               <div className="text-center space-y-4">
-                <div className="mx-auto h-20 w-20 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                <div className="mx-auto h-20 w-20 rounded-full bg-white/10 dark:bg-slate-950/10 flex items-center justify-center border border-white/20">
                   <Play className="h-8 w-8 text-white/40" />
                 </div>
                 <p className="text-white/40 text-xs font-black uppercase tracking-widest">Video Unavailable</p>
@@ -74,28 +74,28 @@ export function TestimonialVideoModal({ isOpen, onClose, story }: TestimonialVid
               <h3 className="font-display text-4xl font-black leading-tight">
                 {story.title}
               </h3>
-              <p className="text-sm text-slate-500 font-medium">— {story.name}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">— {story.name}</p>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <Quote className="h-6 w-6 text-primary shrink-0 opacity-40 mt-1" />
-                <p className="text-lg text-slate-600 leading-relaxed italic">
+                <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed italic">
                   {story.quote}
                 </p>
               </div>
-              <p className="text-sm text-slate-500 leading-7">
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-7">
                 {story.description}
               </p>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center gap-4">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-4">
               <div className="h-10 w-10 rounded-xl bg-safe/10 flex items-center justify-center">
                 <CheckCircle2 className="h-5 w-5 text-safe" />
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-slate-400">Student Outcome</p>
-                <p className="text-sm font-bold text-slate-900">{story.impact}</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-slate-50">{story.impact}</p>
               </div>
             </div>
           </div>

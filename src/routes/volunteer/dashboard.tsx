@@ -501,19 +501,19 @@ function VolunteerDashboard() {
 
   if (!isLoggedIn) {
     return (
-      <div className="relative min-h-screen overflow-hidden bg-white selection:bg-primary/10">
+      <div className="relative min-h-screen overflow-hidden bg-white dark:bg-slate-950 selection:bg-primary/10">
         <VolunteerNavbar />
         <main className="relative z-10 mx-auto flex min-h-screen max-w-[440px] flex-col justify-center px-6 py-24">
           <div className="mb-8 text-center">
-            <div className="mx-auto h-16 w-16 rounded-2xl bg-primary flex items-center justify-center mb-6 shadow-xl shadow-primary/10">
+            <div className="mx-auto h-16 w-16 rounded-2xl bg-primary flex items-center justify-center mb-6 shadow-xl dark:shadow-none shadow-primary/10">
                <ShieldCheck className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-3xl font-black tracking-tight text-slate-900">Volunteer Access</h1>
+            <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50">Volunteer Access</h1>
             <p className="mt-2 text-sm font-bold text-slate-400 uppercase tracking-widest">Verified Supporters Only</p>
           </div>
 
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-2xl shadow-slate-100">
+            <div className="rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 shadow-2xl dark:shadow-none shadow-slate-100">
                {error && <p className="mb-6 text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>}
                {loading ? (
                  <div className="py-12 text-center text-sm font-black uppercase tracking-widest text-slate-400">Verifying Identity...</div>
@@ -522,18 +522,18 @@ function VolunteerDashboard() {
                     <form onSubmit={handleEmailAuth} className="space-y-4">
                       <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
-                        <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@college.edu" className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 font-bold text-slate-700 outline-none focus:border-primary transition-colors" required />
+                        <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@college.edu" className="w-full rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 font-bold text-slate-700 dark:text-slate-300 outline-none focus:border-primary transition-colors" required />
                       </div>
                       <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Enter Your Password</label>
-                        <input type="text" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter your full name" className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 font-bold text-slate-700 outline-none focus:border-primary transition-colors" required />
+                        <input type="text" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter your full name" className="w-full rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 font-bold text-slate-700 dark:text-slate-300 outline-none focus:border-primary transition-colors" required />
                       </div>
-                      <Button type="submit" className="w-full h-14 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 shadow-lg shadow-primary/10">Authorize & Enter</Button>
+                      <Button type="submit" className="w-full h-14 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 shadow-lg dark:shadow-none shadow-primary/10">Authorize & Enter</Button>
                     </form>
-                    <div className="my-8 border-t border-slate-100 relative text-center">
-                      <span className="bg-white px-4 text-[10px] font-black uppercase tracking-[0.3em] text-slate-300 absolute -top-2 left-1/2 -translate-x-1/2">secure gate</span>
+                    <div className="my-8 border-t border-slate-100 dark:border-slate-800 relative text-center">
+                      <span className="bg-white dark:bg-slate-950 px-4 text-[10px] font-black uppercase tracking-[0.3em] text-slate-300 absolute -top-2 left-1/2 -translate-x-1/2">secure gate</span>
                     </div>
-                    <Button onClick={handleGoogleLogin} variant="outline" className="w-full h-14 rounded-xl border-slate-200 font-bold hover:bg-slate-50">Continue with Google</Button>
+                    <Button onClick={handleGoogleLogin} variant="outline" className="w-full h-14 rounded-xl border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-50 dark:bg-slate-900">Continue with Google</Button>
                   </>
                )}
             </div>
@@ -548,7 +548,7 @@ function VolunteerDashboard() {
   const showOnboardingNudge = activeMinutes === 0 && sessions.length === 0;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex selection:bg-primary/10">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex selection:bg-primary/10">
       
       {/* Fixed Left Sidebar */}
       <aside 
@@ -560,7 +560,7 @@ function VolunteerDashboard() {
           {/* Header Area */}
           <div className="p-6 flex items-center justify-between border-b border-slate-800">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="h-10 w-10 shrink-0 rounded-xl bg-[#00C48C] flex items-center justify-center shadow-lg shadow-[#00C48C]/20">
+              <div className="h-10 w-10 shrink-0 rounded-xl bg-[#00C48C] flex items-center justify-center shadow-lg dark:shadow-none shadow-[#00C48C]/20">
                 <Heart className="h-5 w-5 text-white fill-white" />
               </div>
               {!isCollapsed && (
@@ -600,7 +600,7 @@ function VolunteerDashboard() {
                   onClick={() => setActiveTab(link.key)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
                     isActive 
-                      ? "bg-[#00C48C] text-[#0D1B2A] shadow-lg shadow-[#00C48C]/15" 
+                      ? "bg-[#00C48C] text-[#0D1B2A] shadow-lg dark:shadow-none shadow-[#00C48C]/15" 
                       : "text-slate-400 hover:text-white hover:bg-slate-800"
                   }`}
                   title={link.label}
@@ -637,7 +637,7 @@ function VolunteerDashboard() {
                 }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-slate-950 shadow ring-0 transition duration-200 ease-in-out ${
                     isOnline ? "translate-x-5" : "translate-x-0"
                   }`}
                 />
@@ -688,7 +688,7 @@ function VolunteerDashboard() {
         {/* Top Header & Stats Row */}
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-12">
           <div>
-            <h1 className="text-3xl font-display font-black text-slate-900 tracking-tight">
+            <h1 className="text-3xl font-display font-black text-slate-900 dark:text-slate-50 tracking-tight">
               Welcome, {volunteer?.name?.split(" ")[0] || "Supporter"}
             </h1>
             <p className="text-sm font-bold text-slate-400 mt-1">
@@ -699,7 +699,7 @@ function VolunteerDashboard() {
           {/* Stats Row */}
           <div className="flex flex-wrap gap-4 items-center">
             {showOnboardingNudge ? (
-              <div className="flex items-center gap-3 px-6 py-4 rounded-[2rem] bg-emerald-50 border border-[#00C48C]/30 text-slate-700">
+              <div className="flex items-center gap-3 px-6 py-4 rounded-[2rem] bg-emerald-50 border border-[#00C48C]/30 text-slate-700 dark:text-slate-300">
                 <span className="text-xs font-bold text-[#0D1B2A]">
                   You've supported 0 students so far — your first conversation could change everything
                 </span>
@@ -707,17 +707,17 @@ function VolunteerDashboard() {
               </div>
             ) : null}
 
-            <div className="bg-white px-6 py-4 rounded-[1.75rem] shadow-sm border border-slate-100 text-center min-w-[120px]">
+            <div className="bg-white dark:bg-slate-950 px-6 py-4 rounded-[1.75rem] shadow-sm dark:shadow-none border border-slate-100 dark:border-slate-800 text-center min-w-[120px]">
               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Time Given</p>
-              <p className="text-xl font-black text-slate-900">{formatDuration(activeMinutes)}</p>
+              <p className="text-xl font-black text-slate-900 dark:text-slate-50">{formatDuration(activeMinutes)}</p>
             </div>
             
-            <div className="bg-white px-6 py-4 rounded-[1.75rem] shadow-sm border border-slate-100 text-center min-w-[120px]">
+            <div className="bg-white dark:bg-slate-950 px-6 py-4 rounded-[1.75rem] shadow-sm dark:shadow-none border border-slate-100 dark:border-slate-800 text-center min-w-[120px]">
               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Conversations</p>
-              <p className="text-xl font-black text-slate-900">{sessions.length}</p>
+              <p className="text-xl font-black text-slate-900 dark:text-slate-50">{sessions.length}</p>
             </div>
             
-            <div className="bg-[#0D1B2A] px-6 py-4 rounded-[1.75rem] shadow-xl text-center min-w-[120px] border border-white/10">
+            <div className="bg-[#0D1B2A] px-6 py-4 rounded-[1.75rem] shadow-xl dark:shadow-none text-center min-w-[120px] border border-white/10">
               <p className="text-[9px] font-black uppercase tracking-widest text-[#00C48C] mb-1">Upcoming</p>
               <p className="text-xl font-black text-white">{upcomingSessions.length}</p>
             </div>
@@ -725,7 +725,7 @@ function VolunteerDashboard() {
         </div>
 
         {/* Pill Navigation Tabs */}
-        <div className="flex gap-2 mb-10 bg-slate-100 border border-slate-200/50 rounded-2xl p-1.5 w-fit shadow-sm">
+        <div className="flex gap-2 mb-10 bg-slate-100 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl p-1.5 w-fit shadow-sm dark:shadow-none">
           {[
             { key: "overview" as Tab, label: "My Impact", icon: <Trophy className="h-3.5 w-3.5" /> },
             { key: "sessions" as Tab, label: "Response Queue", icon: <LayoutDashboard className="h-3.5 w-3.5" />, badge: upcomingSessions.length },
@@ -736,15 +736,15 @@ function VolunteerDashboard() {
               onClick={() => setActiveTab(t.key)}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ${
                 activeTab === t.key 
-                ? "bg-[#00C48C] text-[#0D1B2A] shadow-md font-black" 
-                : "text-slate-500 hover:bg-white"
+                ? "bg-[#00C48C] text-[#0D1B2A] shadow-md dark:shadow-none font-black" 
+                : "text-slate-500 dark:text-slate-400 hover:bg-white dark:bg-slate-950"
               }`}
             >
               {t.icon}
               <span>{t.label}</span>
               {t.badge ? (
                 <span className={`ml-1.5 text-[9px] font-black rounded-full h-4.5 w-4.5 flex items-center justify-center ${
-                  activeTab === t.key ? "bg-[#0D1B2A] text-[#00C48C]" : "bg-slate-200 text-slate-700"
+                  activeTab === t.key ? "bg-[#0D1B2A] text-[#00C48C]" : "bg-slate-200 text-slate-700 dark:text-slate-300"
                 }`}>
                   {t.badge}
                 </span>

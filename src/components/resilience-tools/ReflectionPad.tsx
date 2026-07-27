@@ -26,7 +26,7 @@ export function ReflectionPad() {
 
       <div className="text-center mb-6 w-full max-w-md">
          <h3 className="text-2xl font-display font-black mb-1">Reflection Pad</h3>
-         <p className="text-slate-500 text-sm">A zero-trace space to offload your thoughts.</p>
+         <p className="text-slate-500 dark:text-slate-400 text-sm">A zero-trace space to offload your thoughts.</p>
       </div>
 
       <AnimatePresence mode="wait">
@@ -43,7 +43,7 @@ export function ReflectionPad() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's weighing on you? Let it out here. Nothing is saved once you release it."
-                className="flex-1 min-h-[180px] rounded-[1.5rem] bg-white border-2 border-slate-100 focus:border-primary/30 p-6 text-sm resize-none shadow-sm transition-all"
+                className="flex-1 min-h-[180px] rounded-[1.5rem] bg-white dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 focus:border-primary/30 p-6 text-sm resize-none shadow-sm dark:shadow-none transition-all"
               />
               <div className="absolute bottom-4 right-4 flex items-center gap-1.5 text-[10px] font-bold text-slate-300 uppercase tracking-widest pointer-events-none">
                  <ShieldCheck className="h-3 w-3" /> Zero-Trace
@@ -52,7 +52,7 @@ export function ReflectionPad() {
 
             <Button
               variant="hero"
-              className="w-full rounded-2xl h-14 shadow-lg group"
+              className="w-full rounded-2xl h-14 shadow-lg dark:shadow-none group"
               disabled={!content.trim()}
               onClick={handleRelief}
             >
@@ -71,7 +71,7 @@ export function ReflectionPad() {
               <Send className="h-10 w-10 animate-ping-once" />
             </div>
             <h3 className="text-2xl font-display font-black mb-2">Released into the void.</h3>
-            <p className="text-slate-500 text-sm">Your thoughts have been cleared. Take a deep breath.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Your thoughts have been cleared. Take a deep breath.</p>
           </motion.div>
         )}
       </AnimatePresence>

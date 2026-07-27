@@ -31,15 +31,15 @@ export const StatsGrid = memo(({ stats }: StatsGridProps) => {
           transition={{ delay: i * 0.1 }}
           className="block"
         >
-          <Card className={`group relative overflow-hidden rounded-[2.5rem] border-white p-8 shadow-md ring-1 ring-slate-200/50 transition-all hover:shadow-xl h-full flex flex-col justify-between ${item.bg === 'bg-navy' ? 'bg-navy text-white' : 'bg-white'}`}>
+          <Card className={`group relative overflow-hidden rounded-[2.5rem] border-white p-8 shadow-md dark:shadow-none ring-1 ring-slate-200/50 transition-all hover:shadow-xl dark:shadow-none h-full flex flex-col justify-between ${item.bg === 'bg-navy' ? 'bg-navy text-white' : 'bg-white dark:bg-slate-950'}`}>
             <div>
-              <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl ${item.bg} border border-slate-100/10 transition-transform group-hover:scale-110`}>
+              <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl ${item.bg} border border-slate-100/10 dark:border-slate-800/10 transition-transform group-hover:scale-110`}>
                 <item.icon className={`h-7 w-7 ${item.color}`} />
               </div>
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{item.label}</p>
             </div>
             <div className="mt-4 min-h-[48px] flex items-end">
-              <h3 className={`text-4xl font-black tracking-tight tabular-nums ${item.bg === 'bg-navy' ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`text-4xl font-black tracking-tight tabular-nums ${item.bg === 'bg-navy' ? 'text-white' : 'text-slate-900 dark:text-slate-50'}`}>
                 {item.value}
               </h3>
             </div>

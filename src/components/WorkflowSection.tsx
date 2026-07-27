@@ -32,8 +32,8 @@ function StepMockup({ index }: { index: number }) {
   if (index === 0) {
     return (
       <div className="flex flex-col items-center justify-center space-y-6 p-8">
-        <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl border border-slate-100">
-          <p className="text-center text-sm font-semibold text-slate-500 mb-6">How are you feeling?</p>
+        <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-slate-950 p-6 shadow-xl dark:shadow-none border border-slate-100 dark:border-slate-800">
+          <p className="text-center text-sm font-semibold text-slate-500 dark:text-slate-400 mb-6">How are you feeling?</p>
           <div className="flex justify-between px-4">
             {['😭', '😕', '😐', '🙂', '😊'].map((emoji, i) => (
               <div key={i} className={`text-3xl transition-transform ${i === 1 ? 'scale-125 opacity-100' : 'opacity-40 grayscale'}`}>
@@ -41,7 +41,7 @@ function StepMockup({ index }: { index: number }) {
               </div>
             ))}
           </div>
-          <div className="mt-8 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+          <div className="mt-8 h-2 w-full rounded-full bg-slate-100 dark:bg-slate-900 overflow-hidden">
             <div className="h-full w-1/3 bg-orange-400 rounded-full" />
           </div>
         </div>
@@ -51,15 +51,15 @@ function StepMockup({ index }: { index: number }) {
   if (index === 1) {
     return (
       <div className="flex flex-col w-full max-w-sm space-y-4 p-8">
-        <div className="self-end rounded-2xl rounded-tr-sm bg-primary p-4 text-white shadow-md max-w-[85%]">
+        <div className="self-end rounded-2xl rounded-tr-sm bg-primary p-4 text-white shadow-md dark:shadow-none max-w-[85%]">
           <p className="text-sm">I just feel so overwhelmed with midterms. I can't focus.</p>
         </div>
-        <div className="self-start rounded-2xl rounded-tl-sm bg-white p-4 shadow-xl border border-slate-100 max-w-[85%]">
+        <div className="self-start rounded-2xl rounded-tl-sm bg-white dark:bg-slate-950 p-4 shadow-xl dark:shadow-none border border-slate-100 dark:border-slate-800 max-w-[85%]">
           <div className="flex items-center gap-2 mb-2">
             <Brain className="h-4 w-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-wider">SoulSync AI</span>
           </div>
-          <p className="text-sm text-slate-700">It's completely normal to feel overwhelmed right now. Let's take a deep breath together. What's one small thing you can tackle today?</p>
+          <p className="text-sm text-slate-700 dark:text-slate-300">It's completely normal to feel overwhelmed right now. Let's take a deep breath together. What's one small thing you can tackle today?</p>
         </div>
       </div>
     );
@@ -68,16 +68,16 @@ function StepMockup({ index }: { index: number }) {
     return (
       <div className="flex flex-col items-center justify-center space-y-4 p-8">
         <div className="flex -space-x-4">
-          <div className="h-16 w-16 rounded-full border-4 border-slate-50 bg-indigo-100 flex items-center justify-center shadow-md">
+          <div className="h-16 w-16 rounded-full border-4 border-slate-50 dark:border-slate-800 bg-indigo-100 flex items-center justify-center shadow-md dark:shadow-none">
             <UserCheck className="h-6 w-6 text-indigo-500" />
           </div>
-          <div className="h-16 w-16 rounded-full border-4 border-slate-50 bg-emerald-100 flex items-center justify-center shadow-md z-10">
+          <div className="h-16 w-16 rounded-full border-4 border-slate-50 dark:border-slate-800 bg-emerald-100 flex items-center justify-center shadow-md dark:shadow-none z-10">
             <MessageCircleHeart className="h-6 w-6 text-emerald-500" />
           </div>
         </div>
-        <div className="rounded-2xl bg-white p-5 shadow-xl border border-slate-100 text-center w-full max-w-xs mt-4">
-          <p className="text-sm font-bold text-slate-800">Peer Matched!</p>
-          <p className="text-xs text-slate-500 mt-1">Sarah (Trained Listener) is joining the chat.</p>
+        <div className="rounded-2xl bg-white dark:bg-slate-950 p-5 shadow-xl dark:shadow-none border border-slate-100 dark:border-slate-800 text-center w-full max-w-xs mt-4">
+          <p className="text-sm font-bold text-slate-800 dark:text-slate-200">Peer Matched!</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Sarah (Trained Listener) is joining the chat.</p>
           <div className="mt-4 flex gap-2 justify-center">
             <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
             <div className="h-2 w-2 rounded-full bg-primary animate-pulse delay-75" />
@@ -89,11 +89,11 @@ function StepMockup({ index }: { index: number }) {
   }
   return (
     <div className="flex flex-col items-center justify-center p-8 w-full max-w-sm">
-      <div className="w-full rounded-2xl bg-white p-6 shadow-xl border border-slate-100">
+      <div className="w-full rounded-2xl bg-white dark:bg-slate-950 p-6 shadow-xl dark:shadow-none border border-slate-100 dark:border-slate-800">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <Activity className="h-5 w-5 text-emerald-500" />
-            <span className="text-sm font-bold text-slate-700">Mood Trend</span>
+            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Mood Trend</span>
           </div>
           <span className="text-xs font-semibold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-full">+12%</span>
         </div>
@@ -154,13 +154,13 @@ export function WorkflowSection() {
                   {step.title}
                 </h3>
                 <p className="text-lg leading-relaxed text-muted-foreground">{step.desc}</p>
-                <div className="inline-flex rounded-full bg-slate-50 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-slate-500 border border-slate-200 shadow-sm">
+                <div className="inline-flex rounded-full bg-slate-50 dark:bg-slate-900 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none">
                   {step.note}
                 </div>
               </div>
               
               <div className="flex-1 w-full">
-                <div className="aspect-square sm:aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200/60 overflow-hidden relative flex items-center justify-center group">
+                <div className="aspect-square sm:aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200/60 dark:border-slate-800/60 overflow-hidden relative flex items-center justify-center group">
                   {/* Subtle decorative background blur */}
                   <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl" />
                   

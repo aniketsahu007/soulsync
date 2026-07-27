@@ -33,7 +33,7 @@ export const GovernanceLogs = memo(() => {
 
   return (
     <div className="mt-12">
-      <Card className="overflow-hidden rounded-[3rem] border-white/10 bg-navy p-10 shadow-2xl ring-1 ring-white/10 relative">
+      <Card className="overflow-hidden rounded-[3rem] border-white/10 bg-navy p-10 shadow-2xl dark:shadow-none ring-1 ring-white/10 relative">
         <div className="flex items-center justify-between mb-10 relative z-10">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/30">
@@ -49,7 +49,7 @@ export const GovernanceLogs = memo(() => {
               <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               <span className="text-[10px] font-black uppercase tracking-widest text-primary">Live Trace</span>
             </div>
-            <Button variant="ghost" className="rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+            <Button variant="ghost" className="rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 dark:bg-slate-950/5 transition-all">
               Export Logs
             </Button>
           </div>
@@ -61,10 +61,10 @@ export const GovernanceLogs = memo(() => {
                 key={log.time + log.event}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all group"
+                className="flex items-center justify-between p-4 rounded-xl bg-white/5 dark:bg-slate-950/5 border border-white/5 hover:bg-white/10 dark:bg-slate-950/10 transition-all group"
               >
                 <div className="flex items-center gap-6">
-                  <span className="text-[10px] font-bold text-slate-500">{log.time}</span>
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{log.time}</span>
                   <div className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${
                     log.type === 'urgent' ? 'bg-red-500/20 text-red-400' :
                     log.type === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
@@ -74,7 +74,7 @@ export const GovernanceLogs = memo(() => {
                   </div>
                   <p className="text-xs text-slate-400 font-medium">{log.detail}</p>
                 </div>
-                <span className="text-[10px] font-bold text-slate-700 hidden sm:block">CID: {log.identity}</span>
+                <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 hidden sm:block">CID: {log.identity}</span>
               </motion.div>
             ))}
           </AnimatePresence>

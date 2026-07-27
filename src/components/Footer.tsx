@@ -48,7 +48,7 @@ export function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10">
                 <Mail className="h-4 w-4 text-primary" />
               </div>
-              <span className="text-sm font-semibold text-slate-600 group-hover:text-primary transition-colors">
+              <span className="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">
                 {supportEmail}
               </span>
               <ChevronRight className="h-3.5 w-3.5 text-slate-300 group-hover:text-primary transition-colors" />
@@ -66,7 +66,7 @@ export function Footer() {
                   <li key={link.label}>
                     <Link
                       to={link.to}
-                      className="text-sm font-semibold text-slate-600 transition-colors hover:text-primary"
+                      className="text-sm font-semibold text-slate-600 dark:text-slate-400 transition-colors hover:text-primary"
                     >
                       {link.label}
                     </Link>
@@ -77,7 +77,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-slate-50 pt-10 sm:flex-row">
+        <div className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-slate-50 dark:border-slate-800 pt-10 sm:flex-row">
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
             © {new Date().getFullYear()} SoulSync
           </p>

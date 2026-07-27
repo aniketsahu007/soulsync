@@ -34,7 +34,7 @@ export function MoodSelector({ selected, onSelect }: MoodSelectorProps) {
           onClick={() => onSelect(mood.value)}
           className={`flex flex-col items-center gap-1.5 rounded-2xl border-2 p-4 w-24 transition-all duration-200 ${mood.color} ${
             selected === mood.value
-              ? "border-primary bg-primary/10 shadow-md scale-105"
+              ? "border-primary bg-primary/10 shadow-md dark:shadow-none scale-105"
               : "border-border bg-card"
           }`}
         >

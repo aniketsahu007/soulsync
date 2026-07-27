@@ -415,8 +415,8 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
           type="button"
           variant={profileUsername ? "outline" : "secondary"}
           className={cn(
-            "min-w-0 rounded-full border-white/55 px-4 py-2 text-left shadow-sm hover:bg-white",
-            profileUsername ? "bg-white/75" : "bg-amber-50 text-amber-700 border-amber-200/50 hover:bg-amber-100",
+            "min-w-0 rounded-full border-white/55 px-4 py-2 text-left shadow-sm dark:shadow-none hover:bg-white dark:bg-slate-950",
+            profileUsername ? "bg-white/75 dark:bg-slate-950/75" : "bg-amber-50 text-amber-700 border-amber-200/50 hover:bg-amber-100",
             className,
           )}
           onClick={() => handleDialogOpen(true)}
@@ -461,7 +461,7 @@ export function IdentityRecoveryButton({ className, variant = "default", forceVi
           <div className="space-y-6 px-6 py-6">
             {view === "card" && (
               <>
-                <div className="grid gap-4 rounded-[1.5rem] border border-border/70 bg-card p-5 shadow-sm">
+                <div className="grid gap-4 rounded-[1.5rem] border border-border/70 bg-card p-5 shadow-sm dark:shadow-none">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">

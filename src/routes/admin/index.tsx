@@ -78,7 +78,7 @@ function AdminLogin() {
 
   if (isCheckingAuth) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white">
+      <div className="flex h-screen w-full items-center justify-center bg-white dark:bg-slate-950">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -225,7 +225,7 @@ function AdminLogin() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white selection:bg-primary/10">
+    <div className="relative min-h-screen overflow-hidden bg-white dark:bg-slate-950 selection:bg-primary/10">
       <Navbar />
 
       <div className="absolute inset-0 z-0">
@@ -234,10 +234,10 @@ function AdminLogin() {
 
       <main className="relative z-10 mx-auto flex min-h-screen max-w-[440px] flex-col justify-center px-6 py-24">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/20">
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg dark:shadow-none shadow-primary/20">
             <Command className="h-7 w-7 text-white" />
           </div>
-          <h1 className="text-3xl font-black tracking-tight text-slate-900">
+          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50">
             {titles[mode].heading}
           </h1>
           <p className="mt-2 text-sm font-bold text-slate-400 uppercase tracking-widest">
@@ -245,7 +245,7 @@ function AdminLogin() {
           </p>
         </div>
 
-        <Card className="overflow-hidden rounded-[2.5rem] border-white bg-white p-10 shadow-2xl ring-1 ring-slate-200/50">
+        <Card className="overflow-hidden rounded-[2.5rem] border-white bg-white dark:bg-slate-950 p-10 shadow-2xl dark:shadow-none ring-1 ring-slate-200/50">
           {info && (
             <div className="mb-6 flex items-start gap-3 rounded-xl bg-emerald-50 p-4 text-emerald-700 ring-1 ring-emerald-100">
               <CheckCircle className="h-4 w-4 mt-0.5 shrink-0" />
@@ -268,7 +268,7 @@ function AdminLogin() {
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full h-12 rounded-2xl border border-slate-100 bg-slate-50 px-4 text-sm transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 outline-none font-bold"
+                  className="w-full h-12 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 text-sm transition-all focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 outline-none font-bold"
                   placeholder="Min. 6 characters"
                   minLength={6}
                   required
@@ -277,7 +277,7 @@ function AdminLogin() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl transition-all hover:bg-slate-800"
+                className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl dark:shadow-none transition-all hover:bg-slate-800"
               >
                 {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Update Password & Sign In"}
               </Button>
@@ -292,7 +292,7 @@ function AdminLogin() {
                   type="email"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setError(""); }}
-                  className="w-full h-12 rounded-2xl border border-slate-100 bg-slate-50 px-4 text-sm transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 outline-none font-bold"
+                  className="w-full h-12 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 text-sm transition-all focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 outline-none font-bold"
                   placeholder="your@email.com"
                   required
                 />
@@ -300,14 +300,14 @@ function AdminLogin() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl transition-all hover:bg-slate-800"
+                className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl dark:shadow-none transition-all hover:bg-slate-800"
               >
                 {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Send Reset Link"}
               </Button>
               <button
                 type="button"
                 onClick={() => { setMode("login"); setError(""); setInfo(""); }}
-                className="w-full text-center text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors pt-2"
+                className="w-full text-center text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 dark:text-slate-300 transition-colors pt-2"
               >
                 ← Back to sign in
               </button>
@@ -323,7 +323,7 @@ function AdminLogin() {
                     type="email"
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setError(""); setInfo(""); }}
-                    className="w-full h-12 rounded-2xl border border-slate-100 bg-slate-50 px-4 text-sm transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 outline-none font-bold"
+                    className="w-full h-12 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 text-sm transition-all focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 outline-none font-bold"
                     placeholder="admin@soulsync.com"
                     required
                   />
@@ -343,7 +343,7 @@ function AdminLogin() {
                     type="password"
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                    className="w-full h-12 rounded-2xl border border-slate-100 bg-slate-50 px-4 text-sm transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 outline-none font-bold"
+                    className="w-full h-12 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 text-sm transition-all focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 outline-none font-bold"
                     placeholder="••••••••"
                     required
                   />
@@ -351,23 +351,23 @@ function AdminLogin() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl transition-all hover:bg-slate-800 active:scale-95"
+                  className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl dark:shadow-none transition-all hover:bg-slate-800 active:scale-95"
                 >
                   {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Sign in"}
                 </Button>
               </form>
 
               <div className="relative my-10 flex items-center">
-                <div className="flex-grow border-t border-slate-100" />
+                <div className="flex-grow border-t border-slate-100 dark:border-slate-800" />
                 <span className="mx-4 text-[10px] font-black uppercase tracking-widest text-slate-300">Secure Entry</span>
-                <div className="flex-grow border-t border-slate-100" />
+                <div className="flex-grow border-t border-slate-100 dark:border-slate-800" />
               </div>
 
               <Button
                 variant="outline"
                 onClick={handleGoogleLogin}
                 disabled={loading}
-                className="h-14 w-full rounded-2xl border-slate-200 bg-white font-bold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95"
+                className="h-14 w-full rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 font-bold text-slate-700 dark:text-slate-300 shadow-sm dark:shadow-none transition-all hover:bg-slate-50 dark:bg-slate-900 active:scale-95"
               >
                 <div className="flex items-center gap-3">
                   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -390,7 +390,7 @@ function AdminLogin() {
                   type="email"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setError(""); }}
-                  className="w-full h-12 rounded-2xl border border-slate-100 bg-slate-50 px-4 text-sm transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 outline-none font-bold"
+                  className="w-full h-12 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 text-sm transition-all focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 outline-none font-bold"
                   placeholder="must be in authorized list"
                   required
                 />
@@ -403,7 +403,7 @@ function AdminLogin() {
                   type="password"
                   value={password}
                   onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                  className="w-full h-12 rounded-2xl border border-slate-100 bg-slate-50 px-4 text-sm transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 outline-none font-bold"
+                  className="w-full h-12 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 text-sm transition-all focus:bg-white dark:bg-slate-950 focus:ring-4 focus:ring-primary/5 outline-none font-bold"
                   minLength={6}
                   required
                 />
@@ -411,7 +411,7 @@ function AdminLogin() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl transition-all hover:bg-slate-800"
+                className="h-14 w-full rounded-2xl bg-slate-900 text-sm font-bold text-white shadow-xl dark:shadow-none transition-all hover:bg-slate-800"
               >
                 {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Create Account"}
               </Button>
@@ -420,8 +420,8 @@ function AdminLogin() {
         </Card>
 
         {(mode === "login" || mode === "signup") && (
-          <div className="mt-10 rounded-[2rem] border border-slate-100 bg-white/50 p-8 text-center shadow-sm">
-            <p className="text-sm text-slate-600 font-bold">
+          <div className="mt-10 rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-950/50 p-8 text-center shadow-sm dark:shadow-none">
+            <p className="text-sm text-slate-600 dark:text-slate-400 font-bold">
               {mode === "signup" ? "Already have an account? " : "First time using manual auth? "}
               <button
                 onClick={() => { setMode(mode === "signup" ? "login" : "signup"); setError(""); setInfo(""); }}

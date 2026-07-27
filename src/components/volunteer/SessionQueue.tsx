@@ -33,7 +33,7 @@ export const SessionQueue = memo(({
       className="space-y-8"
     >
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-slate-50 flex items-center gap-3">
           <MessageSquare className="h-6 w-6 text-primary" />
           Active Response Queue
         </h2>
@@ -41,8 +41,8 @@ export const SessionQueue = memo(({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {sessions.length === 0 ? (
-          <Card className="col-span-full p-12 text-center bg-white/50 border-dashed border-slate-200 rounded-[3rem]">
-            <div className="h-16 w-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-slate-300">
+          <Card className="col-span-full p-12 text-center bg-white/50 dark:bg-slate-950/50 border-dashed border-slate-200 dark:border-slate-800 rounded-[3rem]">
+            <div className="h-16 w-16 bg-slate-100 dark:bg-slate-900 rounded-2xl flex items-center justify-center mx-auto mb-6 text-slate-300">
               <LayoutDashboard className="h-8 w-8" />
             </div>
             <p className="text-sm font-bold text-slate-400">No active or upcoming sessions at the moment.</p>
@@ -57,15 +57,15 @@ export const SessionQueue = memo(({
           return (
             <Card 
               key={session.id} 
-              className="group relative overflow-hidden rounded-[2.5rem] border-white bg-white p-8 shadow-sm ring-1 ring-slate-200/50 hover:shadow-xl transition-all"
+              className="group relative overflow-hidden rounded-[2.5rem] border-white bg-white dark:bg-slate-950 p-8 shadow-sm dark:shadow-none ring-1 ring-slate-200/50 hover:shadow-xl dark:shadow-none transition-all"
             >
               <div className="flex justify-between items-start mb-6">
                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 font-black text-slate-400 text-sm">
+                    <div className="h-12 w-12 rounded-xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center border border-slate-100 dark:border-slate-800 font-black text-slate-400 text-sm">
                        {session.student_profiles?.anonymous_username?.charAt(0)}
                     </div>
                     <div>
-                       <p className="font-black text-slate-900 group-hover:text-primary transition-colors">{session.student_profiles?.anonymous_username}</p>
+                       <p className="font-black text-slate-900 dark:text-slate-50 group-hover:text-primary transition-colors">{session.student_profiles?.anonymous_username}</p>
                        <span className={`text-[10px] font-black uppercase tracking-widest ${
                          status === 'active' ? 'text-emerald-500' : 'text-slate-400'
                        }`}>
@@ -73,25 +73,25 @@ export const SessionQueue = memo(({
                        </span>
                     </div>
                  </div>
-                 <div className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                 <div className="px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                     ID: {session.id.slice(0, 8)}
                  </div>
               </div>
 
               <div className="space-y-4 mb-8">
-                 <div className="flex items-center gap-3 text-sm font-medium text-slate-500">
+                 <div className="flex items-center gap-3 text-sm font-medium text-slate-500 dark:text-slate-400">
                     <Calendar className="h-4 w-4 text-slate-400" />
                     {new Date(session.time_slots?.slot_date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                  </div>
-                 <div className="flex items-center gap-3 text-sm font-medium text-slate-500">
+                 <div className="flex items-center gap-3 text-sm font-medium text-slate-500 dark:text-slate-400">
                     <Clock className="h-4 w-4 text-slate-400" />
                     {session.time_slots?.start_time} - {session.time_slots?.end_time}
                  </div>
               </div>
 
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 mb-6">
+              <div className="p-5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 mb-6">
                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Handoff Briefing</p>
-                 <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                 <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                     {session.handoff_briefing || "No pre-session context available."}
                  </p>
               </div>
@@ -224,27 +224,27 @@ export const SessionQueue = memo(({
                               {/* 6-metric grid */}
                               <div className="grid grid-cols-3 gap-2 text-xs">
                                 <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-widest mb-1">Consistency</span>
+                                  <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-widest mb-1">Consistency</span>
                                   <span className="font-black text-white text-sm">{consistencyIndex}%</span>
                                 </div>
                                 
                                 <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-widest mb-1">Concentration</span>
+                                  <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-widest mb-1">Concentration</span>
                                   <span className="font-bold text-slate-200 block text-[10px] leading-tight">{concentrationLevel}</span>
                                 </div>
 
                                 <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-widest mb-1">Max Focus</span>
+                                  <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-widest mb-1">Max Focus</span>
                                   <span className="font-black text-emerald-400 text-sm">{maxFocusLabel}</span>
                                 </div>
 
                                 <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-widest mb-1">Stress Risk</span>
+                                  <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-widest mb-1">Stress Risk</span>
                                   <span className={`font-black text-sm ${stressColor}`}>{stressLabel}</span>
                                 </div>
 
                                 <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 col-span-2">
-                                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-widest mb-1">Friction Habit</span>
+                                  <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-widest mb-1">Friction Habit</span>
                                   <span className="font-bold text-rose-300 block text-[10px] leading-tight" title={mostAvoidedTask}>{mostAvoidedTask}</span>
                                 </div>
                               </div>
@@ -252,13 +252,13 @@ export const SessionQueue = memo(({
                               {/* Activity balance bar */}
                               {activities.length > 0 && (
                                 <div>
-                                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-widest mb-2">Activity Balance</span>
+                                  <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-widest mb-2">Activity Balance</span>
                                   <div className="flex h-2 rounded-full overflow-hidden gap-0.5">
                                     <div className="bg-emerald-500 rounded-full" style={{ width: `${growthPct}%` }} title={`Growth: ${growthPct}%`} />
                                     <div className="bg-blue-400 rounded-full" style={{ width: `${recoveryPct}%` }} title={`Recovery: ${recoveryPct}%`} />
                                     <div className="bg-slate-600 rounded-full" style={{ width: `${leakagePct}%` }} title={`Leakage: ${leakagePct}%`} />
                                   </div>
-                                  <p className="text-[9px] text-slate-500 mt-1 font-medium">{balanceLabel}</p>
+                                  <p className="text-[9px] text-slate-500 dark:text-slate-400 mt-1 font-medium">{balanceLabel}</p>
                                 </div>
                               )}
 
@@ -286,7 +286,7 @@ export const SessionQueue = memo(({
                                 }
                               </p>
                               {memoryData.aiMemory && (
-                                <p className="mt-2 p-2 bg-white rounded border border-indigo-100 italic">
+                                <p className="mt-2 p-2 bg-white dark:bg-slate-950 rounded border border-indigo-100 italic">
                                   "{memoryData.aiMemory}"
                                 </p>
                               )}
@@ -309,7 +309,7 @@ export const SessionQueue = memo(({
                  {status === 'active' && (
                    <Button 
                      asChild
-                     className="flex-1 h-12 rounded-xl bg-primary text-white font-bold text-xs shadow-lg shadow-primary/20"
+                     className="flex-1 h-12 rounded-xl bg-primary text-white font-bold text-xs shadow-lg dark:shadow-none shadow-primary/20"
                    >
                      <a 
                        href={`https://meet.jit.si/SoulSync-Session-${session.id}`} 
@@ -323,14 +323,14 @@ export const SessionQueue = memo(({
                    </Button>
                  )}
                  {session.issue_type === 'Crisis' && (
-                   <div className="h-12 w-12 shrink-0 rounded-xl bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shadow-lg shadow-red-500/10">
+                   <div className="h-12 w-12 shrink-0 rounded-xl bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shadow-lg dark:shadow-none shadow-red-500/10">
                       <AlertTriangle className="h-5 w-5" />
                    </div>
                  )}
                  {onMarkCompleted && (
                    <Button
                      onClick={() => onMarkCompleted(session.id)}
-                     className="h-12 w-12 shrink-0 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 text-slate-400 border border-slate-200 shadow-sm transition-all"
+                     className="h-12 w-12 shrink-0 rounded-xl bg-slate-50 dark:bg-slate-900 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 text-slate-400 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none transition-all"
                      title="Mark as completed"
                    >
                      <CheckCircle className="h-5 w-5" />

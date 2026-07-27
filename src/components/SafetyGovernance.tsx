@@ -33,7 +33,7 @@ export function SafetyGovernance() {
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-24 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.4em] text-slate-300 mb-6 border border-white/10 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/5 dark:bg-slate-950/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.4em] text-slate-300 mb-6 border border-white/10 backdrop-blur-sm">
             <Shield className="h-3.5 w-3.5 text-emerald-400" />
             Governance Standard
           </div>
@@ -53,12 +53,12 @@ export function SafetyGovernance() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true, margin: "-50px" }}
-              className="group relative bg-white/5 p-8 rounded-[2.5rem] border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 hover:-translate-y-2 overflow-hidden"
+              className="group relative bg-white/5 dark:bg-slate-950/5 p-8 rounded-[2.5rem] border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 dark:bg-slate-950/10 hover:-translate-y-2 overflow-hidden"
             >
               {/* Subtle hover glow inside card */}
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               
-              <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 shadow-inner ring-1 ring-white/20 relative z-10">
+              <div className="h-14 w-14 rounded-2xl bg-white/10 dark:bg-slate-950/10 flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 shadow-inner ring-1 ring-white/20 relative z-10">
                 <step.icon className="h-6 w-6 text-white transition-transform group-hover:scale-110" />
               </div>
               <h3 className="text-xl font-display font-semibold text-white mb-3 relative z-10">
@@ -83,7 +83,7 @@ export function SafetyGovernance() {
           viewport={{ once: true }}
           className="mt-24 flex flex-col items-center"
         >
-           <div className="px-8 py-5 rounded-full bg-black border border-white/10 flex flex-wrap justify-center items-center gap-6 shadow-2xl relative overflow-hidden group">
+           <div className="px-8 py-5 rounded-full bg-black border border-white/10 flex flex-wrap justify-center items-center gap-6 shadow-2xl dark:shadow-none relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <div className="flex -space-x-3 relative z-10">
                  {[1,2,3].map(i => (
@@ -92,7 +92,7 @@ export function SafetyGovernance() {
                     </div>
                  ))}
               </div>
-              <div className="hidden sm:block h-10 w-px bg-white/10 relative z-10" />
+              <div className="hidden sm:block h-10 w-px bg-white/10 dark:bg-slate-950/10 relative z-10" />
               <div className="relative z-10">
                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400 mb-1">Compliance Status</p>
                  <p className="text-[11px] font-medium text-slate-300 uppercase tracking-widest">ISO/IEC 27001 Resilience Standard</p>

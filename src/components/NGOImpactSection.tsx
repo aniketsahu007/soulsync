@@ -25,7 +25,7 @@ export function NGOImpactSection() {
         <div className="flex flex-wrap justify-center items-center gap-16 mb-24 opacity-50 hover:opacity-100 transition-all duration-700">
           {partners.map((p) => (
             <div key={p.name} className="group cursor-default">
-              <span className="text-2xl font-display font-bold text-slate-500 group-hover:text-white transition-colors duration-300">
+              <span className="text-2xl font-display font-bold text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors duration-300">
                 {p.name}
               </span>
             </div>
@@ -41,7 +41,7 @@ export function NGOImpactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true, margin: "-50px" }}
-              className="group relative p-10 rounded-[2.5rem] bg-white/5 border border-white/10 shadow-2xl overflow-hidden transition-all hover:bg-white/10 hover:-translate-y-2 backdrop-blur-sm"
+              className="group relative p-10 rounded-[2.5rem] bg-white/5 dark:bg-slate-950/5 border border-white/10 shadow-2xl dark:shadow-none overflow-hidden transition-all hover:bg-white/10 dark:bg-slate-950/10 hover:-translate-y-2 backdrop-blur-sm"
             >
               <div className="relative z-10">
                 <p className="text-4xl font-display font-semibold text-white mb-3 group-hover:text-primary transition-colors">
