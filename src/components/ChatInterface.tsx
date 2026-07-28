@@ -302,7 +302,7 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
                 className={`${mobile ? "max-w-[82%] rounded-[1.15rem] px-4 py-3" : "max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3"} text-sm leading-relaxed shadow-sm dark:shadow-none ${
                   msg.role === "assistant"
                     ? "bg-card border text-card-foreground"
-                    : "gradient-wellness text-primary-foreground"
+                    : "bg-primary text-primary-foreground"
                 }`}
               >
                 {msg.role === "assistant" ? (

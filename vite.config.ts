@@ -8,10 +8,22 @@ import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "VITE_");
+  // Load ALL env vars so PROVIDER_N_* are available server-side
+  const env = loadEnv(mode, process.cwd(), "");
+  
+  // Inject into process.env so server functions (createServerFn) can read them dynamically
+  for (const [key, value] of Object.entries(env)) {
+    if (!process.env[key]) {
+      process.env[key] = value;
+    }
+  }
+  
   const envDefine: Record<string, string> = {};
   for (const [key, value] of Object.entries(env)) {
-    envDefine[`import.meta.env.${key}`] = JSON.stringify(value);
+    // Only define vars with safe JS-identifier names (letters, digits, underscores)
+    if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) {
+      envDefine[`import.meta.env.${key}`] = JSON.stringify(value);
+    }
   }
 
   return {

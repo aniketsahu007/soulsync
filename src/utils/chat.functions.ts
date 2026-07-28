@@ -1,28 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 
 import { supabase } from "@/integrations/supabase/client";
+import { getChatCompletion, type AiMessage, type AiChatCompletionResponse } from "./aiClient";
 
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
 }
-
-interface OpenRouterMessage {
-  role: "system" | "user" | "assistant";
-  content: string;
-}
-
-interface OpenRouterChatCompletionResponse {
-  choices?: Array<{
-    message?: {
-      role?: string;
-      content?: string;
-    };
-  }>;
-}
-
-const DEFAULT_OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1";
-const DEFAULT_OPENROUTER_MODEL = "x-ai/grok-2:free";
 
 const systemPrompt = (memoryContext: string) => `You are SoulSync - a warm, relatable, and deeply humanized peer friend. Forget clinical or formal AI speech. Talk like a kind, empathetic friend who's just checking in.
 
@@ -78,11 +62,6 @@ interface SurveyAnswers {
 export const generateVolunteerBriefing = createServerFn({ method: "POST" })
   .inputValidator((input: { chatReport: ChatReport, surveyAnswers: SurveyAnswers }) => input)
   .handler(async ({ data }) => {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
-    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
-
-    if (!apiKey) return { briefing: "Briefing unavailable." };
-
     const prompt = `You are a Consulting Psychologist briefing a Peer Supporter volunteer.
 Analyze the following student data and provide a 2-paragraph "Intelligent Briefing."
 - Paragraph 1: Synthesize their emotional state based on their chat and survey.
@@ -95,38 +74,18 @@ Student Data:
 
 Write a professional, compassionate briefing. Do not just list the data.`;
 
-    const response = await fetch(
-      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://soulsync.org",
-          "X-Title": "SoulSync",
-        },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      }
-    );
-
-    if (!response.ok) return { briefing: "Error generating briefing." };
-    const result = (await response.json()) as OpenRouterChatCompletionResponse;
-    return { briefing: result.choices?.[0]?.message?.content || "No briefing available." };
+    try {
+      const result = await getChatCompletion([{ role: "user", content: prompt }]);
+      return { briefing: result.choices?.[0]?.message?.content || "No briefing available." };
+    } catch (err) {
+      console.error("Error generating briefing:", err);
+      return { briefing: "Error generating briefing." };
+    }
   });
 
 export const sendChatMessage = createServerFn({ method: "POST" })
   .inputValidator((input: { messages: ChatMessage[], aliasId?: string }) => input)
   .handler(async ({ data }) => {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
-    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
-
-    if (!apiKey) {
-      return { content: "Chat configuration missing.", error: true };
-    }
-
     // 1. Fetch memory context if aliasId provided
     let memoryContext = "";
     if (data.aliasId) {
@@ -174,7 +133,7 @@ ${aiMemory}`;
       }
     }
 
-    const messages: OpenRouterMessage[] = [
+    const messages: AiMessage[] = [
       { role: "system", content: systemPrompt(memoryContext) },
       ...data.messages.map((message) => ({
         role: message.role,
@@ -182,44 +141,19 @@ ${aiMemory}`;
       })),
     ];
 
-    const response = await fetch(
-      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://soulsync.org",
-          "X-Title": "SoulSync",
-        },
-        body: JSON.stringify({
-          model,
-          messages,
-        }),
-      },
-    );
-
-    if (!response.ok) {
-      if (response.status === 503 || response.status === 429) {
-        return { content: "Our AI servers are currently experiencing a heavy load. Please try your message again in a few moments. 💛", error: true };
-      }
-      return { content: `Our AI servers encountered an issue (${response.statusText}). Please try again shortly. 💛`, error: true };
+    try {
+      const result = await getChatCompletion(messages);
+      const content = result.choices?.[0]?.message?.content?.trim() ?? "I'm here for you.";
+      return { content, error: false };
+    } catch (err) {
+      console.error("Error in sendChatMessage:", err);
+      return { content: "Our AI servers encountered an issue. Please try your message again in a few moments. 💛", error: true };
     }
-
-    const result = (await response.json()) as OpenRouterChatCompletionResponse;
-    const content = result.choices?.[0]?.message?.content?.trim() ?? "I'm here for you.";
-
-    return { content, error: false };
   });
 
 export const updateChatMemory = createServerFn({ method: "POST" })
   .inputValidator((input: { aliasId: string, chatHistory: string }) => input)
   .handler(async ({ data }) => {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
-    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
-
-    if (!apiKey) return { success: false };
-
     // Fetch existing memory to prevent overwriting
     const { data: profile } = await supabase
       .from("student_profiles")
@@ -250,26 +184,14 @@ ${aiMemory || "None yet."}
 Recent Chat History:
 ${data.chatHistory}`;
 
-    const response = await fetch(
-      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://soulsync.org",
-          "X-Title": "SoulSync",
-        },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      }
-    );
-
-    if (!response.ok) return { success: false };
-    const result = (await response.json()) as OpenRouterChatCompletionResponse;
-    const newAiMemory = result.choices?.[0]?.message?.content?.trim() || aiMemory;
+    let newAiMemory = aiMemory;
+    try {
+      const result = await getChatCompletion([{ role: "user", content: prompt }]);
+      newAiMemory = result.choices?.[0]?.message?.content?.trim() || aiMemory;
+    } catch (err) {
+      console.error("Error updating chat memory:", err);
+      return { success: false };
+    }
 
     // Pack it back as JSON if we had a schedule_architect state or want to start storing as JSON
     let finalContext = newAiMemory;
@@ -303,11 +225,6 @@ ${data.chatHistory}`;
 export const updatePostSessionMemory = createServerFn({ method: "POST" })
   .inputValidator((input: { aliasId: string, briefing: string, feedback: string }) => input)
   .handler(async ({ data }) => {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
-    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
-
-    if (!apiKey) return { success: false };
-
     const prompt = `You are updating the long-term memory of a support-AI friend.
 Based on the session briefing and the student's post-session feedback, write 3-4 bullet points of new "Memory Context" to represent what happened in this healing journey.
 Focus on: Progress made, new problems revealed, and the student's current recovery state.
@@ -317,26 +234,14 @@ Feedback Notes: ${data.feedback}
 
 Current Memory will be updated with this. Keep it concise but insightful.`;
 
-    const response = await fetch(
-      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://soulsync.org",
-          "X-Title": "SoulSync",
-        },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      }
-    );
-
-    if (!response.ok) return { success: false };
-    const result = (await response.json()) as OpenRouterChatCompletionResponse;
-    const newAddition = result.choices?.[0]?.message?.content || "";
+    let newAddition = "";
+    try {
+      const result = await getChatCompletion([{ role: "user", content: prompt }]);
+      newAddition = result.choices?.[0]?.message?.content || "";
+    } catch (err) {
+      console.error("Error updating post-session memory:", err);
+      return { success: false };
+    }
 
     const { data: profile } = await supabase
       .from("student_profiles")
@@ -365,11 +270,6 @@ export const generateSessionReport = createServerFn({ method: "POST" })
     }) => input
   )
   .handler(async ({ data }) => {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
-    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
-
-    if (!apiKey) return { report: "AI Reporting unavailable." };
-
     const prompt = `You are an AI Clinical Assistant for SoulSync, helping a Peer Supporter volunteer finalize their session notes.
 Synthesize the following context into a professional, compassionate, and structured session report (2-3 paragraphs).
 
@@ -388,35 +288,15 @@ The report MUST include:
 Be insightful and vary your vocabulary. Avoid repetitive phrasing. Structure it professionally but maintain the human-centric "SoulSync" warmth.`;
 
     try {
-      const response = await fetch(
-        `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
+      const result = await getChatCompletion(
+        [{ role: "user", content: prompt }],
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`,
-            "HTTP-Referer": "https://soulsync.org",
-            "X-Title": "SoulSync",
-          },
-          body: JSON.stringify({ 
-            model,
-            messages: [{ role: "user", content: prompt }],
-            temperature: 0.8,
-            top_p: 0.95,
-            max_tokens: 1024,
-          }),
+          temperature: 0.8,
+          top_p: 0.95,
+          max_tokens: 1024,
         }
       );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error("OpenRouter API Error:", response.status, JSON.stringify(errorData, null, 2));
-        return { report: `Error generating report: ${response.statusText}` };
-      }
-
-      const result = (await response.json()) as OpenRouterChatCompletionResponse;
       const report = result.choices?.[0]?.message?.content || "No report generated.";
-
       return { report };
     } catch (err) {
       console.error("AI Generation Critical Failure:", err);
@@ -427,11 +307,6 @@ Be insightful and vary your vocabulary. Avoid repetitive phrasing. Structure it 
 export const provideLetterGuidance = createServerFn({ method: "POST" })
   .inputValidator((input: { letter: string }) => input)
   .handler(async ({ data }) => {
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY ?? process.env.OPENROUTER_API_KEY;
-    const model = import.meta.env.VITE_OPENROUTER_MODEL ?? process.env.OPENROUTER_MODEL ?? DEFAULT_OPENROUTER_MODEL;
-
-    if (!apiKey) return { guidance: "AI guidance unavailable." };
-
     const prompt = `You are a compassionate peer support AI. 
 The user has written an expressive letter to process their emotions. 
 Read their letter and provide gentle, non-judgmental guidance and validation. 
@@ -441,27 +316,14 @@ Do NOT give clinical advice. Keep it warm and concise (1-2 short paragraphs).
 User's Letter:
 "${data.letter}"`;
 
-    const response = await fetch(
-      `${DEFAULT_OPENROUTER_API_BASE_URL}/chat/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://soulsync.org",
-          "X-Title": "SoulSync",
-        },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      }
-    );
-
-    if (!response.ok) return { guidance: "I'm having trouble reading your letter right now, but please know your feelings are valid." };
-    const result = (await response.json()) as OpenRouterChatCompletionResponse;
-    const guidance = result.choices?.[0]?.message?.content || "Your feelings are completely valid. Take a deep breath.";
+    let guidance = "Your feelings are completely valid. Take a deep breath.";
+    try {
+      const result = await getChatCompletion([{ role: "user", content: prompt }]);
+      guidance = result.choices?.[0]?.message?.content || guidance;
+    } catch (err) {
+      console.error("Error providing letter guidance:", err);
+      return { guidance: "I'm having trouble reading your letter right now, but please know your feelings are valid." };
+    }
 
     return { guidance };
   });
-
