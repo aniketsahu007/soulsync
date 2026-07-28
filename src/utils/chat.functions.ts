@@ -22,7 +22,7 @@ interface OpenRouterChatCompletionResponse {
 }
 
 const DEFAULT_OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1";
-const DEFAULT_OPENROUTER_MODEL = "openai/gpt-oss-120b:free";
+const DEFAULT_OPENROUTER_MODEL = "x-ai/grok-2:free";
 
 const systemPrompt = (memoryContext: string) => `You are SoulSync - a warm, relatable, and deeply humanized peer friend. Forget clinical or formal AI speech. Talk like a kind, empathetic friend who's just checking in.
 

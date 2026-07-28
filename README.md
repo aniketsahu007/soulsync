@@ -1,173 +1,193 @@
-﻿<div align="center">
-  <img src="public/logo.png" alt="SoulSync Logo" width="180" height="180" />
+<div align="center">
+  <img src="public/logo.png" alt="SoulSync Logo" width="200" height="200" />
 
-  # SoulSync: India Resilience Hub 🇮🇳
+# SoulSync: India Resilience Hub 🇮🇳
 
-  ### Empowering students through anonymous peer support, AI-assisted resilience tools, and governance-safe volunteer handoff.
+### **Empowering students through AI-driven peer support and autonomous resilience tools.**
 
-  [![SamaSocial Build for Good](https://img.shields.io/badge/SamaSocial-Build%20for%20Good-FF5A5F?style=for-the-badge&logo=rethinking&logoColor=white)](https://www.samasocial.in/hackathon/build-for-good)
-  [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
-  [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-  [![OpenRouter](https://img.shields.io/badge/OpenRouter-4A90E2?style=for-the-badge&logo=openai&logoColor=white)](https://openrouter.ai/)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![OpenRouter API](https://img.shields.io/badge/OpenRouter%20API-4A90E2?style=for-the-badge&logo=openai&logoColor=white)](https://openrouter.ai/)
+
+[**Watch Demo Video**](#) • [**Live Project**](#) • [**Pitch Deck**](#)
 
 </div>
 
 ---
 
-## Overview
-SoulSync is a hackathon-ready resilience platform built for Indian students. It combines anonymous peer support, AI-context awareness, and interactive resilience tools with a dedicated Wellness Hub to help students manage stress, prevent burnout, and access support without logging in.
+## 📖 Table of Contents
 
-This project is designed for the **SamaSocial Build for Good hackathon** and prioritizes impact, privacy, and a seamless student experience.
+- [Inspiration](#-inspiration)
+- [The Vision (SDG Alignment)](#-the-vision-sdg-alignment)
+- [Key Features](#-key-features)
+- [Architecture & Tech Stack](#-architecture--tech-stack)
+- [Google Cloud Integrations](#google-cloud-integrations)
+- [Privacy & Governance](#-privacy--governance)
+- [App Navigation](#️-app-navigation)
+- [Project Structure](#-project-structure)
+- [Setup & Installation](#-setup--installation)
+- [What's Next](#-whats-next)
+- [Team](#-team)
 
 ---
 
-## Why SoulSync Wins
-- **Zero-trace student support:** anonymous aliasing and local identity persistence keep students safe while enabling useful session continuity.
-- **Warm, non-clinical AI support:** the chatbot uses custom prompts to stay empathetic, grounded, and student-friendly.
-- **Volunteer-ready handoff:** AI-generated chat summaries and briefing content give volunteers context without exposing identity.
-- **Evidence-based resilience tools:** breathing, grounding, HALT diagnostics, journaling, habits, and mood tracking support both immediate relief and long-term growth.
-- **Governance-first architecture:** Supabase RLS, volunteer verification, and admin workflows secure the platform for campus deployment.
+## Inspiration
 
----
+In high-pressure academic environments, especially within Indian universities, students often face severe mental distress due to academic expectations, cultural stigma, and limited access to professional care. The tragic rise in student distress signals a gap between acute mental health crises and available support. **SoulSync** was born from the urgent need to bridge this gap, providing a "Zero-Trace", culturally sensitive, and highly accessible safety net.
+
+## The Vision (SDG Alignment)
+
+SoulSync is purpose-built for the **Google Solution Challenge 2026**, meticulously aligning with the United Nations Sustainable Development Goals:
+
+- **SDG 3: Good Health & Well-being (Target 3.4):** Promoting mental health through prevention, early intervention, and accessible peer-to-peer support networks.
+- **SDG 17: Partnerships for the Goals:** Fostering a collaborative ecosystem that unites student volunteers, university administrations, and professional Indian mental health NGOs (e.g., Sangath, NIMHANS).
 
 ## Key Features
 
-### 1. Anonymous Peer Support
-- **Chat support** at `/chat` with AI-backed emotional insight and session persistence.
-- **Peer matching** at `/peer-match` connects students with verified volunteers while preserving anonymity.
-- **Volunteer briefing** via AI-generated summaries that give volunteers accurate, actionable context.
+SoulSync goes beyond a simple chat interface, offering a modular suite of interactive tools designed to stop panic in its tracks and foster long-term resilience:
 
-### 2. Resilience Toolkit
-- **Wellness Hub:** schedule-aware support that tracks routines, study blocks, rest cycles, and emotional check-ins in one place.
-- **Daily context:** the app uses student schedules and workload patterns to surface the right support at the right time.
-- **Habit-building:** designed to make healthy routines addictive by rewarding consistent progress and small wins.
-- **Long-term resilience:** focuses on daily life balance, not quick fixes, so stress reduction is sustainable and rooted in real behavior.
+### 1. The "Zero-Trace" Support Pipeline
 
-### 3. Safety and AI Intelligence
-- **Emotion detection** in-browser via RoBERTa (`SamLowe/roberta-base-go_emotions`) using `@xenova/transformers`.
-- **OpenRouter chat completions** for empathetic peer-style conversation.
-- **Safe onboarding pipelines** for volunteers and admins, including CV verification and RLS-backed governance.
+- **Absolute Anonymity:** A custom `useAnonymousIdentity` pipeline ensures student privacy via local UUID persistence—no emails, no phone numbers, no tracking.
+- **Empathetic Peer Matching:** Connects students with trained, verified student volunteers for real-time chat and support sessions.
 
----
+### 2. AI-Powered "Supporter Command Center"
 
-## Architecture & Technology Stack
+- **Intelligent Handoff Briefings:** Uses OpenRouter AI models (e.g. GPT-OSS 120B) to analyze past (anonymous) interactions and generate concise, actionable briefings for volunteers before a session begins, ensuring continuity of care.
+- **Perspective API Safety Layer:** Real-time sentiment and toxicity analysis to ensure all communications remain respectful, safe, and productive.
 
-### Frontend
-- **React 18** with **TypeScript**
-- **Vite** for fast development
-- **Tailwind CSS** for responsive styling
-- **TanStack Router** for file-based, type-safe routing
-- **Framer Motion** for polished motion design
+### 3. Interactive "Winner's Suite" Resilience Tools
 
-### Backend & Data
-- **Supabase** for Postgres, Auth, Storage, and security policies
-- **Supabase RLS** for row-level access control
-- **Supabase migrations** for schema and governance logic in `supabase/migrations`
+- **Breathing Visualizer:** Guided, interactive respiratory regulation (e.g., 4-7-8 breathing) for immediate nervous system stabilization.
+- **Grounding Journey:** An interactive 5-4-3-2-1 sensory exercise to help students reconnect with the physical world during moments of dissociation or panic.
+- **HALT Diagnostic:** A specialized, campus-focused tool providing actionable recovery tips for when a student is **H**ungry, **A**ngry, **L**onely, or **T**ired.
+- **Reflection Pad:** An ephemeral, "Zero-Trace" journaling space for quick emotional offloading.
 
-### AI & Models
-- **OpenRouter** for configurable chat completions
-- **RoBERTa emotion classifier** for live sentiment detection
-- **Custom prompt engineering** for empathetic, humanized chatbot behavior
+### 4. Data-Driven "Healing Curve"
 
----
+- Beautiful, Recharts-powered visual dashboards allowing students to track their emotional progress and mood trends over time in a secure, private environment.
+
+## Architecture & Tech Stack
+
+SoulSync leverages a modern, scalable, and highly responsive technology stack to deliver a premium user experience:
+
+- **Frontend:** React 18, Vite, TypeScript, Tailwind CSS
+- **Routing & State:** TanStack Router (Type-safe routing), React Query
+- **UI/UX & Animations:** Framer Motion (Premium emotional micro-animations), Lucide React (Icons)
+- **Backend & Database:** Supabase (PostgreSQL, Auth, Storage), Row Level Security (RLS)
+
+### Google Cloud Integrations
+
+- **OpenRouter AI models (e.g. GPT-OSS 120B, DeepSeek V4 Flash):** Powers the core contextual engine for dialogue understanding and generating volunteer briefings.
+- **Google Perspective API:** Acts as the primary safety net, automatically flagging toxic or distressed language for immediate clinical escalation.
+- _(Planned)_ **Google Cloud Run:** For scalable deployment of microservices.
+
+## Privacy & Governance
+
+### Database Schema & Security
+
+The entire system architecture is built around "Privacy by Design", utilizing Supabase's powerful Row Level Security (RLS) to protect sensitive data:
+
+- `student_profiles`: Anonymous alias tracking, protected from volunteer access; used strictly for AI memory context.
+- `mood_entries`: Encrypted records of the student's emotional journey.
+- `session_bookings`: Managed support sessions with secure meeting tokens.
+- `volunteers`: A verified registry of student supporters with secure credential/CV storage.
+
+### Verification Hub
+
+A master administrative portal for university counselors to manage volunteer onboarding, verify credentials, and monitor platform integrity without compromising student anonymity.
 
 ## App Navigation
 
-### Student Experience
-- `/` — Landing page and introduction
-- `/check-in` — Daily check-in and HALT diagnostic
-- `/mood-tracker` — Emotional trends and mood history
-- `/peer-match` — Anonymous volunteer connect
-- `/chat` — Real-time support chat
-- `/resources` — Wellness Hub (resilience toolkit)
-- `/community-qna` — Anonymous community support
-- `/partners` — NGO partners and support network
+To help you evaluate SoulSync quickly, here are the key routes you should visit:
 
-### Volunteer & Admin Experience
-- `/volunteer` — Volunteer onboarding and application
-- `/volunteer/dashboard` — Volunteer workspace and AI briefing center
-- `/admin` — Admin portal for governance
-- `/admin/volunteers` — Volunteer verification and status management
-- `/admin/command-center` — Crisis visibility and system monitoring
+**For Students:**
 
----
+- `/` - Landing Page (Hero, Value Proposition, SDG Alignment)
+- `/check-in` - Daily Check-in & HALT Diagnostic
+- `/mood-tracker` - Emotional Healing Curve & Mood History
+- `/peer-match` - Connect securely with an anonymous volunteer
+- `/chat` - Real-time support chat interface
+- `/resources` - Interactive Resilience Tools (Breathing, Grounding, Reflection)
+- `/community-qna` - Anonymous Community Q&A
+- `/partners` - NGO Partners & Collaborators
+
+**For Volunteers & Admins:**
+
+- `/volunteer` - Volunteer Onboarding / Verification
+- `/volunteer/dashboard` - Volunteer CRM, AI Command Center & Handoff Briefings
+- `/admin` - Admin Portal
+- `/admin/volunteers` - Volunteer Verification & Governance Hub
+- `/admin/command-center` - System-wide crisis overview
 
 ## Project Structure
 
 ```text
 soulsync/
 ├── src/
-│   ├── components/             # Reusable UI and page components
-│   │   ├── admin/              # Admin portal components
-│   │   ├── resilience-tools/   # Breathing, grounding, HALT, reflection tools
-│   │   ├── ui/                 # Shared UI primitives (button, dialog, input)
-│   │   ├── volunteer/          # Volunteer dashboard components
-│   │   └── ChatInterface.tsx   # Core anonymous support interface
-│   ├── routes/                 # Page-level routes with TanStack Router
-│   │   ├── admin/              # Admin pages
-│   │   ├── api/                # Server-side endpoints
-│   │   └── volunteer/          # Volunteer workflow pages
-│   ├── integrations/           # Supabase client and auth middleware
-│   ├── hooks/                  # Custom hooks (useAnonymousIdentity, use-mobile)
-│   └── styles.css              # Global styles
+│   ├── components/       # Reusable UI components
+│   │   ├── admin/        # Admin dashboard components
+│   │   ├── resilience-tools/ # Breathing, Grounding, Reflection tools
+│   │   ├── ui/           # Base UI elements (Tailwind/Radix)
+│   │   └── volunteer/    # Volunteer CRM components
+│   ├── routes/           # TanStack file-based routing
+│   │   ├── admin/        # Admin panel pages
+│   │   ├── api/          # Server-side API endpoints
+│   │   └── volunteer/    # Volunteer dashboard pages
+│   ├── integrations/     # Supabase client setup
+│   ├── hooks/            # Custom React hooks (e.g., useAnonymousIdentity)
+│   ├── lib/              # Utility functions
+│   └── styles.css        # Global Tailwind CSS
 ├── supabase/
-│   └── migrations/             # SQL schema and RLS migrations
-├── package.json
-└── vite.config.ts
+│   └── migrations/       # SQL schemas and RLS policies
+├── package.json          # Project dependencies
+└── vite.config.ts        # Vite configuration
 ```
-
----
 
 ## Setup & Installation
 
+Follow these steps to run SoulSync locally:
+
 ### Prerequisites
-- Node.js 20+ / npm 10+
-- Supabase project
-- OpenRouter API key
 
-### Install
-```bash
-git clone https://github.com/your-org/soulsync.git
-cd soulsync
-npm install
-```
+- [Bun](https://bun.sh/) (or Node.js/npm)
+- A [Supabase](https://supabase.com/) Project
+- An [OpenRouter API Key](https://openrouter.ai/)
 
-### Configure
-Create a `.env` file in the root directory and add:
-```env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-OPENROUTER_API_KEY=your_openrouter_api_key
-OPENROUTER_MODEL=openai/gpt-oss-120b:free
-```
+### Installation
 
-### Run locally
-```bash
-npm run dev
-```
+1.  **Clone the repository:**
 
-### Build for production
-```bash
-npm run build
-```
+    ```bash
+    git clone https://github.com/your-org/soulsync.git
+    cd soulsync
+    ```
 
----
+2.  **Install dependencies:**
 
-## Strengths
-- **Student-first impact:** directly addresses campus mental health and stigma with peer-led support.
-- **Privacy-first design:** anonymous identity, zero-trace journaling, and strict governance.
-- **AI-enabled support:** helpful context, emotional insight, and volunteer briefing support without replacing human care.
-- **Lean, scalable architecture:** modern React + Supabase stack built for fast deployment and iterative testing.
-- **Presentation-ready polish:** UX clarity, motion, and storytelling designed for judges.
+    ```bash
+    bun install
+    ```
 
----
+3.  **Environment Variables:**
+    Create a `.env` file in the root directory and add the following:
 
-## Notes
-- The app is intentionally built to feel safe, supportive, and accessible.
-- Supabase migrations in `supabase/migrations` define the production schema and security model.
-- The chat experience is guided by a custom warm system prompt and emotion-aware AI context.
+    ```env
+    VITE_SUPABASE_URL=your_supabase_project_url
+    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+    OPENROUTER_API_KEY=your_openrouter_api_key
+    OPENROUTER_MODEL=x-ai/grok-2:free
+    ```
+
+4.  **Database Setup:**
+    Execute the SQL migration scripts located in the `/supabase/migrations` folder against your Supabase project to build the necessary schemas and RLS policies.
+
+5.  **Run the development server:**
+    ```bash
+    bun run dev
+    ```
 
 <div align="center">
-  <strong>SoulSync is built to win: secure, empathetic, and ready to scale student resilience across campuses.</strong>
+  <b>Built with for student resilience. Because no student should have to navigate their hardest days alone.</b>
 </div>
