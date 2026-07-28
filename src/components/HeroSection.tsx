@@ -10,7 +10,7 @@ export function HeroSection() {
     <section 
       className="px-4 pt-32 pb-56 sm:px-6 lg:px-8 lg:pt-40 lg:pb-72 relative overflow-hidden flex flex-col justify-center min-h-[85vh]"
       style={{
-        backgroundImage: "url('/hero-bg.jpg')",
+        backgroundImage: "url('/hero-bg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
