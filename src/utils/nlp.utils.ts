@@ -1,6 +1,6 @@
 // RoBERTa emotion classification — browser-only (uses WASM, cannot run on SSR/Node)
-// https://huggingface.co/SamLowe/roberta-base-go_emotions
-// Model is cached by @xenova/transformers after first download (~90MB, browser-cached)
+// https://huggingface.co/MicahB/roberta-base-go_emotions
+// Model is cached by @xenova/transformers after first download
 
 let classifier: any = null;
 let classifierLoadError: string | null = null;
@@ -32,7 +32,7 @@ export async function warmupClassifier(): Promise<void> {
     const pipeline = await getPipeline();
     classifier = await pipeline(
       "text-classification",
-      "SamLowe/roberta-base-go_emotions",
+      "MicahB/roberta-base-go_emotions",
       { revision: "main" }
     );
   } catch (err) {
@@ -52,7 +52,7 @@ export async function detectEmotions(text: string): Promise<DetectedEmotion[]> {
       const pipeline = await getPipeline();
       classifier = await pipeline(
         "text-classification",
-        "SamLowe/roberta-base-go_emotions",
+        "MicahB/roberta-base-go_emotions",
         { revision: "main" }
       );
     }

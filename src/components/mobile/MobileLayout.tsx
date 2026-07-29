@@ -68,8 +68,8 @@ export function MobileLayout({
         <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)] shadow-sm dark:shadow-none">
           <div className="flex min-h-12 items-center justify-between gap-3">
             <Link to="/" className="flex min-w-0 items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-emerald-100 bg-white dark:bg-slate-950 shadow-sm dark:shadow-none">
-                <img src="/logo.png" alt="SoulSync" className="h-full w-full object-contain" />
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center">
+                <img src="/logo.png" alt="SoulSync" className="h-full w-full object-contain drop-shadow-sm blur-[0.2px] opacity-95" />
               </span>
               <span className="min-w-0">
                 <span className="block truncate font-display text-xl font-black leading-none text-slate-950 dark:text-slate-50">
