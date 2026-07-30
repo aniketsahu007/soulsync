@@ -30,7 +30,7 @@
 - [What's Next](#-whats-next)
 - [Team](#-team)
 
----
+----
 
 ## Inspiration
 
