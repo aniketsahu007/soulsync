@@ -5,58 +5,8 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
-// ─── Om Synthesizer ──────────────────────────────────────────────────────────
-function createOmSynth(ctx: AudioContext): GainNode {
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  master.connect(ctx.destination);
-
-  const reverbLen = ctx.sampleRate * 3.5;
-  const reverbBuf = ctx.createBuffer(2, reverbLen, ctx.sampleRate);
-  for (let ch = 0; ch < 2; ch++) {
-    const data = reverbBuf.getChannelData(ch);
-    for (let i = 0; i < reverbLen; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 2.5);
-    }
-  }
-  const convolver = ctx.createConvolver();
-  convolver.buffer = reverbBuf;
-  const reverbGain = ctx.createGain();
-  reverbGain.gain.value = 0.5;
-  convolver.connect(reverbGain);
-  reverbGain.connect(master);
-
-  const f1 = ctx.createBiquadFilter(); f1.type = 'bandpass'; f1.frequency.value = 800; f1.Q.value = 4;
-  const f2 = ctx.createBiquadFilter(); f2.type = 'bandpass'; f2.frequency.value = 1100; f2.Q.value = 6;
-  const fWarm = ctx.createBiquadFilter(); fWarm.type = 'lowshelf'; fWarm.frequency.value = 300; fWarm.gain.value = 9;
-
-  const FUND = 136.1;
-  ([
-    [FUND,       0.60, 'sine'],
-    [FUND * 2,   0.25, 'sine'],
-    [FUND * 3,   0.12, 'triangle'],
-    [FUND * 4,   0.06, 'sine'],
-    [FUND * 0.5, 0.20, 'sine'],
-  ] as [number, number, OscillatorType][]).forEach(([freq, g, type]) => {
-    const osc = ctx.createOscillator();
-    osc.type = type; osc.frequency.value = freq;
-    const og = ctx.createGain(); og.gain.value = g;
-    osc.connect(og); og.connect(fWarm); og.connect(f1); og.connect(f2);
-    osc.start();
-  });
-
-  fWarm.connect(master); fWarm.connect(convolver);
-  f1.connect(master); f1.connect(convolver);
-  f2.connect(master); f2.connect(convolver);
-
-  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.1;
-  const lfoG = ctx.createGain(); lfoG.gain.value = 0.1;
-  lfo.connect(lfoG); lfoG.connect(master.gain); lfo.start();
-
-  master.gain.setValueAtTime(0.001, ctx.currentTime);
-  master.gain.exponentialRampToValueAtTime(0.85, ctx.currentTime + 4);
-  return master;
-}
+// ─── Om Audio Handling ────────────────────────────────────────────────────────
+// Using the beautiful, high-quality audio track provided by the user.
 
 // ─── Today's date formatted nicely ───────────────────────────────────────────
 function getTodayLabel() {
@@ -71,8 +21,7 @@ export function SoulSyncStoryModal() {
   const [isMuted, setIsMuted] = useState(false);
   const [breatheIn, setBreatheIn] = useState(true);
 
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const masterGainRef = useRef<GainNode | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Breathing animation cycle
   useEffect(() => {
@@ -85,12 +34,10 @@ export function SoulSyncStoryModal() {
   }, []);
 
   const startAudio = () => {
-    try {
-      const AC = window.AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AC() as AudioContext;
-      audioCtxRef.current = ctx;
-      masterGainRef.current = createOmSynth(ctx);
-    } catch (e) { console.error('Om synth failed:', e); }
+    if (audioRef.current) {
+      audioRef.current.volume = 1.0;
+      audioRef.current.play().catch(e => console.log('Audio autoplay prevented', e));
+    }
   };
 
   const handleBegin = async () => {
@@ -107,19 +54,18 @@ export function SoulSyncStoryModal() {
   const handleReadStory = () => setPhase('story');
 
   const handleClose = () => {
-    if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-      masterGainRef.current?.gain.setTargetAtTime(0, audioCtxRef.current.currentTime, 0.4);
-      setTimeout(() => audioCtxRef.current?.close(), 1200);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
     setIsOpen(false);
     localStorage.setItem('soulSync_lastStoryDate', new Date().toDateString());
   };
 
   const toggleMute = () => {
-    if (masterGainRef.current && audioCtxRef.current) {
-      const next = !isMuted;
-      setIsMuted(next);
-      masterGainRef.current.gain.setTargetAtTime(next ? 0 : 0.85, audioCtxRef.current.currentTime, 0.4);
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
   };
 
@@ -130,6 +76,9 @@ export function SoulSyncStoryModal() {
           <DialogTitle>SoulSync Daily Story</DialogTitle>
           <DialogDescription>Your daily meditative story experience.</DialogDescription>
         </VisuallyHidden>
+
+        {/* User Provided Om Track */}
+        <audio ref={audioRef} src="https://cdn.pixabay.com/download/audio/2025/12/16/audio_aa55e80576.mp3?filename=kalsstockmedia-free-soul-om-mantra-chants-in-two-tones-452178.mp3" loop preload="auto" />
 
         {/* ─── LANDING PHASE ─────────────────────────────────────────────── */}
         {phase === 'landing' && (
