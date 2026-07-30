@@ -37,6 +37,9 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+          VITE_AI_API_KEY: ${{ secrets.VITE_AI_API_KEY }}
+          VITE_AI_BASE_URL: ${{ secrets.VITE_AI_BASE_URL }}
+          VITE_AI_MODEL: ${{ secrets.VITE_AI_MODEL }}
 
       # 4b. Debug: show what the build produced
       - name: 🔍 List build output
@@ -58,3 +61,6 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+          VITE_AI_API_KEY: ${{ secrets.VITE_AI_API_KEY }}
+          VITE_AI_BASE_URL: ${{ secrets.VITE_AI_BASE_URL }}
+          VITE_AI_MODEL: ${{ secrets.VITE_AI_MODEL }}
