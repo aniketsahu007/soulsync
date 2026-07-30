@@ -99,11 +99,11 @@ export const Navbar = memo(() => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.25rem] items-center justify-between gap-4">
           <Link to="/" className="flex min-w-0 shrink-0 items-center gap-3 group">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center transition-transform group-hover:scale-105">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden transition-transform group-hover:scale-105">
               <img 
                 src="/logo.png" 
                 alt="SoulSync Logo" 
-                className="h-full w-full object-contain drop-shadow-sm blur-[0.2px] opacity-95"
+                className="h-full w-full rounded-full object-cover drop-shadow-sm blur-[0.2px] opacity-95"
                 onError={(e) => {
                   e.currentTarget.src = 'https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/heart-handshake.svg';
                   e.currentTarget.className = 'h-6 w-6 opacity-50';
