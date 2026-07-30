@@ -113,12 +113,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 import { useAnonymousIdentity } from "../hooks/useAnonymousIdentity";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SoulSyncStoryModal } from "@/components/SoulSyncStoryModal";
 
 function RootComponent() {
   useAnonymousIdentity(); // Initialize anonymous identity on mount
   useServiceWorker();
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <SoulSyncStoryModal />
       <Outlet />
     </ThemeProvider>
   );
