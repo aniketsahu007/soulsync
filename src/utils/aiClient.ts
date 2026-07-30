@@ -27,6 +27,21 @@ interface ProviderConfig {
 
 // Helper to safely get env vars from either Vite's import.meta.env or Node's process.env
 function getEnvVar(key: string): string | undefined {
+  // ─── VITE STATIC INJECTION FIX ──────────────────────────────────────────────
+  // Vite replaces import.meta.env.X statically at build time. Dynamic access
+  // like import.meta.env[key] returns undefined in production builds.
+  // So we explicitly map the known keys here for the client side.
+  const staticEnvMap: Record<string, string | undefined> = {
+    "VITE_AI_API_KEY": typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_AI_API_KEY : undefined,
+    "VITE_AI_BASE_URL": typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_AI_BASE_URL : undefined,
+    "VITE_AI_MODEL": typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_AI_MODEL : undefined,
+  };
+
+  if (staticEnvMap[key] !== undefined) {
+    return staticEnvMap[key];
+  }
+
+  // Dynamic access (works in Node.js/Cloudflare Workers server-side)
   try {
     // @ts-ignore
     if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
