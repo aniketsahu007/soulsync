@@ -1,9 +1,11 @@
 // RoBERTa emotion classification — browser-only (uses WASM, cannot run on SSR/Node)
+// Browser-compatible ONNX clone of https://huggingface.co/SamLowe/roberta-base-go_emotions
 // https://huggingface.co/MicahB/roberta-base-go_emotions
-// Model is cached by @xenova/transformers after first download
+// Model is cached by @xenova/transformers after first download (~90MB, browser-cached)
 
 let classifier: any = null;
 let classifierLoadError: string | null = null;
+const EMOTION_MODEL_ID = "MicahB/roberta-base-go_emotions";
 
 /** Returns true only when running in a real browser environment */
 const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
@@ -32,12 +34,13 @@ export async function warmupClassifier(): Promise<void> {
     const pipeline = await getPipeline();
     classifier = await pipeline(
       "text-classification",
-      "MicahB/roberta-base-go_emotions",
+      EMOTION_MODEL_ID,
       { revision: "main" }
     );
   } catch (err) {
     classifierLoadError = String(err);
     console.warn("[RoBERTa] Model warmup failed:", err);
+    throw err;
   }
 }
 
@@ -52,7 +55,7 @@ export async function detectEmotions(text: string): Promise<DetectedEmotion[]> {
       const pipeline = await getPipeline();
       classifier = await pipeline(
         "text-classification",
-        "MicahB/roberta-base-go_emotions",
+        EMOTION_MODEL_ID,
         { revision: "main" }
       );
     }
@@ -67,6 +70,7 @@ export async function detectEmotions(text: string): Promise<DetectedEmotion[]> {
         score: Math.round(r.score * 1000) / 1000,
       }));
   } catch (err) {
+    classifierLoadError = String(err);
     console.error("[RoBERTa] Emotion detection failed:", err);
     return [];
   }

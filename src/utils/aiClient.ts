@@ -25,35 +25,81 @@ interface ProviderConfig {
   model: string;
 }
 
-// Helper to safely get env vars from either Vite's import.meta.env or Node's process.env
+// Helper to safely get env vars from Vite's import.meta.env, Node's process.env,
+// or Cloudflare Workers runtime env (via globalThis with nodejs_compat).
 function getEnvVar(key: string): string | undefined {
   // ─── VITE STATIC INJECTION FIX ──────────────────────────────────────────────
   // Vite replaces import.meta.env.X statically at build time. Dynamic access
   // like import.meta.env[key] returns undefined in production builds.
-  // So we explicitly map the known keys here for the client side.
+  // We explicitly map ALL known keys so Vite can replace them at build time.
+  // @ts-ignore — Vite replaces these at build time; TS doesn't know about them
+  const _env = typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env : {} as any;
   const staticEnvMap: Record<string, string | undefined> = {
-    "VITE_AI_API_KEY": typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_AI_API_KEY : undefined,
-    "VITE_AI_BASE_URL": typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_AI_BASE_URL : undefined,
-    "VITE_AI_MODEL": typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_AI_MODEL : undefined,
+    // Provider 1
+    "PROVIDER_1_API_KEY": _env.PROVIDER_1_API_KEY,
+    "PROVIDER_1_NAME": _env.PROVIDER_1_NAME,
+    "PROVIDER_1_BASE_URL": _env.PROVIDER_1_BASE_URL,
+    "PROVIDER_1_MODEL": _env.PROVIDER_1_MODEL,
+    "VITE_PROVIDER_1_API_KEY": _env.VITE_PROVIDER_1_API_KEY,
+    "VITE_PROVIDER_1_NAME": _env.VITE_PROVIDER_1_NAME,
+    "VITE_PROVIDER_1_BASE_URL": _env.VITE_PROVIDER_1_BASE_URL,
+    "VITE_PROVIDER_1_MODEL": _env.VITE_PROVIDER_1_MODEL,
+    // Provider 2
+    "PROVIDER_2_API_KEY": _env.PROVIDER_2_API_KEY,
+    "PROVIDER_2_NAME": _env.PROVIDER_2_NAME,
+    "PROVIDER_2_BASE_URL": _env.PROVIDER_2_BASE_URL,
+    "PROVIDER_2_MODEL": _env.PROVIDER_2_MODEL,
+    "VITE_PROVIDER_2_API_KEY": _env.VITE_PROVIDER_2_API_KEY,
+    "VITE_PROVIDER_2_NAME": _env.VITE_PROVIDER_2_NAME,
+    "VITE_PROVIDER_2_BASE_URL": _env.VITE_PROVIDER_2_BASE_URL,
+    "VITE_PROVIDER_2_MODEL": _env.VITE_PROVIDER_2_MODEL,
+    // Provider 3 (future-proofing)
+    "PROVIDER_3_API_KEY": _env.PROVIDER_3_API_KEY,
+    "PROVIDER_3_NAME": _env.PROVIDER_3_NAME,
+    "PROVIDER_3_BASE_URL": _env.PROVIDER_3_BASE_URL,
+    "PROVIDER_3_MODEL": _env.PROVIDER_3_MODEL,
+    "VITE_PROVIDER_3_API_KEY": _env.VITE_PROVIDER_3_API_KEY,
+    "VITE_PROVIDER_3_NAME": _env.VITE_PROVIDER_3_NAME,
+    "VITE_PROVIDER_3_BASE_URL": _env.VITE_PROVIDER_3_BASE_URL,
+    "VITE_PROVIDER_3_MODEL": _env.VITE_PROVIDER_3_MODEL,
+    // Groq defaults
+    "GROQ_API_KEY": _env.GROQ_API_KEY,
+    "GROQ_MODEL": _env.GROQ_MODEL,
+    "VITE_GROQ_API_KEY": _env.VITE_GROQ_API_KEY,
+    "VITE_GROQ_MODEL": _env.VITE_GROQ_MODEL,
+    // Legacy / Default AI keys
+    "VITE_AI_API_KEY": _env.VITE_AI_API_KEY,
+    "VITE_AI_BASE_URL": _env.VITE_AI_BASE_URL,
+    "VITE_AI_MODEL": _env.VITE_AI_MODEL,
+    "AI_API_KEY": _env.AI_API_KEY,
+    "AI_BASE_URL": _env.AI_BASE_URL,
+    "AI_MODEL": _env.AI_MODEL,
   };
 
-  if (staticEnvMap[key] !== undefined) {
+  if (staticEnvMap[key] !== undefined && staticEnvMap[key] !== '') {
     return staticEnvMap[key];
   }
 
-  // Dynamic access (works in Node.js/Cloudflare Workers server-side)
+  // ─── CLOUDFLARE WORKERS RUNTIME FIX ─────────────────────────────────────────
+  // Access process.env through globalThis to bypass Vite's bundler which can
+  // statically replace bare `process.env` references with empty objects.
+  // On CF Workers with nodejs_compat, globalThis.process.env has the env bindings.
   try {
-    // @ts-ignore
-    if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
-      // @ts-ignore
-      return import.meta.env[key];
+    const g = globalThis as any;
+    if (g.process?.env?.[key]) {
+      return g.process.env[key];
     }
   } catch (e) {
     // ignore
   }
-  
-  if (typeof process !== 'undefined' && process.env && process.env[key]) {
-    return process.env[key];
+
+  // ─── STANDARD NODE.JS FALLBACK ──────────────────────────────────────────────
+  try {
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
+      return process.env[key];
+    }
+  } catch (e) {
+    // ignore
   }
   
   return undefined;
@@ -75,21 +121,30 @@ function getProviders(): ProviderConfig[] {
     providers.push({
       name: getEnvVar(`PROVIDER_${i}_NAME`) ?? getEnvVar(`VITE_PROVIDER_${i}_NAME`) ?? `Provider_${i}`,
       apiKey,
-      baseUrl: getEnvVar(`PROVIDER_${i}_BASE_URL`) ?? getEnvVar(`VITE_PROVIDER_${i}_BASE_URL`) ?? "https://api.openai.com/v1",
-      model: getEnvVar(`PROVIDER_${i}_MODEL`) ?? getEnvVar(`VITE_PROVIDER_${i}_MODEL`) ?? "gpt-3.5-turbo",
+      baseUrl: getEnvVar(`PROVIDER_${i}_BASE_URL`) ?? getEnvVar(`VITE_PROVIDER_${i}_BASE_URL`) ?? "https://api.groq.com/openai/v1",
+      model: getEnvVar(`PROVIDER_${i}_MODEL`) ?? getEnvVar(`VITE_PROVIDER_${i}_MODEL`) ?? "llama-3.3-70b-versatile",
     });
     i++;
   }
 
   // 2. Fallback to default AI_* vars if no PROVIDER_N_* vars are found
   if (providers.length === 0) {
-    const defaultKey = getEnvVar("VITE_AI_API_KEY") ?? getEnvVar("AI_API_KEY");
+    const defaultKey =
+      getEnvVar("GROQ_API_KEY") ??
+      getEnvVar("VITE_GROQ_API_KEY") ??
+      getEnvVar("VITE_AI_API_KEY") ??
+      getEnvVar("AI_API_KEY");
     if (defaultKey) {
       providers.push({
-        name: "DefaultProvider",
+        name: "Groq",
         apiKey: defaultKey,
         baseUrl: getEnvVar("VITE_AI_BASE_URL") ?? getEnvVar("AI_BASE_URL") ?? "https://api.groq.com/openai/v1",
-        model: getEnvVar("VITE_AI_MODEL") ?? getEnvVar("AI_MODEL") ?? "llama-3.3-70b-versatile",
+        model:
+          getEnvVar("GROQ_MODEL") ??
+          getEnvVar("VITE_GROQ_MODEL") ??
+          getEnvVar("VITE_AI_MODEL") ??
+          getEnvVar("AI_MODEL") ??
+          "llama-3.3-70b-versatile",
       });
     }
   }
@@ -118,14 +173,20 @@ export async function getChatCompletion(
     while (attempt < maxAttempts) {
       attempt++;
       try {
-        const response = await fetch(`${provider.baseUrl}/chat/completions`, {
+        const baseUrl = provider.baseUrl.replace(/\/+$/, "");
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${provider.apiKey}`,
+        };
+
+        if (baseUrl.includes("openrouter.ai")) {
+          headers["HTTP-Referer"] = "https://soulsync.org";
+          headers["X-Title"] = "SoulSync";
+        }
+
+        const response = await fetch(`${baseUrl}/chat/completions`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${provider.apiKey}`,
-            "HTTP-Referer": "https://soulsync.org",
-            "X-Title": "SoulSync",
-          },
+          headers,
           body: JSON.stringify({
             model: provider.model,
             messages,
