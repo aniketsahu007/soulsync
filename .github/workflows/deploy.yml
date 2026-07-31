@@ -37,9 +37,16 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
-          VITE_AI_API_KEY: ${{ secrets.VITE_AI_API_KEY }}
-          VITE_AI_BASE_URL: ${{ secrets.VITE_AI_BASE_URL }}
-          VITE_AI_MODEL: ${{ secrets.VITE_AI_MODEL }}
+          PROVIDER_1_NAME: groq
+          PROVIDER_1_API_KEY: ${{ secrets.PROVIDER_1_API_KEY }}
+          PROVIDER_1_BASE_URL: https://api.groq.com/openai/v1
+          PROVIDER_1_MODEL: llama-3.3-70b-versatile
+          PROVIDER_2_NAME: cerebras
+          PROVIDER_2_API_KEY: ${{ secrets.PROVIDER_2_API_KEY }}
+          PROVIDER_2_BASE_URL: https://api.cerebras.ai/v1
+          PROVIDER_2_MODEL: gpt-oss-120b
+          GROQ_API_KEY: ${{ secrets.PROVIDER_1_API_KEY }}
+          GROQ_MODEL: llama-3.3-70b-versatile
 
       # 4b. Debug: show what the build produced
       - name: 🔍 List build output
@@ -54,13 +61,20 @@ jobs:
       # Using npx wrangler directly because cloudflare/wrangler-action installs
       # an outdated v3.x which fails silently with newer wrangler.jsonc configs.
       - name: ☁️ Deploy to Cloudflare Workers
-        run: npx wrangler deploy --verbose
+        run: npx wrangler deploy --verbose --keep-vars
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
-          VITE_AI_API_KEY: ${{ secrets.VITE_AI_API_KEY }}
-          VITE_AI_BASE_URL: ${{ secrets.VITE_AI_BASE_URL }}
-          VITE_AI_MODEL: ${{ secrets.VITE_AI_MODEL }}
+          PROVIDER_1_NAME: groq
+          PROVIDER_1_API_KEY: ${{ secrets.PROVIDER_1_API_KEY }}
+          PROVIDER_1_BASE_URL: https://api.groq.com/openai/v1
+          PROVIDER_1_MODEL: llama-3.3-70b-versatile
+          PROVIDER_2_NAME: cerebras
+          PROVIDER_2_API_KEY: ${{ secrets.PROVIDER_2_API_KEY }}
+          PROVIDER_2_BASE_URL: https://api.cerebras.ai/v1
+          PROVIDER_2_MODEL: gpt-oss-120b
+          GROQ_API_KEY: ${{ secrets.PROVIDER_1_API_KEY }}
+          GROQ_MODEL: llama-3.3-70b-versatile
