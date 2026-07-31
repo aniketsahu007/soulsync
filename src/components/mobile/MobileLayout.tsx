@@ -130,7 +130,6 @@ export function MobileLayout({
                 <div className="mb-3 grid gap-2">
                   <InstallAppCard
                     onInstalled={() => setExploreOpen(false)}
-                    showUnavailable
                   />
                   <IdentityRecoveryButton className="h-12 w-full justify-center rounded-2xl" />
                   {isVolunteer ? (

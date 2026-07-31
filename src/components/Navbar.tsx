@@ -191,7 +191,6 @@ export const Navbar = memo(() => {
                           <InstallAppCard
                             className="rounded-[1.1rem] px-3 py-3 shadow-none hover:bg-slate-50 dark:bg-slate-900 border-transparent bg-transparent"
                             onInstalled={() => setDropdownOpen(false)}
-                            showUnavailable
                           />
                           {toolsNavItems.map((link) => (
                             <Link
@@ -348,7 +347,6 @@ export const Navbar = memo(() => {
             <InstallAppCard
               className="rounded-xl px-4 py-3 shadow-none border-transparent bg-transparent hover:bg-slate-50 dark:bg-slate-900"
               onInstalled={() => setMobileOpen(false)}
-              showUnavailable
             />
 
             {toolsNavItems.map((link) => (

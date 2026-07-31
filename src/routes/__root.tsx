@@ -103,6 +103,22 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.__soulSyncInstallPrompt = null;
+              window.addEventListener('beforeinstallprompt', function(event) {
+                event.preventDefault();
+                window.__soulSyncInstallPrompt = event;
+                window.dispatchEvent(new Event('soulsync-install-ready'));
+              });
+              window.addEventListener('appinstalled', function() {
+                window.__soulSyncInstallPrompt = null;
+                window.dispatchEvent(new Event('soulsync-install-installed'));
+              });
+            `,
+          }}
+        />
         {children}
         <Toaster position="top-center" richColors closeButton />
         <Scripts />

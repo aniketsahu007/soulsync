@@ -30,41 +30,39 @@ export function InstallAppCard({
             App installed
           </span>
           <span className="mt-0.5 block truncate text-xs font-medium text-slate-500 dark:text-slate-400">
-            Use Chrome's Open in app button
+            Launch it from your home screen
           </span>
         </span>
       </div>
     );
   }
 
-  if (!canInstall && !showUnavailable) return null;
+  if (!isSecure && !showUnavailable) return null;
 
-  const unavailableTitle = !isSecure ? "Install unavailable" : "Open in app";
+  const unavailableTitle = !isSecure ? "Install unavailable" : "Install app";
   const unavailableMessage = !isSecure
     ? "Use HTTPS or localhost to install"
-    : "Use Chrome's app button in the address bar";
-  const isActionable = canInstall;
+    : "Add SoulSync to your device";
 
   return (
     <button
       type="button"
-      disabled={!isActionable}
+      disabled={!isSecure}
       onClick={async () => {
-        if (!isActionable) return;
         const result = await install();
         if (result === "accepted") onInstalled?.();
       }}
-      className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-left shadow-sm dark:shadow-none transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-75 ${className}`}
+      className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-left shadow-sm dark:shadow-none transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     >
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
         <Download className="h-5 w-5" />
       </span>
       <span className="min-w-0">
         <span className="block text-sm font-black text-slate-950 dark:text-slate-50">
-          {isActionable ? "Install app" : unavailableTitle}
+          {canInstall ? "Install app" : unavailableTitle}
         </span>
         <span className="mt-0.5 block truncate text-xs font-medium text-slate-500 dark:text-slate-400">
-          {isActionable ? "Add SoulSync to your phone" : unavailableMessage}
+          {unavailableMessage}
         </span>
       </span>
     </button>

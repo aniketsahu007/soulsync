@@ -3,7 +3,7 @@ import { Download, Zap, Shield, Smartphone } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 export function PWAShowcaseSection() {
-  const { install, canInstall, isInstalled } = usePWAInstall();
+  const { install, canInstall, isInstalled, isSecure } = usePWAInstall();
 
   return (
     <section className="relative px-4 py-32 sm:px-6 lg:px-8 bg-slate-900 overflow-hidden">
@@ -64,14 +64,14 @@ export function PWAShowcaseSection() {
             </div>
 
             <div className="pt-6">
-              {!isInstalled && canInstall && (
+              {!isInstalled && isSecure && (
                 <button
                   onClick={install}
                   className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-white dark:bg-slate-950 px-8 py-4 font-semibold text-slate-900 dark:text-slate-50 transition-all hover:scale-105 hover:bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
                 >
                   <span className="relative z-10 flex items-center gap-3">
                     <Download className="h-5 w-5 transition-transform group-hover:-translate-y-1" />
-                    Install SoulSync App
+                    {canInstall ? "Install SoulSync App" : "Install SoulSync"}
                   </span>
                 </button>
               )}
@@ -79,12 +79,6 @@ export function PWAShowcaseSection() {
                 <div className="inline-flex items-center gap-3 rounded-full bg-white/10 dark:bg-slate-950/10 px-8 py-4 font-semibold text-white border border-white/20">
                   <Shield className="h-5 w-5 text-emerald-400" />
                   App Installed & Ready
-                </div>
-              )}
-              {!isInstalled && !canInstall && (
-                <div className="inline-flex items-center gap-3 rounded-full bg-white/5 dark:bg-slate-950/5 px-8 py-4 font-medium text-slate-400 border border-white/10">
-                  <Smartphone className="h-5 w-5" />
-                  Open in Safari/Chrome to install
                 </div>
               )}
             </div>
