@@ -12,7 +12,7 @@
 
 [**Watch Demo Video**](#) • [**Live Project**](#) • [**Pitch Deck**](#)
 
-</div>
+</div> 
 
 ---
 
