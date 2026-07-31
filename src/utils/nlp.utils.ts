@@ -20,6 +20,8 @@ async function getPipeline() {
   
   transformers.env.allowLocalModels = false;
   transformers.env.useBrowserCache = true;
+  transformers.env.remoteHost = `${window.location.origin}/api/hf-model/`;
+  transformers.env.remotePathTemplate = "{model}/resolve/{revision}/";
 
   return transformers.pipeline;
 }
