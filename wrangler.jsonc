@@ -37,15 +37,5 @@
     "PROVIDER_2_NAME": "cerebras",
     "PROVIDER_2_BASE_URL": "https://api.cerebras.ai/v1",
     "PROVIDER_2_MODEL": "gpt-oss-120b"
-  },
-
-  // Fail deploys early if required secrets were not configured on the Worker.
-  "secrets": {
-    "required": [
-      "PROVIDER_1_API_KEY",
-      "VITE_SUPABASE_URL",
-      "VITE_SUPABASE_ANON_KEY",
-      "SUPABASE_SERVICE_ROLE_KEY"
-    ]
   }
 }
