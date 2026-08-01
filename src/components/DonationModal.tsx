@@ -181,7 +181,7 @@ export function DonationModal({ isOpen, onClose, ngoName, ngoId }: DonationModal
                   placeholder="Custom amount"
                   value={amount}
                   onChange={(e) => setAmount(Number(e.target.value) || "")}
-                  className="pl-8 h-14 rounded-2xl border-2 border-slate-100 focus:border-primary/50 text-lg font-bold"
+                  className="pl-8 h-14 rounded-2xl border-2 border-slate-100 focus:border-primary/50 text-black text-lg font-bold"
                 />
               </div>
 

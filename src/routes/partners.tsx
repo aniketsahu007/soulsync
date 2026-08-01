@@ -195,7 +195,7 @@ function DesktopPartnersPage() {
                               <img 
                                 src={ngo.logo_url || ngo.logo || undefined} 
                                 alt={ngo.name} 
-                                className="h-full w-full object-contain mix-blend-multiply"
+                                className="h-full w-full object-contain"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(ngo.name)}&background=random&color=fff&size=128&bold=true`;
                                 }}

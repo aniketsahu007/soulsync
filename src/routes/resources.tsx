@@ -1348,47 +1348,50 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             </p>
                           </div>
 
-                          {/* 30-Day Projection (Gamified Motivation) */}
-                          <div className="p-6 rounded-[2rem] bg-emerald-50/60 border border-emerald-250 flex flex-col justify-between shadow-sm dark:shadow-none">
+                          {/* 30-Day Projection (Human-centered Motivation) */}
+                          <div className="p-6 rounded-[2rem] bg-gradient-to-br from-emerald-50 via-white to-slate-100 border border-slate-200/80 shadow-[0_24px_80px_-40px_rgba(16,185,129,0.35)] dark:bg-slate-950/80 dark:border-slate-800/80 dark:shadow-[0_24px_80px_-40px_rgba(15,23,42,0.7)] flex flex-col justify-between">
                             <div>
-                              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-800 mb-2.5 flex items-center gap-1">
+                              <span className="text-[10px] font-black uppercase tracking-[0.32em] text-emerald-900 mb-3 flex items-center gap-2">
                                 <TrendingUp className="h-4 w-4 text-emerald-700" />
                                 30-Day System Identity & Projections
                               </span>
-                              
+                              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-5">
+                                This is not just numbers. It is the story you are writing for yourself in the next 30 days.
+                              </p>
+
                               {(() => {
                                 const motive = parseActionMotivation(newHabit.action, newHabit.duration);
                                 return (
                                   <div className="space-y-4">
                                     {/* Identity Statement */}
-                                    <div className="p-3 rounded-2xl bg-white dark:bg-slate-950 border border-emerald-100/80 shadow-sm dark:shadow-none flex items-start gap-3">
-                                      <div className="text-2xl shrink-0 mt-0.5">{motive.icon}</div>
+                                    <div className="p-4 rounded-[1.75rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4">
+                                      <div className="text-3xl shrink-0 mt-0.5">{motive.icon}</div>
                                       <div>
-                                        <span className="text-[9px] font-black uppercase text-emerald-800 tracking-wider block">Atomic Identity Shift</span>
-                                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-normal">
-                                          Casting 30 daily votes to become: <span className="text-emerald-700 font-extrabold underline block sm:inline">{motive.identity}</span>
+                                        <span className="text-[10px] font-black uppercase text-emerald-800 tracking-[0.3em] block mb-1">Atomic Identity Shift</span>
+                                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 leading-7">
+                                          Every time you choose this habit, you become <span className="text-emerald-700 font-black underline decoration-emerald-200">{motive.identity}</span>.
                                         </p>
                                       </div>
                                     </div>
 
                                     {/* Projections List */}
-                                    <div className="space-y-2">
-                                      <p className="text-xs font-black text-slate-650 tracking-wide">30-Day Compounded Outcomes:</p>
-                                      <ul className="text-xs font-extrabold text-slate-800 dark:text-slate-200 space-y-1.5 pl-1">
-                                        <li className="flex items-center gap-2">
-                                          <span className="text-emerald-600">🚀</span>
-                                          <span>Earn <span className="text-emerald-700 font-black">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span></span>
+                                    <div className="space-y-3">
+                                      <p className="text-xs font-black text-slate-500 uppercase tracking-[0.2em]">What this habit will feel like in 30 days</p>
+                                      <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
+                                          <span className="mt-0.5 text-emerald-600">🚀</span>
+                                          <span>Accelerate quiet focus with <span className="font-semibold text-emerald-700">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> earned through steady practice.</span>
                                         </li>
-                                        <li className="flex items-start gap-2">
-                                          <span className="text-emerald-600">⏱</span>
+                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
+                                          <span className="mt-0.5 text-emerald-600">⏱</span>
                                           <span>{motive.growthStatText}</span>
                                         </li>
-                                        <li className="flex items-start gap-2">
-                                          <span className="text-emerald-600">🧠</span>
+                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
+                                          <span className="mt-0.5 text-emerald-600">🧠</span>
                                           <span>{motive.neuroPathwayText}</span>
                                         </li>
-                                        <li className="flex items-start gap-2">
-                                          <span className="text-emerald-600">🎯</span>
+                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
+                                          <span className="mt-0.5 text-emerald-600">🎯</span>
                                           <span>{motive.habitRepetitionText}</span>
                                         </li>
                                       </ul>
@@ -1399,35 +1402,28 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             </div>
 
                             {/* The 1% Compounding interest curve chart representation */}
-                            <div className="mt-5 pt-4 border-t border-emerald-150 flex flex-col items-center">
-                              <span className="text-[9px] font-black uppercase text-emerald-800 tracking-wider mb-2">Atomic Habits: 1% Better Daily Curve</span>
-                              <div className="w-full h-[65px] relative">
+                            <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800">
+                              <span className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400 mb-3 block">Atomic Habits: A gentler growth curve</span>
+                              <div className="w-full h-[75px] relative rounded-[1.75rem] bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-inner p-3">
                                 <svg viewBox="0 0 300 70" className="w-full h-full overflow-visible">
-                                  {/* Grid lines */}
                                   <line x1="0" y1="60" x2="300" y2="60" stroke="#d1fae5" strokeWidth="1" />
                                   <line x1="0" y1="10" x2="300" y2="10" stroke="#d1fae5" strokeWidth="1" strokeDasharray="3" />
-                                  
-                                  {/* Labels */}
-                                  <text x="2" y="56" className="fill-slate-400 text-[7px] font-black">Day 1 (1.00x)</text>
-                                  <text x="230" y="15" className="fill-emerald-800 text-[8px] font-black">Day 30 (1.35x Skill)</text>
-
-                                  {/* Compounding Curve path */}
+                                  <text x="2" y="56" className="fill-slate-400 text-[8px] font-semibold">Day 1</text>
+                                  <text x="220" y="16" className="fill-emerald-800 text-[8px] font-semibold">Day 30</text>
                                   <path
-                                    d={`M 0,60 L 10,58 L 20,57 L 30,55 L 40,54 L 50,52 L 60,51 L 70,49 L 80,47 L 90,46 L 100,44 L 110,42 L 120,41 L 130,39 L 140,37 L 150,35 L 160,33 L 170,31 L 180,29 L 190,27 L 200,25 L 210,23 L 220,20 L 230,18 L 240,16 L 250,13 L 260,11 L 270,8 L 280,6 L 290,3 L 300,0`}
+                                    d={`M 0,60 C 40,56 80,52 110,46 C 140,40 170,36 190,31 C 210,26 240,20 270,12 C 300,5`}
                                     fill="none"
                                     stroke="#059669"
-                                    strokeWidth="2.5"
+                                    strokeWidth="3"
                                     strokeLinecap="round"
                                   />
-                                  
-                                  {/* Milestone points */}
                                   <circle cx="0" cy="60" r="3.5" className="fill-emerald-500 stroke-white stroke-2" />
-                                  <circle cx="150" cy="35" r="3.5" className="fill-emerald-600 stroke-white stroke-2" />
-                                  <circle cx="300" cy="0" r="4.5" className="fill-emerald-700 stroke-white stroke-2" />
+                                  <circle cx="190" cy="31" r="3.5" className="fill-emerald-600 stroke-white stroke-2" />
+                                  <circle cx="300" cy="5" r="4.5" className="fill-emerald-700 stroke-white stroke-2" />
                                 </svg>
                               </div>
-                              <div className="flex justify-between w-full text-[9px] font-black text-slate-500 dark:text-slate-400 mt-2">
-                                <span>(1.01)³⁰ = +35% Compound Interest</span>
+                              <div className="flex flex-col sm:flex-row sm:justify-between gap-2 mt-3 text-[9px] font-black text-slate-500 dark:text-slate-400">
+                                <span>Small choices add up to a kinder daily rhythm.</span>
                                 <span className="text-emerald-700">Friction drops by 80%</span>
                               </div>
                             </div>
