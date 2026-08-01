@@ -1318,20 +1318,20 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
                         {/* Live preview + 30-Day Projections */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
-                          {/* Live habits output rendering */}
-                          <div className="p-8 sm:p-12 rounded-[2rem] bg-gradient-to-br from-indigo-50/90 to-white dark:from-slate-900/90 dark:to-slate-950 border border-indigo-100/30 dark:border-white/5 shadow-sm relative overflow-hidden group flex flex-col justify-center transition-all duration-500">
+                          {/* Left Box: Live habits output */}
+                          <div className="p-6 sm:p-8 rounded-[1.5rem] bg-gradient-to-br from-indigo-50/90 to-white dark:from-slate-900/90 dark:to-slate-950 border border-indigo-100/30 dark:border-white/5 shadow-sm relative overflow-hidden group flex flex-col justify-center transition-all duration-500 h-fit">
                             {/* Decorative background blur */}
-                            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-400/10 rounded-full blur-[100px] -mr-20 -mt-20 pointer-events-none"></div>
+                            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-indigo-400/5 rounded-full blur-[80px] -mr-10 -mt-10 pointer-events-none"></div>
                             
                             <div className="relative z-10 max-w-lg">
-                              <div className="inline-flex items-center gap-2.5 mb-8">
-                                <div className="h-6 w-6 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-                                  <Heart className="h-3 w-3 text-indigo-500" />
+                              <div className="inline-flex items-center gap-2 mb-6">
+                                <div className="h-5 w-5 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
+                                  <Heart className="h-2.5 w-2.5 text-indigo-500" />
                                 </div>
-                                <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-indigo-500/80">A Gentle Promise</span>
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-indigo-500/80">A Gentle Promise</span>
                               </div>
                               
-                              <p className="text-lg sm:text-[1.35rem] font-medium text-slate-700 dark:text-slate-300 leading-[1.8] tracking-tight">
+                              <p className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-300 leading-[1.8] tracking-tight">
                                 {newHabit.cue && newHabit.location && newHabit.action ? (
                                   <span>
                                     "When <span className="text-slate-900 dark:text-white font-semibold border-b border-indigo-200 dark:border-indigo-500/30 pb-0.5">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 dark:text-white font-semibold border-b border-indigo-200 dark:border-indigo-500/30 pb-0.5">{newHabit.location}</span> and spend <span className="text-slate-900 dark:text-white font-semibold">{newHabit.duration} minutes</span> to <span className="text-indigo-500 font-semibold">{newHabit.action}</span>, because I deserve to grow."
@@ -1345,53 +1345,48 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             </div>
                           </div>
 
-                          {/* 30-Day Projection (Human-centered Motivation) */}
-                          <div className="p-8 sm:p-12 rounded-[2rem] bg-slate-950 dark:bg-black border border-slate-800/60 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col justify-between">
-                            {/* Ambient glow */}
-                            <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-rose-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+                          {/* Right Box: 30-Day Projection (Human-centered Motivation) */}
+                          <div className="p-6 sm:p-8 rounded-[1.5rem] bg-slate-950 dark:bg-black border border-slate-800/60 shadow-xl relative overflow-hidden flex flex-col justify-between">
+                            {/* Ambient glow - Soft Sky/Teal */}
+                            <div className="absolute top-[-20%] right-[-10%] w-80 h-80 bg-sky-500/5 rounded-full blur-[100px] pointer-events-none"></div>
                             
                             <div className="relative z-10">
-                              <span className="inline-flex items-center gap-2 mb-6">
-                                <span className="h-1.5 w-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+                              <span className="inline-flex items-center gap-2 mb-5">
+                                <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse"></span>
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Your Journey Ahead</span>
                               </span>
 
                               {(() => {
                                 const motive = parseActionMotivation(newHabit.action, newHabit.duration);
                                 return (
-                                  <div className="space-y-8">
-                                    {/* Identity Statement */}
-                                    <div className="flex items-start gap-5">
-                                      <div className="h-12 w-12 shrink-0 rounded-2xl bg-gradient-to-br from-rose-500/20 to-rose-500/5 flex items-center justify-center border border-rose-500/20 shadow-inner">
-                                        <Sparkles className="h-5 w-5 text-rose-300" />
-                                      </div>
-                                      <div className="pt-1">
-                                        <h4 className="text-[11px] font-bold uppercase text-rose-300/90 tracking-[0.15em] mb-1.5">A Kinder You</h4>
-                                        <p className="text-[15px] font-medium text-slate-300 leading-relaxed max-w-sm">
-                                          Every time you choose this habit, you become <span className="text-white font-semibold">{motive.identity}</span>.
-                                        </p>
-                                      </div>
+                                  <div className="space-y-6">
+                                    {/* Identity Statement (No Sparkle Box) */}
+                                    <div className="pb-1 border-b border-slate-800/50">
+                                      <h4 className="text-[11px] font-bold uppercase text-sky-300/90 tracking-[0.15em] mb-1.5">A Kinder You</h4>
+                                      <p className="text-[14px] font-medium text-slate-300 leading-relaxed pb-3">
+                                        Every time you choose this habit, you become <span className="text-white font-semibold">{motive.identity}</span>.
+                                      </p>
                                     </div>
 
                                     {/* Projections List */}
-                                    <ul className="space-y-4 pt-2">
-                                      <li className="flex gap-4 items-start group">
+                                    <ul className="space-y-3 pt-2">
+                                      <li className="flex gap-3 items-start group">
                                         <div className="mt-1 flex items-center justify-center h-4 w-4">
-                                          <Heart className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                                          <Heart className="h-3.5 w-3.5 text-slate-500 group-hover:text-sky-400 transition-colors" />
                                         </div>
-                                        <span className="text-sm text-slate-400 leading-relaxed font-medium">Find quiet focus and earn <span className="text-slate-200">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> through steady practice.</span>
+                                        <span className="text-[13px] text-slate-400 leading-relaxed font-medium">Find quiet focus and earn <span className="text-slate-200">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> through steady practice.</span>
                                       </li>
-                                      <li className="flex gap-4 items-start group">
+                                      <li className="flex gap-3 items-start group">
                                         <div className="mt-1 flex items-center justify-center h-4 w-4">
-                                          <Activity className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                                          <Activity className="h-3.5 w-3.5 text-slate-500 group-hover:text-sky-400 transition-colors" />
                                         </div>
-                                        <span className="text-sm text-slate-400 leading-relaxed font-medium">{motive.growthStatText}</span>
+                                        <span className="text-[13px] text-slate-400 leading-relaxed font-medium">{motive.growthStatText}</span>
                                       </li>
-                                      <li className="flex gap-4 items-start group">
+                                      <li className="flex gap-3 items-start group">
                                         <div className="mt-1 flex items-center justify-center h-4 w-4">
-                                          <Brain className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                                          <Brain className="h-3.5 w-3.5 text-slate-500 group-hover:text-sky-400 transition-colors" />
                                         </div>
-                                        <span className="text-sm text-slate-400 leading-relaxed font-medium">{motive.neuroPathwayText}</span>
+                                        <span className="text-[13px] text-slate-400 leading-relaxed font-medium">{motive.neuroPathwayText}</span>
                                       </li>
                                     </ul>
                                   </div>
@@ -1400,30 +1395,30 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             </div>
 
                             {/* The 1% Compounding interest curve chart representation */}
-                            <div className="mt-10 pt-8 border-t border-slate-800/50 relative z-10">
-                              <div className="flex items-center justify-between mb-6">
+                            <div className="mt-8 pt-6 border-t border-slate-800/50 relative z-10">
+                              <div className="flex items-center justify-between mb-4">
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">Growth Trajectory</span>
-                                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full">Things Get Easier</span>
+                                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-sky-300 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-full">Things Get Easier</span>
                               </div>
-                              <div className="w-full h-[60px] relative">
-                                <svg viewBox="0 0 300 70" className="w-full h-full overflow-visible">
-                                  <line x1="0" y1="60" x2="300" y2="60" stroke="#1e293b" strokeWidth="1" strokeDasharray="4" />
+                              <div className="w-full h-[50px] relative">
+                                <svg viewBox="0 0 300 60" className="w-full h-full overflow-visible">
+                                  <line x1="0" y1="50" x2="300" y2="50" stroke="#1e293b" strokeWidth="1" strokeDasharray="4" />
                                   <path
-                                    d={`M 0,60 C 60,58 120,50 180,35 C 220,25 260,15 300,5`}
+                                    d={`M 0,50 C 60,48 120,40 180,25 C 220,15 260,10 300,5`}
                                     fill="none"
-                                    stroke="url(#roseGradient)"
+                                    stroke="url(#skyGradient)"
                                     strokeWidth="2.5"
                                     strokeLinecap="round"
                                   />
                                   <defs>
-                                    <linearGradient id="roseGradient" x1="0" y1="0" x2="1" y2="0">
+                                    <linearGradient id="skyGradient" x1="0" y1="0" x2="1" y2="0">
                                       <stop offset="0%" stopColor="#64748b" />
-                                      <stop offset="100%" stopColor="#f43f5e" />
+                                      <stop offset="100%" stopColor="#38bdf8" />
                                     </linearGradient>
                                   </defs>
-                                  <circle cx="0" cy="60" r="3" className="fill-slate-900 stroke-slate-500 stroke-2" />
-                                  <circle cx="180" cy="35" r="3" className="fill-slate-900 stroke-rose-400 stroke-2" />
-                                  <circle cx="300" cy="5" r="4" className="fill-rose-400 shadow-glow" />
+                                  <circle cx="0" cy="50" r="3" className="fill-slate-900 stroke-slate-500 stroke-2" />
+                                  <circle cx="180" cy="25" r="3" className="fill-slate-900 stroke-sky-400 stroke-2" />
+                                  <circle cx="300" cy="5" r="4" className="fill-sky-400 shadow-glow" />
                                 </svg>
                               </div>
                             </div>
