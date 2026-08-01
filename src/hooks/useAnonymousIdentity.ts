@@ -13,14 +13,18 @@ export function useAnonymousIdentity() {
 
   useEffect(() => {
     async function initIdentity() {
-      // Check if we already have an authenticated session (e.g. Admin)
-      // If so, we don't need to initialize an anonymous student identity
+      // Check if we already have an authenticated session (e.g. signed-in student)
+      // If so, use their Supabase user ID as the persistence key
+      // This ensures onboarding quiz, habits, and activities are saved per-user
       const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
+      if (session?.user) {
+        setAliasId(session.user.id);
+        setProfileExists(true);
         setIsLoading(false);
         return;
       }
 
+      // Anonymous user flow: use localStorage alias
       let id = localStorage.getItem(ALIAS_STORAGE_KEY);
 
       if (!id) {
@@ -63,4 +67,3 @@ export function useAnonymousIdentity() {
 
   return { aliasId, profileExists, isLoading };
 }
-

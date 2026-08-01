@@ -123,7 +123,9 @@ export async function fetchScheduleArchitectData(aliasId: string): Promise<Sched
 }
 
 /**
- * Saves Schedule Architect state to Supabase. Preserves any existing AI memory context.
+ * Saves Schedule Architect state to Supabase.
+ * Uses upsert so it works for both new users (auth-based ID) and existing anonymous users.
+ * Preserves any existing AI memory context.
  */
 export async function saveScheduleArchitectData(
   aliasId: string,
@@ -143,15 +145,18 @@ export async function saveScheduleArchitectData(
       aiMemory = parsed.aiMemory;
     }
 
-    // 2. Write back unified context
+    // 2. Write back unified context — upsert creates the row if it doesn't exist yet
+    // This is critical for signed-in users whose row may only be keyed by auth user ID
     const updatedContext = stringifyMemoryContext(aiMemory, state);
-    const { error: updateError } = await supabase
+    const { error: upsertError } = await supabase
       .from("student_profiles")
-      .update({ memory_context: updatedContext })
-      .eq("alias_id", aliasId);
+      .upsert(
+        { alias_id: aliasId, memory_context: updatedContext },
+        { onConflict: "alias_id" }
+      );
 
-    if (updateError) {
-      console.error("Error updating Schedule Architect data:", updateError);
+    if (upsertError) {
+      console.error("Error upserting Schedule Architect data:", upsertError);
       return false;
     }
 
@@ -161,4 +166,3 @@ export async function saveScheduleArchitectData(
     return false;
   }
 }
-
