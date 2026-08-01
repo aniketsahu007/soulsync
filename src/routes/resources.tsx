@@ -1331,68 +1331,81 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         </div>
 
                         {/* Live preview + 30-Day Projections */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
                           {/* Live habits output rendering */}
-                          <div className="p-6 rounded-[2rem] bg-indigo-50/40 border border-indigo-150 flex flex-col justify-center shadow-sm dark:shadow-none">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-primary mb-2.5">A Gentle Promise to Myself</span>
-                            <p className="text-sm font-bold text-slate-650 leading-relaxed">
-                              {newHabit.cue && newHabit.location && newHabit.action ? (
-                                <span>
-                                  "When <span className="text-slate-900 dark:text-slate-50 font-extrabold">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 dark:text-slate-50 font-extrabold">{newHabit.location}</span> and spend <span className="text-slate-950 dark:text-slate-50 font-black">{newHabit.duration} minutes</span> to <span className="text-primary font-black underline">{newHabit.action}</span>, because I deserve to grow."
-                                </span>
-                              ) : (
-                                <span className="text-slate-400 italic font-medium">
-                                  Every routine is a quiet act of kindness to your future self. Fill out your cue, location, and specific action above, and let's craft a daily promise.
-                                </span>
-                              )}
-                            </p>
+                          <div className="p-8 sm:p-10 rounded-[2.5rem] bg-gradient-to-b from-indigo-50/80 to-white dark:from-slate-900 dark:to-slate-950 border border-indigo-100/50 dark:border-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none relative overflow-hidden group flex flex-col justify-center">
+                            {/* Decorative background blur */}
+                            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-300/20 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
+                            
+                            <div className="relative z-10">
+                              <div className="inline-flex items-center gap-2 mb-6">
+                                <div className="h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                                  <Heart className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                                </div>
+                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">A Gentle Promise to Myself</span>
+                              </div>
+                              
+                              <p className="text-xl sm:text-2xl font-medium text-slate-700 dark:text-slate-300 leading-relaxed font-display">
+                                {newHabit.cue && newHabit.location && newHabit.action ? (
+                                  <span>
+                                    "When <span className="text-slate-900 dark:text-white font-black border-b-2 border-indigo-200 dark:border-indigo-800">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 dark:text-white font-black border-b-2 border-indigo-200 dark:border-indigo-800">{newHabit.location}</span> and spend <span className="text-slate-900 dark:text-white font-black">{newHabit.duration} minutes</span> to <span className="text-indigo-600 dark:text-indigo-400 font-black">{newHabit.action}</span>, because I deserve to grow."
+                                  </span>
+                                ) : (
+                                  <span className="text-slate-400 dark:text-slate-500 italic">
+                                    Every routine is a quiet act of kindness to your future self. Fill out your cue, location, and specific action above to craft your daily promise.
+                                  </span>
+                                )}
+                              </p>
+                            </div>
                           </div>
 
                           {/* 30-Day Projection (Human-centered Motivation) */}
-                          <div className="p-6 rounded-[2rem] bg-gradient-to-br from-emerald-50 via-white to-slate-100 border border-slate-200/80 shadow-[0_24px_80px_-40px_rgba(16,185,129,0.35)] dark:bg-slate-950/80 dark:border-slate-800/80 dark:shadow-[0_24px_80px_-40px_rgba(15,23,42,0.7)] flex flex-col justify-between">
-                            <div>
-                              <span className="text-[10px] font-black uppercase tracking-[0.32em] text-emerald-900 mb-3 flex items-center gap-2">
-                                <TrendingUp className="h-4 w-4 text-emerald-700" />
-                                30-Day System Identity & Projections
+                          <div className="p-8 sm:p-10 rounded-[2.5rem] bg-slate-900 dark:bg-black border border-slate-800 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] relative overflow-hidden flex flex-col justify-between">
+                            {/* Ambient glow */}
+                            <div className="absolute top-[-20%] left-[-10%] w-72 h-72 bg-emerald-500/10 rounded-full blur-[80px]"></div>
+                            
+                            <div className="relative z-10">
+                              <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-emerald-400 mb-2">
+                                <TrendingUp className="h-4 w-4" />
+                                30-Day Trajectory
                               </span>
-                              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-5">
-                                This is not just numbers. It is the story you are writing for yourself in the next 30 days.
-                              </p>
+                              <h3 className="text-white text-2xl sm:text-3xl font-display font-bold mb-6">The compounding effect</h3>
 
                               {(() => {
                                 const motive = parseActionMotivation(newHabit.action, newHabit.duration);
                                 return (
-                                  <div className="space-y-4">
+                                  <div className="space-y-6">
                                     {/* Identity Statement */}
-                                    <div className="p-4 rounded-[1.75rem] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4">
-                                      <div className="text-3xl shrink-0 mt-0.5">{motive.icon}</div>
+                                    <div className="p-5 rounded-[1.5rem] bg-white/5 border border-white/10 backdrop-blur-md flex items-start gap-4 hover:bg-white/10 transition-colors duration-300">
+                                      <div className="text-3xl shrink-0 drop-shadow-md">{motive.icon}</div>
                                       <div>
-                                        <span className="text-[10px] font-black uppercase text-emerald-800 tracking-[0.3em] block mb-1">Atomic Identity Shift</span>
-                                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 leading-7">
-                                          Every time you choose this habit, you become <span className="text-emerald-700 font-black underline decoration-emerald-200">{motive.identity}</span>.
+                                        <span className="text-[10px] font-bold uppercase text-emerald-400/80 tracking-[0.2em] block mb-1">Atomic Identity Shift</span>
+                                        <p className="text-sm font-medium text-slate-200 leading-relaxed">
+                                          Every time you choose this habit, you become <span className="text-emerald-400 font-bold">{motive.identity}</span>.
                                         </p>
                                       </div>
                                     </div>
 
                                     {/* Projections List */}
-                                    <div className="space-y-3">
-                                      <p className="text-xs font-black text-slate-500 uppercase tracking-[0.2em]">What this habit will feel like in 30 days</p>
-                                      <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
-                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
-                                          <span className="mt-0.5 text-emerald-600">🚀</span>
-                                          <span>Accelerate quiet focus with <span className="font-semibold text-emerald-700">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> earned through steady practice.</span>
+                                    <div className="space-y-4">
+                                      <ul className="space-y-3 text-sm text-slate-300">
+                                        <li className="flex gap-4 items-start">
+                                          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                                            <Zap className="h-3 w-3 text-emerald-400" />
+                                          </div>
+                                          <span className="leading-relaxed">Accelerate quiet focus with <span className="font-bold text-emerald-400">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> earned through steady practice.</span>
                                         </li>
-                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
-                                          <span className="mt-0.5 text-emerald-600">⏱</span>
-                                          <span>{motive.growthStatText}</span>
+                                        <li className="flex gap-4 items-start">
+                                          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                                            <Activity className="h-3 w-3 text-emerald-400" />
+                                          </div>
+                                          <span className="leading-relaxed">{motive.growthStatText}</span>
                                         </li>
-                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
-                                          <span className="mt-0.5 text-emerald-600">🧠</span>
-                                          <span>{motive.neuroPathwayText}</span>
-                                        </li>
-                                        <li className="flex gap-3 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3">
-                                          <span className="mt-0.5 text-emerald-600">🎯</span>
-                                          <span>{motive.habitRepetitionText}</span>
+                                        <li className="flex gap-4 items-start">
+                                          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                                            <Brain className="h-3 w-3 text-emerald-400" />
+                                          </div>
+                                          <span className="leading-relaxed">{motive.neuroPathwayText}</span>
                                         </li>
                                       </ul>
                                     </div>
@@ -1402,29 +1415,34 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             </div>
 
                             {/* The 1% Compounding interest curve chart representation */}
-                            <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800">
-                              <span className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400 mb-3 block">Atomic Habits: A gentler growth curve</span>
-                              <div className="w-full h-[75px] relative rounded-[1.75rem] bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-inner p-3">
+                            <div className="mt-8 pt-6 border-t border-slate-800/60 relative z-10">
+                              <div className="flex items-center justify-between mb-4">
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Growth Curve</span>
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">80% Less Friction</span>
+                              </div>
+                              <div className="w-full h-[70px] relative">
                                 <svg viewBox="0 0 300 70" className="w-full h-full overflow-visible">
-                                  <line x1="0" y1="60" x2="300" y2="60" stroke="#d1fae5" strokeWidth="1" />
-                                  <line x1="0" y1="10" x2="300" y2="10" stroke="#d1fae5" strokeWidth="1" strokeDasharray="3" />
-                                  <text x="2" y="56" className="fill-slate-400 text-[8px] font-semibold">Day 1</text>
-                                  <text x="220" y="16" className="fill-emerald-800 text-[8px] font-semibold">Day 30</text>
+                                  <line x1="0" y1="60" x2="300" y2="60" stroke="#1e293b" strokeWidth="1" />
+                                  <line x1="0" y1="10" x2="300" y2="10" stroke="#1e293b" strokeWidth="1" strokeDasharray="3" />
+                                  <text x="2" y="56" className="fill-slate-500 text-[9px] font-medium">Day 1</text>
+                                  <text x="265" y="16" className="fill-emerald-400 text-[9px] font-medium">Day 30</text>
                                   <path
                                     d={`M 0,60 C 40,56 80,52 110,46 C 140,40 170,36 190,31 C 210,26 240,20 270,12 C 300,5`}
                                     fill="none"
-                                    stroke="#059669"
+                                    stroke="url(#emeraldGradient)"
                                     strokeWidth="3"
                                     strokeLinecap="round"
                                   />
-                                  <circle cx="0" cy="60" r="3.5" className="fill-emerald-500 stroke-white stroke-2" />
-                                  <circle cx="190" cy="31" r="3.5" className="fill-emerald-600 stroke-white stroke-2" />
-                                  <circle cx="300" cy="5" r="4.5" className="fill-emerald-700 stroke-white stroke-2" />
+                                  <defs>
+                                    <linearGradient id="emeraldGradient" x1="0" y1="0" x2="1" y2="0">
+                                      <stop offset="0%" stopColor="#059669" />
+                                      <stop offset="100%" stopColor="#34d399" />
+                                    </linearGradient>
+                                  </defs>
+                                  <circle cx="0" cy="60" r="4" className="fill-slate-900 stroke-emerald-600 stroke-2" />
+                                  <circle cx="190" cy="31" r="4" className="fill-slate-900 stroke-emerald-500 stroke-2" />
+                                  <circle cx="300" cy="5" r="5" className="fill-emerald-400" />
                                 </svg>
-                              </div>
-                              <div className="flex flex-col sm:flex-row sm:justify-between gap-2 mt-3 text-[9px] font-black text-slate-500 dark:text-slate-400">
-                                <span>Small choices add up to a kinder daily rhythm.</span>
-                                <span className="text-emerald-700">Friction drops by 80%</span>
                               </div>
                             </div>
                           </div>
