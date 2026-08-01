@@ -144,7 +144,7 @@ function DesktopResourcesPage() {
     setSelectedResilienceTool(null);
   };
 
-  // Dynamic NLP/Keyword Parser for Atomic Habits Motivational Projections
+  // Dynamic NLP/Keyword Parser for Gentle Growth Motivational Projections
   const parseActionMotivation = (action: string, duration: number) => {
     const cleanAction = action.trim();
     const days = 30;
@@ -154,16 +154,15 @@ function DesktopResourcesPage() {
     if (!cleanAction) {
       return {
         identity: "a gentle, self-compassionate student building a happier life",
-        habitRepetitionText: "Step by step: Commit to showing up 30 times for your own growth.",
-        growthStatText: "Carve out 12.5 hours of quiet, intentional space for your dreams.",
-        neuroPathwayText: "Train your brain to respond to cues with ease, reducing start-up anxiety.",
-        icon: "🌱"
+        habitRepetitionText: "Give yourself permission to grow, one quiet step at a time.",
+        growthStatText: "Carve out 12.5 hours of intentional space for your well-being.",
+        neuroPathwayText: "Slowly quiet the noise in your mind, making it easier to start without anxiety.",
       };
     }
 
     const lower = cleanAction.toLowerCase();
     
-    // Clean filler words to get a clean noun/activity name
+    // Clean filler words
     let core = cleanAction;
     const fillers = [
       "i will", "i want to", "try to", "start to", "learn to", "practice", "study", 
@@ -184,68 +183,56 @@ function DesktopResourcesPage() {
       }
     }
 
-    // Capitalize core activity
     const capitalizedCore = core.charAt(0).toUpperCase() + core.slice(1);
 
-    // Identify user persona identity shifts & specific outcomes
-    let identity = `someone who honors their word and practices ${capitalizedCore}`;
-    let habitRepetitionText = `Dedicate ${days} distinct, conscious moments to practice "${cleanAction}".`;
+    let identity = `someone who honors their peace and practices ${capitalizedCore}`;
+    let habitRepetitionText = `Dedicate ${days} gentle, conscious moments to practice "${cleanAction}".`;
     let growthStatText = `Devote a beautiful total of ${hours} hours and ${totalMins % 60} minutes to your personal path.`;
-    let neuroPathwayText = `Nourish your confidence and build deep familiarity with "${capitalizedCore}".`;
-    let icon = "❤️";
+    let neuroPathwayText = `Nourish your confidence and build deep, comforting familiarity with "${capitalizedCore}".`;
 
     if (lower.includes("code") || lower.includes("dsa") || lower.includes("leetcode") || lower.includes("program") || lower.includes("develop") || lower.includes("python") || lower.includes("javascript") || lower.includes("rust") || lower.includes("c++") || lower.includes("java")) {
-      identity = "a focused creator shaping their future in technology";
-      icon = "💻";
-      habitRepetitionText = `Build dynamic problem-solving momentum over ${days} consecutive days.`;
-      growthStatText = `Invest ${hours} hours of raw intellectual focus into your craft.`;
-      neuroPathwayText = `Solve approx. ${Math.round(totalMins / 20)} algorithm puzzles, moving you closer to technical fluency and professional freedom.`;
+      identity = "a patient creator shaping their future without rushing";
+      habitRepetitionText = `Take it one problem at a time, building steady momentum over ${days} gentle days.`;
+      growthStatText = `Invest ${hours} hours of quiet focus into your craft, free from comparison.`;
+      neuroPathwayText = `Solve approx. ${Math.round(totalMins / 20)} algorithm puzzles at your own comfortable pace.`;
     } else if (lower.includes("read") || lower.includes("book") || lower.includes("novel") || lower.includes("page")) {
       identity = "a thoughtful, lifelong learner and quiet seeker";
-      icon = "📖";
       habitRepetitionText = `Give yourself the gift of uninterrupted focus and page-turning ${days} times.`;
       growthStatText = `Absorb approx. ${Math.round(totalMins * 0.8)} pages, expanding your perspective and completing ~2 books.`;
       neuroPathwayText = `Lower baseline stress levels, expand your empathy database, and discover new ideas.`;
     } else if (lower.includes("study") || lower.includes("math") || lower.includes("physics") || lower.includes("chem") || lower.includes("class") || lower.includes("lecture") || lower.includes("revise") || lower.includes("exam") || lower.includes("test")) {
-      identity = "a dedicated student cultivating true capability and mastery";
-      icon = "✨";
-      habitRepetitionText = `Take control of your education and show up for ${days} active study sessions.`;
+      identity = "a dedicated student cultivating true capability with self-compassion";
+      habitRepetitionText = `Show up for yourself gently for ${days} active study sessions.`;
       growthStatText = `Dedicate ${hours} hours to unlocking your potential and reducing exam dread.`;
       neuroPathwayText = `Replace late-night panic with steady consistency, making retention feel natural and rewarding.`;
     } else if (lower.includes("gym") || lower.includes("workout") || lower.includes("exercise") || lower.includes("lift") || lower.includes("pushup") || lower.includes("weight") || lower.includes("swim") || lower.includes("sport") || lower.includes("football") || lower.includes("cricket")) {
-      identity = "someone who values their health and respects their physical home";
-      icon = "💪";
-      habitRepetitionText = `Celebrate what your body can do by completing ${days} workout sessions.`;
-      growthStatText = `Release stress and burn calories through ${hours} hours of pure bodily output.`;
-      neuroPathwayText = `Stabilize your mental health, improve your deep sleep quality, and build functional strength.`;
+      identity = "someone who listens to their body and respects their physical home";
+      habitRepetitionText = `Celebrate what your body can do by completing ${days} joyful movement sessions.`;
+      growthStatText = `Release stress and reconnect with yourself through ${hours} hours of movement.`;
+      neuroPathwayText = `Stabilize your mental health, improve your deep sleep quality, and feel physically lighter.`;
     } else if (lower.includes("walk") || lower.includes("run") || lower.includes("jog") || lower.includes("steps")) {
       identity = "someone who walks with purpose and values fresh air";
-      icon = "🚶‍♂️";
       habitRepetitionText = `Step away from screens and connect with the movement of life for ${days} days.`;
       growthStatText = `Cover approx. ${Math.round(hours * 6)} kilometers of peaceful distance.`;
       neuroPathwayText = `Clear active brain fog, trigger healthy endorphins, and enjoy the healing rhythm of walking.`;
     } else if (lower.includes("meditat") || lower.includes("breathe") || lower.includes("journal") || lower.includes("reflect") || lower.includes("pray") || lower.includes("relax") || lower.includes("calm")) {
       identity = "a calm mind that stays grounded during chaotic seasons";
-      icon = "🧘‍♂️";
       habitRepetitionText = `Give your nervous system a soft place to rest and recover ${days} times.`;
       growthStatText = `Log ${hours} hours of conscious breathing and emotional offloading.`;
       neuroPathwayText = `Quiet the inner critic, ease academic overwhelm, and live more present in the moment.`;
     } else if (lower.includes("sweet") || lower.includes("sugar") || lower.includes("junk") || lower.includes("chocolate") || lower.includes("coke") || lower.includes("soda") || lower.includes("fast food") || lower.includes("pizza") || lower.includes("burger")) {
-      identity = "someone who honors their vitality and protects their energy";
-      icon = "🍎";
-      habitRepetitionText = `Successfully protect your body's energy balance ${days} times.`;
+      identity = "someone who honors their vitality and protects their energy gently";
+      habitRepetitionText = `Successfully protect your body's energy balance ${days} times without guilt.`;
       growthStatText = `Keep approx. ${days * 200} calories of processed additives out of your system.`;
-      neuroPathwayText = `Break addictive dopamine spikes, stabilize your moods, and wake up without sluggishness.`;
+      neuroPathwayText = `Break addictive dopamine spikes, stabilize your moods, and wake up feeling refreshed.`;
     } else if (lower.includes("phone") || lower.includes("social") || lower.includes("scroll") || lower.includes("insta") || lower.includes("reel") || lower.includes("youtube") || lower.includes("game") || lower.includes("play")) {
-      identity = "a focused consciousness in complete control of their attention";
-      icon = "🕊️";
+      identity = "a peaceful mind in complete control of their attention";
       habitRepetitionText = `Reclaim your presence and resist addictive scroll loops ${days} times.`;
       growthStatText = `Win back ${hours} beautiful hours of active life to spend on what truly matters to you.`;
       neuroPathwayText = `Rewire your attention span, quiet peer-comparison anxiety, and restore baseline mindfulness.`;
     } else if (lower.includes("sleep") || lower.includes("wake") || lower.includes("bed") || lower.includes("morning") || lower.includes("night")) {
-      identity = "someone who respects their biological rhythm and rest";
-      icon = "😴";
-      habitRepetitionText = `Align with your biological clock and establish consistent sleep timings ${days} times.`;
+      identity = "someone who respects their biological rhythm and values rest";
+      habitRepetitionText = `Align with your biological clock and establish comforting sleep timings ${days} times.`;
       growthStatText = `Secure up to ${days} nights of deep, nourishing recovery cycles.`;
       neuroPathwayText = `Accelerate cognitive repair, eliminate chronic daytime fatigue, and wake up with a positive outlook.`;
     }
@@ -254,8 +241,7 @@ function DesktopResourcesPage() {
       identity,
       habitRepetitionText,
       growthStatText,
-      neuroPathwayText,
-      icon
+      neuroPathwayText
     };
   };
 
@@ -1331,27 +1317,27 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                         </div>
 
                         {/* Live preview + 30-Day Projections */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
                           {/* Live habits output rendering */}
-                          <div className="p-8 sm:p-10 rounded-[2.5rem] bg-gradient-to-b from-indigo-50/80 to-white dark:from-slate-900 dark:to-slate-950 border border-indigo-100/50 dark:border-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none relative overflow-hidden group flex flex-col justify-center">
+                          <div className="p-8 sm:p-12 rounded-[2rem] bg-gradient-to-br from-indigo-50/90 to-white dark:from-slate-900/90 dark:to-slate-950 border border-indigo-100/30 dark:border-white/5 shadow-sm relative overflow-hidden group flex flex-col justify-center transition-all duration-500">
                             {/* Decorative background blur */}
-                            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-300/20 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
+                            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-400/10 rounded-full blur-[100px] -mr-20 -mt-20 pointer-events-none"></div>
                             
-                            <div className="relative z-10">
-                              <div className="inline-flex items-center gap-2 mb-6">
-                                <div className="h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
-                                  <Heart className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                            <div className="relative z-10 max-w-lg">
+                              <div className="inline-flex items-center gap-2.5 mb-8">
+                                <div className="h-6 w-6 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
+                                  <Heart className="h-3 w-3 text-indigo-500" />
                                 </div>
-                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">A Gentle Promise to Myself</span>
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-indigo-500/80">A Gentle Promise</span>
                               </div>
                               
-                              <p className="text-xl sm:text-2xl font-medium text-slate-700 dark:text-slate-300 leading-relaxed font-display">
+                              <p className="text-lg sm:text-[1.35rem] font-medium text-slate-700 dark:text-slate-300 leading-[1.8] tracking-tight">
                                 {newHabit.cue && newHabit.location && newHabit.action ? (
                                   <span>
-                                    "When <span className="text-slate-900 dark:text-white font-black border-b-2 border-indigo-200 dark:border-indigo-800">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 dark:text-white font-black border-b-2 border-indigo-200 dark:border-indigo-800">{newHabit.location}</span> and spend <span className="text-slate-900 dark:text-white font-black">{newHabit.duration} minutes</span> to <span className="text-indigo-600 dark:text-indigo-400 font-black">{newHabit.action}</span>, because I deserve to grow."
+                                    "When <span className="text-slate-900 dark:text-white font-semibold border-b border-indigo-200 dark:border-indigo-500/30 pb-0.5">{newHabit.cue}</span> happens, I will protect my peace by choosing to go to <span className="text-slate-900 dark:text-white font-semibold border-b border-indigo-200 dark:border-indigo-500/30 pb-0.5">{newHabit.location}</span> and spend <span className="text-slate-900 dark:text-white font-semibold">{newHabit.duration} minutes</span> to <span className="text-indigo-500 font-semibold">{newHabit.action}</span>, because I deserve to grow."
                                   </span>
                                 ) : (
-                                  <span className="text-slate-400 dark:text-slate-500 italic">
+                                  <span className="text-slate-400 dark:text-slate-500 italic font-normal">
                                     Every routine is a quiet act of kindness to your future self. Fill out your cue, location, and specific action above to craft your daily promise.
                                   </span>
                                 )}
@@ -1360,88 +1346,84 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                           </div>
 
                           {/* 30-Day Projection (Human-centered Motivation) */}
-                          <div className="p-8 sm:p-10 rounded-[2.5rem] bg-slate-900 dark:bg-black border border-slate-800 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] relative overflow-hidden flex flex-col justify-between">
+                          <div className="p-8 sm:p-12 rounded-[2rem] bg-slate-950 dark:bg-black border border-slate-800/60 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col justify-between">
                             {/* Ambient glow */}
-                            <div className="absolute top-[-20%] left-[-10%] w-72 h-72 bg-emerald-500/10 rounded-full blur-[80px]"></div>
+                            <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-rose-500/10 rounded-full blur-[120px] pointer-events-none"></div>
                             
                             <div className="relative z-10">
-                              <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-emerald-400 mb-2">
-                                <TrendingUp className="h-4 w-4" />
-                                30-Day Trajectory
+                              <span className="inline-flex items-center gap-2 mb-6">
+                                <span className="h-1.5 w-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Your Journey Ahead</span>
                               </span>
-                              <h3 className="text-white text-2xl sm:text-3xl font-display font-bold mb-6">The compounding effect</h3>
 
                               {(() => {
                                 const motive = parseActionMotivation(newHabit.action, newHabit.duration);
                                 return (
-                                  <div className="space-y-6">
+                                  <div className="space-y-8">
                                     {/* Identity Statement */}
-                                    <div className="p-5 rounded-[1.5rem] bg-white/5 border border-white/10 backdrop-blur-md flex items-start gap-4 hover:bg-white/10 transition-colors duration-300">
-                                      <div className="text-3xl shrink-0 drop-shadow-md">{motive.icon}</div>
-                                      <div>
-                                        <span className="text-[10px] font-bold uppercase text-emerald-400/80 tracking-[0.2em] block mb-1">Atomic Identity Shift</span>
-                                        <p className="text-sm font-medium text-slate-200 leading-relaxed">
-                                          Every time you choose this habit, you become <span className="text-emerald-400 font-bold">{motive.identity}</span>.
+                                    <div className="flex items-start gap-5">
+                                      <div className="h-12 w-12 shrink-0 rounded-2xl bg-gradient-to-br from-rose-500/20 to-rose-500/5 flex items-center justify-center border border-rose-500/20 shadow-inner">
+                                        <Sparkles className="h-5 w-5 text-rose-300" />
+                                      </div>
+                                      <div className="pt-1">
+                                        <h4 className="text-[11px] font-bold uppercase text-rose-300/90 tracking-[0.15em] mb-1.5">A Kinder You</h4>
+                                        <p className="text-[15px] font-medium text-slate-300 leading-relaxed max-w-sm">
+                                          Every time you choose this habit, you become <span className="text-white font-semibold">{motive.identity}</span>.
                                         </p>
                                       </div>
                                     </div>
 
                                     {/* Projections List */}
-                                    <div className="space-y-4">
-                                      <ul className="space-y-3 text-sm text-slate-300">
-                                        <li className="flex gap-4 items-start">
-                                          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                                            <Zap className="h-3 w-3 text-emerald-400" />
-                                          </div>
-                                          <span className="leading-relaxed">Accelerate quiet focus with <span className="font-bold text-emerald-400">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> earned through steady practice.</span>
-                                        </li>
-                                        <li className="flex gap-4 items-start">
-                                          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                                            <Activity className="h-3 w-3 text-emerald-400" />
-                                          </div>
-                                          <span className="leading-relaxed">{motive.growthStatText}</span>
-                                        </li>
-                                        <li className="flex gap-4 items-start">
-                                          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                                            <Brain className="h-3 w-3 text-emerald-400" />
-                                          </div>
-                                          <span className="leading-relaxed">{motive.neuroPathwayText}</span>
-                                        </li>
-                                      </ul>
-                                    </div>
+                                    <ul className="space-y-4 pt-2">
+                                      <li className="flex gap-4 items-start group">
+                                        <div className="mt-1 flex items-center justify-center h-4 w-4">
+                                          <Heart className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                                        </div>
+                                        <span className="text-sm text-slate-400 leading-relaxed font-medium">Find quiet focus and earn <span className="text-slate-200">+{Math.round((newHabit.duration || 25) * 1.5 * 30)} Focus XP</span> through steady practice.</span>
+                                      </li>
+                                      <li className="flex gap-4 items-start group">
+                                        <div className="mt-1 flex items-center justify-center h-4 w-4">
+                                          <Activity className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                                        </div>
+                                        <span className="text-sm text-slate-400 leading-relaxed font-medium">{motive.growthStatText}</span>
+                                      </li>
+                                      <li className="flex gap-4 items-start group">
+                                        <div className="mt-1 flex items-center justify-center h-4 w-4">
+                                          <Brain className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                                        </div>
+                                        <span className="text-sm text-slate-400 leading-relaxed font-medium">{motive.neuroPathwayText}</span>
+                                      </li>
+                                    </ul>
                                   </div>
                                 );
                               })()}
                             </div>
 
                             {/* The 1% Compounding interest curve chart representation */}
-                            <div className="mt-8 pt-6 border-t border-slate-800/60 relative z-10">
-                              <div className="flex items-center justify-between mb-4">
-                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Growth Curve</span>
-                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">80% Less Friction</span>
+                            <div className="mt-10 pt-8 border-t border-slate-800/50 relative z-10">
+                              <div className="flex items-center justify-between mb-6">
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">Growth Trajectory</span>
+                                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full">Things Get Easier</span>
                               </div>
-                              <div className="w-full h-[70px] relative">
+                              <div className="w-full h-[60px] relative">
                                 <svg viewBox="0 0 300 70" className="w-full h-full overflow-visible">
-                                  <line x1="0" y1="60" x2="300" y2="60" stroke="#1e293b" strokeWidth="1" />
-                                  <line x1="0" y1="10" x2="300" y2="10" stroke="#1e293b" strokeWidth="1" strokeDasharray="3" />
-                                  <text x="2" y="56" className="fill-slate-500 text-[9px] font-medium">Day 1</text>
-                                  <text x="265" y="16" className="fill-emerald-400 text-[9px] font-medium">Day 30</text>
+                                  <line x1="0" y1="60" x2="300" y2="60" stroke="#1e293b" strokeWidth="1" strokeDasharray="4" />
                                   <path
-                                    d={`M 0,60 C 40,56 80,52 110,46 C 140,40 170,36 190,31 C 210,26 240,20 270,12 C 300,5`}
+                                    d={`M 0,60 C 60,58 120,50 180,35 C 220,25 260,15 300,5`}
                                     fill="none"
-                                    stroke="url(#emeraldGradient)"
-                                    strokeWidth="3"
+                                    stroke="url(#roseGradient)"
+                                    strokeWidth="2.5"
                                     strokeLinecap="round"
                                   />
                                   <defs>
-                                    <linearGradient id="emeraldGradient" x1="0" y1="0" x2="1" y2="0">
-                                      <stop offset="0%" stopColor="#059669" />
-                                      <stop offset="100%" stopColor="#34d399" />
+                                    <linearGradient id="roseGradient" x1="0" y1="0" x2="1" y2="0">
+                                      <stop offset="0%" stopColor="#64748b" />
+                                      <stop offset="100%" stopColor="#f43f5e" />
                                     </linearGradient>
                                   </defs>
-                                  <circle cx="0" cy="60" r="4" className="fill-slate-900 stroke-emerald-600 stroke-2" />
-                                  <circle cx="190" cy="31" r="4" className="fill-slate-900 stroke-emerald-500 stroke-2" />
-                                  <circle cx="300" cy="5" r="5" className="fill-emerald-400" />
+                                  <circle cx="0" cy="60" r="3" className="fill-slate-900 stroke-slate-500 stroke-2" />
+                                  <circle cx="180" cy="35" r="3" className="fill-slate-900 stroke-rose-400 stroke-2" />
+                                  <circle cx="300" cy="5" r="4" className="fill-rose-400 shadow-glow" />
                                 </svg>
                               </div>
                             </div>
