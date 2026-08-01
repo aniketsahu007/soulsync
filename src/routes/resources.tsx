@@ -1113,13 +1113,20 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                     </div>
 
                     {/* AI Suggestions Box */}
-                    <div className="lg:col-span-2 surface-card rounded-[2.5rem] p-8 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase text-primary tracking-widest mb-4">
-                          <Sparkles className="h-4 w-4" />
-                          AI Optimization Insights
+                    <div className="lg:col-span-2 bg-gradient-to-br from-indigo-50/40 to-white dark:from-slate-900 dark:to-slate-950 rounded-[2.5rem] p-8 sm:p-10 border border-indigo-100/30 dark:border-white/5 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                      {/* Gentle blur background */}
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-300/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-2 mb-6">
+                          <div className="h-6 w-6 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
+                            <Heart className="h-3 w-3 text-indigo-500" />
+                          </div>
+                          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-indigo-500/80">
+                            A Gentle Reminder
+                          </span>
                         </div>
-                        <h3 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 mb-6">Schedule Advisor Recommendations</h3>
+                        <h3 className="font-display text-2xl font-medium text-slate-800 dark:text-slate-200 mb-8 tracking-tight">Words of Comfort & Care</h3>
 
                         <div className="space-y-4">
                           {aiSuggestions.map((sug, i) => {
@@ -1127,27 +1134,27 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                             return (
                               <div
                                 key={i}
-                                className={`flex gap-4 p-5 rounded-[2rem] border ${
+                                className={`flex gap-4 p-5 rounded-[1.5rem] border ${
                                   isWarning
-                                    ? "bg-rose-50/20 border-rose-100 text-rose-800"
-                                    : "bg-emerald-50/10 border-emerald-100 text-emerald-800"
-                                }`}
+                                    ? "bg-rose-50/50 border-rose-100/50 dark:bg-rose-950/20 dark:border-rose-900/30 text-slate-700 dark:text-slate-300"
+                                    : "bg-sky-50/50 border-sky-100/50 dark:bg-sky-950/20 dark:border-sky-900/30 text-slate-700 dark:text-slate-300"
+                                } transition-all duration-300 hover:shadow-sm`}
                               >
-                                <div className={`h-8 w-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black ${
-                                  isWarning ? "bg-rose-100/50" : "bg-emerald-100/50"
+                                <div className={`h-8 w-8 rounded-full shrink-0 flex items-center justify-center ${
+                                  isWarning ? "bg-rose-100/50 dark:bg-rose-900/40" : "bg-sky-100/50 dark:bg-sky-900/40"
                                 }`}>
-                                  {isWarning ? <AlertTriangle className="h-4 w-4 text-rose-600" /> : <Info className="h-4 w-4 text-emerald-600" />}
+                                  {isWarning ? <AlertTriangle className="h-3.5 w-3.5 text-rose-500" /> : <Info className="h-3.5 w-3.5 text-sky-500" />}
                                 </div>
-                                <p className="text-sm font-bold leading-relaxed">{sug}</p>
+                                <p className="text-[14px] font-medium leading-[1.7] tracking-tight">{sug}</p>
                               </div>
                             );
                           })}
                         </div>
                       </div>
 
-                      <div className="mt-6 p-4 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-bold">
-                        <span>Profile Blueprints loaded automatically</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary">Zero-Trace Security</span>
+                      <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between text-xs text-slate-400 font-medium relative z-10">
+                        <span>Take a deep breath, you're doing fine.</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-indigo-400">A Safe Space</span>
                       </div>
                     </div>
                   </div>
