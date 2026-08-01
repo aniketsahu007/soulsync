@@ -8,9 +8,9 @@
 [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-[![xAI API](https://img.shields.io/badge/OpenRouter%20API-4A90E2?style=for-the-badge&logo=openai&logoColor=white)](https://console.x.ai/home)
+ 
 
-[**Watch Demo Video**](#) • [**Live Project**](#) • [**Pitch Deck**](#)
+ 
 
 </div> 
 
