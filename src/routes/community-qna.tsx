@@ -73,9 +73,9 @@ function DesktopCommunityQnAPage() {
     if (error) {
       console.error("Error fetching Q&A:", error);
     } else {
-      setQnaItems((data as QnAItem[])?.map(q => ({
+      setQnaItems((data as any[])?.map((q: any) => ({
         ...q,
-        responses: q.qna_responses || []
+        responses: q.qna_responses || q.responses || []
       })) || []);
     }
     setIsLoading(false);

@@ -151,8 +151,8 @@ export async function saveScheduleArchitectData(
     const { error: upsertError } = await supabase
       .from("student_profiles")
       .upsert(
-        { alias_id: aliasId, memory_context: updatedContext },
-        { onConflict: "alias_id" }
+        { alias_id: aliasId, memory_context: updatedContext, anonymous_username: "" },
+        { onConflict: "alias_id", ignoreDuplicates: false }
       );
 
     if (upsertError) {

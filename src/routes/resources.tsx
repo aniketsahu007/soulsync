@@ -252,22 +252,23 @@ function DesktopResourcesPage() {
   // Load state from DB / LocalStorage
   useEffect(() => {
     if (!aliasId) return;
+    const id = aliasId; // narrowed to string
 
     async function loadData() {
       setIsSyncing(true);
       // Try DB first
-      const dbData = await fetchScheduleArchitectData(aliasId);
+      const dbData = await fetchScheduleArchitectData(id);
       if (dbData) {
         setState(dbData);
       } else {
         // Fallback to local storage
-        const local = localStorage.getItem(`soulsync_sa_${aliasId}`);
+        const local = localStorage.getItem(`soulsync_sa_${id}`);
         if (local) {
           try {
             const parsed = JSON.parse(local);
             setState(parsed);
             // Async backup to DB
-            await saveScheduleArchitectData(aliasId, parsed);
+            await saveScheduleArchitectData(id, parsed);
           } catch (e) {
             setState(DEFAULT_STATE);
           }
@@ -433,7 +434,8 @@ function DesktopResourcesPage() {
       // Calculate final profile
       const counts: Record<string, number> = {};
       Object.values(nextAnswers).forEach((val) => {
-        counts[val] = (counts[val] || 0) + 1;
+        const key = val as string;
+        counts[key] = (counts[key] || 0) + 1;
       });
 
       let assignedProfile: any = "Overthinker";

@@ -1,5 +1,6 @@
 import { Area, AreaChart, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import type { MoodType } from "./MoodSelector";
+export type { MoodType };
 
 export const moodValues: Record<MoodType, number> = {
   great: 5,
