@@ -51,7 +51,7 @@ function VolunteerDashboard() {
   const activeTab = tab;
   const setActiveTab = (newTab: Tab) => {
     navigate({
-      search: (prev) => ({ ...prev, tab: newTab }),
+      search: (prev: { tab?: Tab }) => ({ ...prev, tab: newTab }),
     });
   };
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -75,7 +75,7 @@ function VolunteerDashboard() {
   const [newNote, setNewNote] = useState("");
   const [notesLoading, setNotesLoading] = useState(false);
   const [moodHistory, setMoodHistory] = useState<Tables<"mood_entries">[]>([]);
-  const [pastNotes, setPastNotes] = useState<{ id: string, created_at: string, volunteer_notes: string }[]>([]);
+  const [pastNotes, setPastNotes] = useState<{ id: string, created_at: string, volunteer_notes: string | null }[]>([]);
 
   const fetchTimeSlots = useCallback(async (volunteerId: string) => {
     setSlotsLoading(true);
@@ -663,7 +663,7 @@ function VolunteerDashboard() {
             </div>
           ) : (
             <div className="flex justify-center text-emerald-400">
-              <Award className="h-5 w-5" title="Verified Peer" />
+              <Award className="h-5 w-5" aria-label="Verified Peer" />
             </div>
           )}
 
@@ -781,7 +781,7 @@ function VolunteerDashboard() {
              ) : (
                <motion.div key="slots" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
                  <AvailabilityManager 
-                   volunteerId={volunteer.id}
+                   volunteerId={volunteer?.id || ""}
                    timeSlots={timeSlots}
                    slotsLoading={slotsLoading}
                    slotDate={slotDate}

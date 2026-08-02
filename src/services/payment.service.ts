@@ -118,7 +118,7 @@ export const saveDonation = async (donationData: {
         payment_gateway: donationData.paymentGateway,
         status: donationData.status,
         created_at: new Date().toISOString(),
-      })
+      } as any)
       .select()
       .single();
 
