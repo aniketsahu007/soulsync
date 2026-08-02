@@ -61,7 +61,7 @@ jobs:
       # Using npx wrangler directly because cloudflare/wrangler-action installs
       # an outdated v3.x which fails silently with newer wrangler.jsonc configs.
       - name: ☁️ Deploy to Cloudflare Workers
-        run: npx wrangler deploy --verbose --keep-vars
+        run: npx wrangler deploy --keep-vars
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
