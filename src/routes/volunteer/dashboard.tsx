@@ -51,7 +51,7 @@ function VolunteerDashboard() {
   const activeTab = tab;
   const setActiveTab = (newTab: Tab) => {
     navigate({
-      search: (prev: { tab?: Tab }) => ({ ...prev, tab: newTab }),
+      search: { tab: newTab } as any
     });
   };
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -781,7 +781,6 @@ function VolunteerDashboard() {
              ) : (
                <motion.div key="slots" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
                  <AvailabilityManager 
-                   volunteerId={volunteer?.id || ""}
                    timeSlots={timeSlots}
                    slotsLoading={slotsLoading}
                    slotDate={slotDate}

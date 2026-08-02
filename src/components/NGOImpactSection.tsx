@@ -69,7 +69,7 @@ export function NGOImpactSection() {
                   variant="ghost"
                   size="sm"
                   className="text-[10px] text-slate-600 hover:text-primary hover:bg-primary/10 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                  onClick={() => handleDonateClick(p.name, p.id || `ngo_${index}`)}
+                  onClick={() => handleDonateClick(p.name, `ngo_${index}`)}
                 >
                   <Heart className="h-3 w-3 mr-1" /> Support
                 </Button>

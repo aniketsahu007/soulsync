@@ -77,6 +77,7 @@ export default defineConfig(({ mode }) => {
       }),
       tanstackStart({
         server: {
+          // @ts-ignore: preset is valid for Vinxi but types are missing
           preset: 'cloudflare-workers'
         }
       }),

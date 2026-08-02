@@ -152,6 +152,7 @@ export function MobileLayout({
                   ) : (
                     <Link
                       to="/volunteer/dashboard"
+                      search={{ tab: "overview" }}
                       onClick={() => setExploreOpen(false)}
                       className="flex min-h-[64px] items-center gap-3 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 shadow-sm dark:shadow-none transition active:scale-[0.99]"
                     >

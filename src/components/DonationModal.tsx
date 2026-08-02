@@ -98,7 +98,7 @@ export function DonationModal({ isOpen, onClose, ngoName, ngoId }: DonationModal
               payment_id: response.razorpay_payment_id,
               order_id: response.razorpay_order_id,
               payment_gateway: "razorpay",
-            });
+            } as any);
 
             setTransactionId(response.razorpay_payment_id);
             setStep("success");

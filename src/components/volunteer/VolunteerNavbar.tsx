@@ -43,7 +43,7 @@ export function VolunteerNavbar() {
               <Link
                 key={link.label + link.to}
                 to={link.to}
-                search={link.search}
+                search={link.search as any}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   location.pathname === link.to && 
                   (!link.search || (location.search as any).tab === link.search.tab)

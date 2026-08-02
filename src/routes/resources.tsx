@@ -689,8 +689,10 @@ function DesktopResourcesPage() {
 
       // 2. Call server function
       const response = await sendChatMessage({
-        messages: recentMessages,
-        aliasId: aliasId || undefined
+        data: {
+          messages: recentMessages,
+          aliasId: aliasId || undefined
+        }
       });
 
       // Remove the temporary "Writing..." placeholder
