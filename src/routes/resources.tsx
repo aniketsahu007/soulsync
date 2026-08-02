@@ -783,7 +783,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
   const totalXp = state.xp.growth + state.xp.focus + state.xp.selfCare + state.xp.social;
 
-  if (identityLoading || !isMounted) {
+  if (identityLoading || !isMounted || !isLoaded) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
