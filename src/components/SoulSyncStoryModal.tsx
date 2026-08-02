@@ -30,7 +30,13 @@ export function SoulSyncStoryModal() {
   }, []);
 
   useEffect(() => {
-    setIsOpen(true);
+    const today = new Date().toDateString();
+    const lastStoryDate = localStorage.getItem('soulSync_last_story_date');
+    
+    if (lastStoryDate !== today) {
+      setIsOpen(true);
+      localStorage.setItem('soulSync_last_story_date', today);
+    }
   }, []);
 
   const startAudio = () => {
