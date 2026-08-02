@@ -1,3 +1,4 @@
+import { createServerFn } from "@tanstack/react-start";
 import { getChatCompletion } from '@/utils/aiClient';
 
 export interface DailyStory {
@@ -58,7 +59,8 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export async function generateDailyStory(): Promise<DailyStory> {
+export const generateDailyStory = createServerFn({ method: "POST" })
+  .handler(async (): Promise<DailyStory> => {
   const theme = pick(THEMES);
   const character = pick(CHARACTERS);
   const setting = pick(SETTINGS);
@@ -122,4 +124,4 @@ RESPOND ONLY with valid JSON, no markdown:
       reflectionQuestion: "When was the last time something small turned into something you really needed?"
     };
   }
-}
+});

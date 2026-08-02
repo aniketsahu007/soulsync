@@ -118,6 +118,18 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
     setInput("");
     setIsTyping(true);
 
+    // Human-in-the-loop fallback: Crisis detection bypass
+    if (/(suicide|kill myself|harm|end it|give up on life)/i.test(messageText)) {
+      const emergencyReply: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "I hear how much pain you're in, and I want you to know you aren't alone. Please look at these resources right now. [HEALING_TOOL:SAFETY_MAP]",
+      };
+      setMessages((prev) => [...prev, emergencyReply]);
+      setIsTyping(false);
+      return;
+    }
+
     // Supabase insert temporarily disabled - will add back later
     // The messages are still saved in sessionStorage for persistence
 
@@ -570,8 +582,8 @@ export function ChatInterface({ showHeader = true, mobile = false }: ChatInterfa
             <Send className="h-5 w-5" />
           </Button>
         </form>
-        <p className="mt-2 text-[10px] text-center text-muted-foreground/60">
-          SoulSync uses machine learning to better understand how you&apos;re feeling.
+        <p className="mt-2 text-[10px] text-center text-muted-foreground/60 max-w-sm mx-auto">
+          SoulSync AI is a supportive peer coach, not a substitute for professional medical advice.
         </p>
       </div>
     </div>
