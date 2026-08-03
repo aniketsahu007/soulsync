@@ -198,15 +198,15 @@ function CommandCenter() {
   }, [selectedVolunteer]);
 
   const handleVolunteerStatus = async (id: string, status: 'verified' | 'rejected') => {
-    try {
-      // Optimistically update the UI to reflect the change immediately
-      setVolunteers(prev => prev.map(v => v.id === id ? { ...v, verification_status: status } : v));
+    // Save previous state for rollback on failure
+    const previousVolunteers = volunteers;
 
+    // Optimistically update the UI immediately
+    setVolunteers(prev => prev.map(v => v.id === id ? { ...v, verification_status: status } : v));
+
+    try {
       const updatedVolunteer = await setVolunteerVerificationStatus({
-        data: {
-          volunteerId: id,
-          status,
-        },
+        data: { volunteerId: id, status },
         headers: await getAdminAuthHeaders(),
       });
 
@@ -235,10 +235,17 @@ function CommandCenter() {
           });
       }
 
-      fetchGlobalData(false);
+      // Update stats count without overwriting volunteer list
+      setStats(prev => ({
+        ...prev,
+        pendingVolunteers: Math.max(0, prev.pendingVolunteers - 1),
+      }));
+
     } catch (error) {
       console.error("Volunteer governance error:", error);
-      toast.error("Governance action failed.");
+      toast.error("Governance action failed. Reverting...");
+      // Roll back the optimistic update on failure
+      setVolunteers(previousVolunteers);
     }
   };
 
