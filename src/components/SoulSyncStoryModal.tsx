@@ -4,6 +4,7 @@ import { X, Volume2, VolumeX, BookOpen, ArrowRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { useLocation } from '@tanstack/react-router';
 
 // ─── Om Audio Handling ────────────────────────────────────────────────────────
 // Using the beautiful, high-quality audio track provided by the user.
@@ -12,7 +13,6 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 function getTodayLabel() {
   return new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
 }
-import { useLocation } from '@tanstack/react-router';
 
 export function SoulSyncStoryModal() {
   const location = useLocation();
