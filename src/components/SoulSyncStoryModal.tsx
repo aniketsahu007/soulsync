@@ -12,8 +12,10 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 function getTodayLabel() {
   return new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
 }
+import { useLocation } from '@tanstack/react-router';
 
 export function SoulSyncStoryModal() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [story, setStory] = useState<DailyStory | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,6 +76,8 @@ export function SoulSyncStoryModal() {
       setIsMuted(!isMuted);
     }
   };
+
+  if (location.pathname !== '/') return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>

@@ -199,6 +199,9 @@ function CommandCenter() {
 
   const handleVolunteerStatus = async (id: string, status: 'verified' | 'rejected') => {
     try {
+      // Optimistically update the UI to reflect the change immediately
+      setVolunteers(prev => prev.map(v => v.id === id ? { ...v, verification_status: status } : v));
+
       const updatedVolunteer = await setVolunteerVerificationStatus({
         data: {
           volunteerId: id,
