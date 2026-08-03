@@ -142,9 +142,17 @@ function CommandCenter() {
       }
 
       try {
-        await ensureAdminVolunteerProfile({
-          headers: await getAdminAuthHeaders(),
-        });
+        // Enforce a strict 5-second timeout for the admin provisioning step.
+        // If the Supabase Service Role Key is missing in Cloudflare, this will prevent an infinite hang.
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error("CRITICAL: Supabase Service Role Key is missing or server is unresponsive. Check Cloudflare secrets.")), 5000)
+        );
+
+        await Promise.race([
+          ensureAdminVolunteerProfile({ headers: await getAdminAuthHeaders() }),
+          timeoutPromise
+        ]);
+
         if (mounted) await fetchGlobalData(false);
       } catch (error: any) {
         console.error("Admin verification error:", error);
