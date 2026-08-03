@@ -5,6 +5,7 @@
   "name": "soulsyncc",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
 
   // TanStack Start SSR entry point (Cloudflare Workers adapter)
   "main": "dist/server/server.js",
