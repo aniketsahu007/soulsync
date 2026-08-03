@@ -851,10 +851,10 @@ function DesktopPeerMatchPage() {
 
                     <div className="space-y-3">
                       {[
+                        { name: "Kiran (Govt. 24/7)", number: "1800-599-0019" },
+                        { name: "Tele MANAS (24/7)", number: "14416" },
+                        { name: "Vandrevala Foundation", number: "9999 666 555" },
                         { name: "iCall (India)", number: "9152987821" },
-                        { name: "Vandrevala Foundation", number: "1860-2662-345" },
-                        { name: "AASRA", number: "9820466726" },
-                        { name: "Crisis Text Line", number: "Text HOME to 741741" },
                       ].map((line) => (
                         <a
                           key={line.name}
