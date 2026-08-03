@@ -5,6 +5,7 @@ export const ALLOWED_ADMIN_EMAILS = [
   "aniketsahu007@gmail.com",
   "aaditishrivastava17@gmail.com",
   "anshika.25bai10498@vitbhopal.ac.in",
+  "demo.volunteer@soulsync.org",
 ];
 
 export function normalizeEmail(email: string) {
