@@ -256,26 +256,33 @@ function DesktopResourcesPage() {
 
     async function loadData() {
       setIsSyncing(true);
-      // Try DB first
+      
       const dbData = await fetchScheduleArchitectData(id);
-      if (dbData) {
-        setState(dbData);
-      } else {
-        // Fallback to local storage
-        const local = localStorage.getItem(`soulsync_sa_${id}`);
-        if (local) {
-          try {
-            const parsed = JSON.parse(local);
-            setState(parsed);
-            // Async backup to DB
-            await saveScheduleArchitectData(id, parsed);
-          } catch (e) {
-            setState(DEFAULT_STATE);
-          }
-        } else {
-          setState(DEFAULT_STATE);
+      const localStr = localStorage.getItem(`soulsync_sa_${id}`);
+      let localData = null;
+      
+      if (localStr) {
+        try {
+          localData = JSON.parse(localStr);
+        } catch (e) {
+          console.error("Local storage parse error", e);
         }
       }
+
+      // Prioritize local data if it has completed onboarding but DB doesn't (prevents resetting on refresh if DB fails to save)
+      if (localData && localData.onboardingCompleted && (!dbData || !dbData.onboardingCompleted)) {
+        setState(localData);
+        await saveScheduleArchitectData(id, localData);
+      } else if (dbData) {
+        setState(dbData);
+        localStorage.setItem(`soulsync_sa_${id}`, JSON.stringify(dbData));
+      } else if (localData) {
+        setState(localData);
+        await saveScheduleArchitectData(id, localData);
+      } else {
+        setState(DEFAULT_STATE);
+      }
+      
       setIsLoaded(true);
       setIsSyncing(false);
     }
