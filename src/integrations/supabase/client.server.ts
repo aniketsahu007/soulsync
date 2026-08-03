@@ -6,9 +6,19 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
 function createSupabaseAdminClient() {
+  // Helper to bypass Vite's static process.env replacement on Cloudflare Workers
+  const getEnv = (key: string) => {
+    try {
+      const g = globalThis as any;
+      if (g.process?.env?.[key]) return g.process.env[key];
+    } catch (e) {}
+    if (typeof process !== 'undefined' && process.env) return process.env[key];
+    return undefined;
+  };
+
   // Check both standard and VITE_ prefixed env variables
-  const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
+  const SUPABASE_URL = getEnv('SUPABASE_URL') || getEnv('VITE_SUPABASE_URL');
+  const SUPABASE_SERVICE_ROLE_KEY = getEnv('SUPABASE_SERVICE_ROLE_KEY') || getEnv('VITE_SUPABASE_SERVICE_ROLE_KEY');
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error(

@@ -9,12 +9,22 @@ import type { Database } from './types'
 export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
     
+    // Helper to bypass Vite's static process.env replacement on Cloudflare Workers
+    const getEnv = (key: string) => {
+      try {
+        const g = globalThis as any;
+        if (g.process?.env?.[key]) return g.process.env[key];
+      } catch (e) {}
+      if (typeof process !== 'undefined' && process.env) return process.env[key];
+      return undefined;
+    };
+
     const SUPABASE_URL =
-      process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+      getEnv('SUPABASE_URL') ?? getEnv('VITE_SUPABASE_URL');
     const SUPABASE_PUBLISHABLE_KEY =
-      process.env.SUPABASE_PUBLISHABLE_KEY ??
-      process.env.VITE_SUPABASE_PUBLISHABLE_KEY ??
-      process.env.VITE_SUPABASE_ANON_KEY;
+      getEnv('SUPABASE_PUBLISHABLE_KEY') ??
+      getEnv('VITE_SUPABASE_PUBLISHABLE_KEY') ??
+      getEnv('VITE_SUPABASE_ANON_KEY');
 
     if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
       throw new Response(
