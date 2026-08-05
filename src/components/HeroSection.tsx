@@ -48,10 +48,6 @@ export function HeroSection() {
               Check In With Myself
             </Button>
           </Link>
-          
-          <div className="w-full sm:w-auto mt-2 sm:mt-0">
-            <IdentityRecoveryButton forceView="recover" />
-          </div>
         </div>
       </div>
 

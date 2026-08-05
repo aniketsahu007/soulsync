@@ -273,13 +273,6 @@ export const Navbar = memo(() => {
             ) : (
               <>
                 {!isAuthRoute && <IdentityRecoveryButton className="hidden md:inline-flex" />}
-                <Link to="/chat">
-                  <Button variant="default" size="default" className="rounded-full px-5 font-bold transition-all duration-200 hover:scale-[1.03]">
-                    <span className="lg:hidden">Get Support</span>
-                    <span className="hidden lg:inline xl:hidden">Start Chat</span>
-                    <span className="hidden xl:inline">Start a Conversation</span>
-                  </Button>
-                </Link>
               </>
             )}
           </div>
