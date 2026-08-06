@@ -81,8 +81,7 @@ function DesktopResourcesPage() {
   const [timerTotal, setTimerTotal] = useState(25 * 60);
   const [timerPaused, setTimerPaused] = useState(false);
   const [timerPauseCount, setTimerPauseCount] = useState(0);
-  const [breathingText, setBreathingText] = useState("Focus");
-  const [breathingPhase, setBreathingPhase] = useState<"in" | "hold" | "out">("in");
+  const [timerPauseCount, setTimerPauseCount] = useState(0);
 
   // Local form inputs
   const [newHabit, setNewHabit] = useState({ cue: "", location: "", action: "", category: "Growth" as any, duration: 25 });
@@ -105,7 +104,6 @@ function DesktopResourcesPage() {
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const timerIntervalRef = useRef<any>(null);
-  const breathingIntervalRef = useRef<any>(null);
   
   // Body Doubling / TTS Refs
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -311,32 +309,7 @@ function DesktopResourcesPage() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
-  // Breathing timer circle animation cycle
-  useEffect(() => {
-    if (timerActive && !timerPaused) {
-      breathingIntervalRef.current = setInterval(() => {
-        setBreathingPhase((prev) => {
-          if (prev === "in") {
-            setBreathingText("Hold...");
-            return "hold";
-          } else if (prev === "hold") {
-            setBreathingText("Breathe Out...");
-            return "out";
-          } else {
-            setBreathingText("Breathe In...");
-            return "in";
-          }
-        });
-      }, 4000); // 4 second cycles
-    } else {
-      if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
-      setBreathingText("Focus");
-    }
 
-    return () => {
-      if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
-    };
-  }, [timerActive, timerPaused]);
 
   // Cleanup effect and video binding for Body Doubling
   useEffect(() => {
@@ -609,7 +582,6 @@ function DesktopResourcesPage() {
     setTimerActive(true);
     setTimerPaused(false);
     setTimerPauseCount(0);
-    setBreathingPhase("in");
     sessionStartTimeRef.current = Date.now();
 
     try {
@@ -670,7 +642,6 @@ function DesktopResourcesPage() {
 
   const stopTimer = () => {
     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-    if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
     setTimerActive(false);
     setTimerHabit(null);
     cleanupFocusSession();
@@ -678,7 +649,6 @@ function DesktopResourcesPage() {
 
   const completeFocusSession = (habit: AtomicHabit, mins: number, pauses: number) => {
     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-    if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
     setTimerActive(false);
     cleanupFocusSession();
 
@@ -1726,135 +1696,101 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
         )}
       </div>
 
-      {/* --- BREATHING FOCUS TIMER FULLSCREEN OVERLAY --- */}
+      {/* --- BODY DOUBLING FOCUS TIMER FULLSCREEN OVERLAY --- */}
       {timerActive && timerHabit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-xl p-4">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
-            {/* Breathing circular backdrop pulse glow */}
-            <motion.div
-              animate={{
-                scale: breathingPhase === "in" ? 1.5 : breathingPhase === "hold" ? 1.5 : 1,
-                opacity: breathingPhase === "in" ? 0.25 : breathingPhase === "hold" ? 0.35 : 0.1,
-              }}
-              transition={{ duration: 4, ease: "easeInOut" }}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-primary/20 blur-3xl"
-            />
-          </div>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950 p-4 sm:p-8">
+          
+          <div className="relative w-full h-full max-w-5xl rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl bg-black">
+            
+            {/* Background Camera Feed */}
+            {cameraStream ? (
+              <video 
+                ref={videoRef}
+                autoPlay 
+                playsInline 
+                muted 
+                className="absolute inset-0 w-full h-full object-cover transform scale-x-[-1] opacity-70"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-slate-900 flex items-center justify-center">
+                 <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">Initializing Body Double...</p>
+              </div>
+            )}
+            
+            {/* Gradient Overlay for Text Readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 pointer-events-none" />
 
-          <div className="relative z-10 max-w-md w-full bg-slate-900 text-white rounded-[3.5rem] border border-white/10 p-8 sm:p-12 text-center shadow-2xl dark:shadow-none">
-            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
-              Focus Session (Atomic Habit)
-            </span>
-            <h3 className="font-display text-2xl font-black mb-6 line-clamp-1">
-              {timerHabit.action}
-            </h3>
-
-            {/* Body Doubling Camera Window */}
+            {/* Privacy Assurance Badge (Top Left) */}
+            <div className="absolute top-8 left-8 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-emerald-500/30 z-20">
+              <Shield className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">100% Local • Never Recorded</span>
+              <span className="sm:hidden">Local & Private</span>
+            </div>
+            
+            {/* Live Indicator (Top Right) */}
             {cameraStream && (
-              <div className="absolute -top-24 right-0 sm:top-8 sm:right-8 flex flex-col items-end z-50">
-                <div className="w-32 h-24 bg-black rounded-2xl overflow-hidden border border-white/20 shadow-2xl relative mb-1.5">
-                  <video 
-                    ref={videoRef}
-                    autoPlay 
-                    playsInline 
-                    muted 
-                    className="w-full h-full object-cover transform scale-x-[-1]"
-                  />
-                  <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/40 px-1.5 py-0.5 rounded-full backdrop-blur-md">
-                    <div className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse" />
-                    <span className="text-[7px] font-black uppercase tracking-widest text-white/90">Body Double</span>
-                  </div>
-                </div>
-                {/* Privacy Assurance Badge */}
-                <div className="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-emerald-400 bg-slate-950/80 px-2 py-1 rounded-full backdrop-blur-md border border-emerald-500/30">
-                  <Shield className="w-2.5 h-2.5" />
-                  100% Local • Never Recorded
-                </div>
+              <div className="absolute top-8 right-8 flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 z-20">
+                <div className="w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-white/90">Body Double Live</span>
               </div>
             )}
 
-            {/* Timer visual circle indicator */}
-            <div className="relative w-64 h-64 mx-auto mb-10 flex items-center justify-center">
-              {/* Circular track */}
-              <svg className="absolute w-full h-full transform -rotate-95">
-                <circle
-                  cx="128"
-                  cy="128"
-                  r="110"
-                  className="stroke-slate-800"
-                  strokeWidth="8"
-                  fill="transparent"
-                />
-                {/* Progress highlight */}
-                <motion.circle
-                  cx="128"
-                  cy="128"
-                  r="110"
-                  className="stroke-primary"
-                  strokeWidth="8"
-                  fill="transparent"
-                  strokeDasharray={2 * Math.PI * 110}
-                  strokeDashoffset={2 * Math.PI * 110 * (1 - timeLeft / timerTotal)}
-                  transition={{ ease: "linear" }}
-                />
-              </svg>
-
-              {/* Text indicator inside circle */}
-              <div className="text-center relative z-10 space-y-1">
-                <h2 className="text-4xl font-black font-display text-white tracking-tight">
+            {/* Centered Content */}
+            <div className="relative z-10 w-full h-full flex flex-col items-center justify-between py-12 px-8">
+              
+              {/* Header / Time */}
+              <div className="text-center mt-12 sm:mt-8">
+                <span className="text-[12px] font-black uppercase tracking-widest text-emerald-400 block mb-3">
+                  Focus Session (Atomic Habit)
+                </span>
+                <h3 className="font-display text-3xl font-black text-white mb-6 line-clamp-1 max-w-lg mx-auto drop-shadow-md">
+                  {timerHabit.action}
+                </h3>
+                
+                <h2 className="text-7xl sm:text-8xl font-black font-display text-white tracking-tighter drop-shadow-lg tabular-nums">
                   {Math.floor(timeLeft / 60)}:
                   {String(timeLeft % 60).padStart(2, "0")}
                 </h2>
-                {/* Breathing cue text */}
-                <motion.p
-                  animate={{
-                    scale: breathingPhase === "in" ? 1.15 : 1,
-                    opacity: [0.6, 1, 0.6],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-xs uppercase tracking-[0.25em] font-black text-emerald-400"
-                >
-                  {breathingText}
-                </motion.p>
               </div>
-            </div>
 
-            {/* Timer controls */}
-            <div className="flex justify-center items-center gap-4 mb-8">
-              <button
-                onClick={togglePauseTimer}
-                className="h-16 w-16 rounded-full bg-white/10 dark:bg-slate-950/10 hover:bg-white/20 dark:bg-slate-950/20 flex items-center justify-center transition-all border border-white/15"
-                title={timerPaused ? "Resume Session" : "Pause Session"}
-              >
-                {timerPaused ? <Play className="h-6 w-6 text-emerald-400" /> : <Pause className="h-6 w-6 text-white" />}
-              </button>
-              
-              <button
-                onClick={() => {
-                  if (confirm("Stop focus session? You will lose this session's progress.")) {
-                    stopTimer();
-                  }
-                }}
-                className="h-12 w-12 rounded-full bg-white/5 dark:bg-slate-950/5 hover:bg-rose-500/20 hover:text-rose-400 flex items-center justify-center transition-all border border-white/5 text-slate-400"
-                title="Cancel Focus Session"
-              >
-                <X className="h-5 w-5" />
-              </button>
+              {/* Timer controls */}
+              <div className="flex flex-col items-center gap-6 mb-8 sm:mb-2">
+                <div className="flex justify-center items-center gap-4">
+                  <button
+                    onClick={togglePauseTimer}
+                    className="h-16 w-16 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 flex items-center justify-center transition-all border border-white/20"
+                    title={timerPaused ? "Resume Session" : "Pause Session"}
+                  >
+                    {timerPaused ? <Play className="h-6 w-6 text-emerald-400" /> : <Pause className="h-6 w-6 text-white" />}
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      if (confirm("Stop focus session? You will lose this session's progress.")) {
+                        stopTimer();
+                      }
+                    }}
+                    className="h-12 w-12 rounded-full bg-black/40 backdrop-blur-md hover:bg-rose-500/40 hover:text-white flex items-center justify-center transition-all border border-white/20 text-slate-300"
+                    title="Cancel Focus Session"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
 
-              <button
-                onClick={() => {
-                  const actualMins = Math.max(1, Math.round((timerTotal - timeLeft) / 60));
-                  completeFocusSession(timerHabit, actualMins, timerPauseCount);
-                }}
-                className="h-12 w-12 rounded-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white flex items-center justify-center transition-all border border-emerald-500/30"
-                title="Complete Focus Session Early"
-              >
-                <CheckCircle className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold leading-normal">
-              Rule 3: Make it Easy. Start with a breath, block out the environment, and focus purely on the action step.
+                  <button
+                    onClick={() => {
+                      const actualMins = Math.max(1, Math.round((timerTotal - timeLeft) / 60));
+                      completeFocusSession(timerHabit, actualMins, timerPauseCount);
+                    }}
+                    className="h-12 w-12 rounded-full bg-emerald-500/40 backdrop-blur-md hover:bg-emerald-500 text-white flex items-center justify-center transition-all border border-emerald-500/50"
+                    title="Complete Focus Session Early"
+                  >
+                    <CheckCircle className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="text-xs text-white/70 font-bold leading-normal max-w-sm text-center bg-black/30 p-3.5 rounded-2xl backdrop-blur-sm border border-white/5">
+                  Body Doubling helps you stay accountable. Keep your face in frame and focus purely on your action step.
+                </div>
+              </div>
             </div>
           </div>
         </div>
