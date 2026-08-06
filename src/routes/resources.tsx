@@ -602,6 +602,14 @@ function DesktopResourcesPage() {
           `Excellent dedication. ${elapsedMins} minutes of solid work completed.`
         ];
         const comment = comments[Math.floor(Math.random() * comments.length)];
+        
+        // Show visually on screen
+        toast.success(comment, {
+          duration: 5000,
+          position: "top-center",
+        });
+
+        // Read out loud via TTS
         const utterance = new SpeechSynthesisUtterance(comment);
         window.speechSynthesis.speak(utterance);
       }
