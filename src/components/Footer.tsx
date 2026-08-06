@@ -18,6 +18,7 @@ const footerLinks = {
     { to: "/" as const, label: "About SoulSync" },
     { to: "/partners" as const, label: "Social Impact" },
     { to: "/privacy-policy" as const, label: "Privacy Policy" },
+    { to: "/terms-of-service" as const, label: "Terms of Service" },
   ],
 };
 
@@ -81,6 +82,11 @@ export function Footer() {
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
             © {new Date().getFullYear()} SoulSync
           </p>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy-policy" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors">Privacy Policy</Link>
+            <span className="text-slate-200 dark:text-slate-700">·</span>
+            <Link to="/terms-of-service" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors">Terms of Service</Link>
+          </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-safe animate-pulse" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Secure & Anonymous Connection</span>
