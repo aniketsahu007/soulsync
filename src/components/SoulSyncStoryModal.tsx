@@ -31,7 +31,12 @@ export function SoulSyncStoryModal() {
     return () => clearInterval(t);
   }, []);
 
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/volunteer');
+
   useEffect(() => {
+    // If they open an admin or volunteer page, don't show the story AND don't consume their daily token.
+    if (isAdminRoute) return;
+
     const today = new Date().toDateString();
     const lastStoryDate = localStorage.getItem('soulSync_last_story_date');
     
@@ -39,7 +44,7 @@ export function SoulSyncStoryModal() {
       setIsOpen(true);
       localStorage.setItem('soulSync_last_story_date', today);
     }
-  }, []);
+  }, [isAdminRoute]);
 
   const startAudio = () => {
     if (audioRef.current) {
@@ -67,7 +72,6 @@ export function SoulSyncStoryModal() {
       audioRef.current.currentTime = 0;
     }
     setIsOpen(false);
-    localStorage.setItem('soulSync_lastStoryDate', new Date().toDateString());
   };
 
   const toggleMute = () => {
@@ -77,7 +81,8 @@ export function SoulSyncStoryModal() {
     }
   };
 
-  if (location.pathname !== '/') return null;
+  // Prevent rendering entirely on admin/volunteer routes
+  if (isAdminRoute) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
