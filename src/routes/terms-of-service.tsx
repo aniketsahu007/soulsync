@@ -275,7 +275,7 @@ function TermsOfServicePage() {
               <div>
                 <h3 className="font-black text-amber-900 dark:text-amber-300 text-lg mb-2">Not a Substitute for Professional Help</h3>
                 <p className="text-sm text-amber-800 dark:text-amber-400 leading-relaxed">
-                  SoulSync is a peer-support and wellness tool, not a medical service. If you or someone you know is in immediate danger or experiencing a mental health crisis, please call iCall (9152987821) or Vandrevala Foundation (1860-2662-345) immediately. These are available 24/7 across India.
+                  SoulSync is a peer-support and wellness tool, not a medical service. If you or someone you know is in immediate danger or experiencing a mental health crisis, please call KIRAN Mental Health Helpline (1800-599-0019, Govt. of India, free & 24/7) or Tele MANAS (14416, 24/7) immediately.
                 </p>
               </div>
             </div>
