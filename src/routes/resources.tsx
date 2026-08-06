@@ -106,6 +106,12 @@ function DesktopResourcesPage() {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const timerIntervalRef = useRef<any>(null);
   const breathingIntervalRef = useRef<any>(null);
+  
+  // Body Doubling / TTS Refs
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const speechIntervalRef = useRef<any>(null);
+  const sessionStartTimeRef = useRef<number>(0);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -331,6 +337,23 @@ function DesktopResourcesPage() {
       if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
     };
   }, [timerActive, timerPaused]);
+
+  // Cleanup effect and video binding for Body Doubling
+  useEffect(() => {
+    if (videoRef.current && cameraStream) {
+      videoRef.current.srcObject = cameraStream;
+    }
+  }, [cameraStream, timerActive]);
+
+  useEffect(() => {
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+      if (speechIntervalRef.current) clearInterval(speechIntervalRef.current);
+      if (typeof window !== 'undefined') window.speechSynthesis.cancel();
+    };
+  }, [cameraStream]);
 
   // Dynamic AI optimization suggestions logic
   useEffect(() => {
@@ -568,8 +591,17 @@ function DesktopResourcesPage() {
     setNewActivity({ category: "Growth", description: "" });
   };
 
+  const cleanupFocusSession = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+      setCameraStream(null);
+    }
+    if (speechIntervalRef.current) clearInterval(speechIntervalRef.current);
+    if (typeof window !== 'undefined') window.speechSynthesis.cancel();
+  };
+
   // Timer focus logic
-  const startTimer = (habit: AtomicHabit) => {
+  const startTimer = async (habit: AtomicHabit) => {
     const targetMins = habit.duration || 25;
     setTimerHabit(habit);
     setTimeLeft(targetMins * 60);
@@ -578,6 +610,30 @@ function DesktopResourcesPage() {
     setTimerPaused(false);
     setTimerPauseCount(0);
     setBreathingPhase("in");
+    sessionStartTimeRef.current = Date.now();
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setCameraStream(stream);
+    } catch (e) {
+      console.warn("Camera access denied or failed", e);
+    }
+
+    if (speechIntervalRef.current) clearInterval(speechIntervalRef.current);
+    speechIntervalRef.current = setInterval(() => {
+      if (!timerPaused) {
+        const elapsedMins = Math.round((Date.now() - sessionStartTimeRef.current) / 60000);
+        const comments = [
+          `Good going! You've successfully focused for ${elapsedMins} minutes. Keep it up!`,
+          `Amazing work. ${elapsedMins} minutes down, you are doing great.`,
+          `Stay strong. You've been focused for ${elapsedMins} minutes now. Breathe and continue.`,
+          `Excellent dedication. ${elapsedMins} minutes of solid work completed.`
+        ];
+        const comment = comments[Math.floor(Math.random() * comments.length)];
+        const utterance = new SpeechSynthesisUtterance(comment);
+        window.speechSynthesis.speak(utterance);
+      }
+    }, 300000); // 5 minutes
 
     timerIntervalRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -617,12 +673,14 @@ function DesktopResourcesPage() {
     if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
     setTimerActive(false);
     setTimerHabit(null);
+    cleanupFocusSession();
   };
 
   const completeFocusSession = (habit: AtomicHabit, mins: number, pauses: number) => {
     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
     if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
     setTimerActive(false);
+    cleanupFocusSession();
 
     // Create custom completed activity
     const activity: ScheduleActivity = {
@@ -1690,6 +1748,30 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
             <h3 className="font-display text-2xl font-black mb-6 line-clamp-1">
               {timerHabit.action}
             </h3>
+
+            {/* Body Doubling Camera Window */}
+            {cameraStream && (
+              <div className="absolute -top-24 right-0 sm:top-8 sm:right-8 flex flex-col items-end z-50">
+                <div className="w-32 h-24 bg-black rounded-2xl overflow-hidden border border-white/20 shadow-2xl relative mb-1.5">
+                  <video 
+                    ref={videoRef}
+                    autoPlay 
+                    playsInline 
+                    muted 
+                    className="w-full h-full object-cover transform scale-x-[-1]"
+                  />
+                  <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/40 px-1.5 py-0.5 rounded-full backdrop-blur-md">
+                    <div className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse" />
+                    <span className="text-[7px] font-black uppercase tracking-widest text-white/90">Body Double</span>
+                  </div>
+                </div>
+                {/* Privacy Assurance Badge */}
+                <div className="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-emerald-400 bg-slate-950/80 px-2 py-1 rounded-full backdrop-blur-md border border-emerald-500/30">
+                  <Shield className="w-2.5 h-2.5" />
+                  100% Local • Never Recorded
+                </div>
+              </div>
+            )}
 
             {/* Timer visual circle indicator */}
             <div className="relative w-64 h-64 mx-auto mb-10 flex items-center justify-center">
