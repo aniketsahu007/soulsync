@@ -595,24 +595,25 @@ function DesktopResourcesPage() {
       if (!timerPaused) {
         const elapsedMins = Math.round((Date.now() - sessionStartTimeRef.current) / 60000);
         const comments = [
-          `Good going! You've successfully focused for ${elapsedMins} minutes. Keep it up!`,
-          `Amazing work. ${elapsedMins} minutes down, you are doing great.`,
-          `Stay strong. You've been focused for ${elapsedMins} minutes now. Breathe and continue.`,
-          `Excellent dedication. ${elapsedMins} minutes of solid work completed.`
+          `I am doing this perfectly. I am sitting at my desk for ${elapsedMins} minutes without losing my concentration.`,
+          `I am completely focused. These past ${elapsedMins} minutes prove my dedication to my goals.`,
+          `My mind is sharp and present. I am successfully conquering distractions right now.`,
+          `I am in total control of my attention. I am building a powerful habit of deep work.`
         ];
         const comment = comments[Math.floor(Math.random() * comments.length)];
         
         // Show visually on screen
-        toast.success(comment, {
-          duration: 5000,
+        toast(comment, {
+          duration: 6000,
           position: "top-center",
+          icon: "🧠",
         });
 
         // Read out loud via TTS
         const utterance = new SpeechSynthesisUtterance(comment);
         window.speechSynthesis.speak(utterance);
       }
-    }, 300000); // 5 minutes
+    }, 60000); // 1 minute (fast interval for hackathon demo)
 
     timerIntervalRef.current = setInterval(() => {
       setTimeLeft((prev) => {
