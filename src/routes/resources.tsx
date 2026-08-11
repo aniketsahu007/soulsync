@@ -81,7 +81,6 @@ function DesktopResourcesPage() {
   const [timerTotal, setTimerTotal] = useState(25 * 60);
   const [timerPaused, setTimerPaused] = useState(false);
   const [timerPauseCount, setTimerPauseCount] = useState(0);
-  const [timerPauseCount, setTimerPauseCount] = useState(0);
 
   // Local form inputs
   const [newHabit, setNewHabit] = useState({ cue: "", location: "", action: "", category: "Growth" as any, duration: 25 });
