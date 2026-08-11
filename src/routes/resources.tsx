@@ -373,55 +373,56 @@ function DesktopResourcesPage() {
   }, [state.activities, state.habits, state.profile, state.onboardingCompleted]);
 
   // Onboarding Quiz Questions
+  // Onboarding Quiz Questions - Neuroscience Focus
   const onboardingQuestions = [
     {
-      question: "How do you typically react when academic deadlines pile up?",
+      question: "How does your prefrontal cortex (decision-making center) respond to high academic stress?",
       options: [
-        { text: "I double down, study through the night, and cut out all social/rest time.", val: "Achiever" },
-        { text: "I get anxious, spend hours planning how to start, and end up overwhelmed.", val: "Overthinker" },
-        { text: "I feel paralyzed, log into social media/games, and try to escape the anxiety.", val: "Avoider" },
-        { text: "I ignore my schedule to support friends or family going through tough times.", val: "Caregiver" },
-        { text: "I work in intense creative bursts, but crash completely afterwards.", val: "Sprinter" }
+        { text: "It overrides fatigue—I study through the night and sacrifice sleep.", val: "Achiever" },
+        { text: "It enters paralysis by analysis—I overplan but struggle to execute.", val: "Overthinker" },
+        { text: "It shuts down—I seek immediate dopamine via social media or gaming.", val: "Avoider" },
+        { text: "It pivots to social regulation—I focus on helping peers instead of my own tasks.", val: "Caregiver" },
+        { text: "It triggers adrenaline spikes—I work in intense bursts but experience severe crashes.", val: "Sprinter" }
       ]
     },
     {
-      question: "What is the primary way you spend your 'free time' when you should be studying?",
+      question: "During a focus session, where does your brain typically leak dopamine?",
       options: [
-        { text: "doomscrolling reels/tiktoks or looking at peer accomplishments.", val: "Avoider" },
-        { text: "Over-analyzing my future career path or worrying about missing out.", val: "Overthinker" },
-        { text: "Running errands, helping peers, or catching up on calls with family.", val: "Caregiver" },
-        { text: "Working on secondary side projects or learning extra courses.", val: "Achiever" },
-        { text: "No plan, I jump between random tasks and sleep odd hours.", val: "Sprinter" }
+        { text: "Algorithmic loops (Doomscrolling, short-form video).", val: "Avoider" },
+        { text: "Anxiety loops (Constantly calculating grades, worrying about the future).", val: "Overthinker" },
+        { text: "Social loops (Replying instantly to group chats, checking notifications).", val: "Caregiver" },
+        { text: "Productivity illusions (Endlessly tweaking my schedule or setup instead of working).", val: "Achiever" },
+        { text: "Novelty seeking (Starting five different tasks at once and abandoning them).", val: "Sprinter" }
       ]
     },
     {
-      question: "Which statement best describes your feelings after taking a rest day?",
+      question: "What is your nervous system's baseline state after a 'rest day'?",
       options: [
-        { text: "Guilt. I feel like I'm falling behind my peers.", val: "Achiever" },
-        { text: "Restless. I try to rest but my brain is still scanning my homework list.", val: "Overthinker" },
-        { text: "Fine, it helps me ignore my tasks for a while, though the backlog remains.", val: "Avoider" },
-        { text: "I enjoy it if I spend it connecting with people, otherwise I feel lonely.", val: "Caregiver" },
-        { text: "Refreshing, but I struggle to switch back to deep focus mode afterwards.", val: "Sprinter" }
+        { text: "High Cortisol (Guilt for not studying, feeling like I fell behind).", val: "Achiever" },
+        { text: "Hyper-vigilant (Physically resting, but mentally running through task lists).", val: "Overthinker" },
+        { text: "Numb (It provided an escape, but the underlying dread remains).", val: "Avoider" },
+        { text: "Regulated, but only if I spent the day with people I care about.", val: "Caregiver" },
+        { text: "De-regulated (Struggling to reboot cognitive focus the next day).", val: "Sprinter" }
       ]
     },
     {
-      question: "How specific is your daily schedule?",
+      question: "How structured is your cognitive offloading (i.e. your daily schedule)?",
       options: [
-        { text: "Non-existent. I just study whatever feels urgent.", val: "Avoider" },
-        { text: "Vague. E.g. 'Study DSA in evening' – but I struggle to follow it.", val: "Sprinter" },
-        { text: "Extremely detailed timetables, but I often fail to meet my own high standards.", val: "Overthinker" },
-        { text: "My calendar is dictated by group study projects and peer meetings.", val: "Caregiver" },
-        { text: "I work whenever I have energy, regardless of what's written down.", val: "Achiever" }
+        { text: "Non-existent. I rely on raw memory and last-minute panic.", val: "Avoider" },
+        { text: "Vague. I hold tasks in my working memory, leading to cognitive overload.", val: "Sprinter" },
+        { text: "Over-structured. I build rigid, impossible timetables that trigger failure anxiety.", val: "Overthinker" },
+        { text: "Highly reactive. My schedule is dictated by my peers' needs.", val: "Caregiver" },
+        { text: "Fluid. I work whenever my energy allows, ignoring written plans.", val: "Achiever" }
       ]
     },
     {
-      question: "What is your sleep quality like during exam season?",
+      question: "How is your circadian rhythm disrupted during peak exam seasons?",
       options: [
-        { text: "I sleep 4-5 hours to squeeze in extra study time.", val: "Achiever" },
-        { text: "I lie awake for hours, simulating study scenarios in my head.", val: "Overthinker" },
-        { text: "I over-sleep (9+ hours) as a coping mechanism to avoid facing study targets.", val: "Avoider" },
-        { text: "Chaotic. I sleep at different times to sync up with my study group.", val: "Caregiver" },
-        { text: "I pull all-nighters followed by huge crash sleeps.", val: "Sprinter" }
+        { text: "Voluntary sleep deprivation (4-5 hours) to force extra productivity.", val: "Achiever" },
+        { text: "Insomnia driven by sympathetic nervous system activation (racing thoughts).", val: "Overthinker" },
+        { text: "Hypersomnia (9+ hours) as an unconscious defense mechanism to avoid studying.", val: "Avoider" },
+        { text: "Desynchronized (Sleeping at odd hours to match my study group).", val: "Caregiver" },
+        { text: "Binge-sleeping (All-nighters followed by massive 14-hour crashes).", val: "Sprinter" }
       ]
     }
   ];
@@ -1066,7 +1067,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                       </div>
 
                       <div className="text-[10px] font-bold text-slate-400 leading-relaxed mt-4">
-                        Ideal System: 50% Growth, 30% Recovery, 20% Leakage. Design cues to align your balance.
+                        Ideal System: 50% Neuro-Plasticity (Growth), 30% Parasympathetic Recovery, 20% Dopamine Leakage. Design cues to align your balance.
                       </div>
                     </div>
                   </div>
@@ -1485,7 +1486,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                   {/* Active Habits list */}
                   <div>
                     <h2 className="font-display text-2xl font-black text-slate-800 dark:text-slate-200 mb-6 flex items-center gap-2">
-                      <BookOpen className="h-6 w-6 text-primary" /> Active Habits System ({state.habits.length})
+                      <BookOpen className="h-6 w-6 text-primary" /> Active Neural Pathways ({state.habits.length})
                     </h2>
 
                     {state.habits.length === 0 ? (
@@ -1520,7 +1521,7 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
 
                             {/* Habit specification */}
                             <div className="my-6">
-                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Atomic Formula</span>
+                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Synaptic Trigger Formula</span>
                               <p className="text-base font-bold text-slate-700 dark:text-slate-300 leading-relaxed">
                                 After <span className="text-slate-900 dark:text-slate-50 font-extrabold">{habit.cue}</span>, at <span className="text-slate-900 dark:text-slate-50 font-extrabold">{habit.location}</span>, I will:
                                 <span className="block text-slate-900 dark:text-slate-50 font-black text-lg mt-2 group-hover:text-primary transition-colors">
@@ -1582,19 +1583,19 @@ Try the 2-Minute Rule: Open the task card, click 'Start Focus Session', and comm
                 >
                   <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-primary">
                     <Sparkles className="h-4 w-4" />
-                    Emergency Recovery Suite
+                    Amygdala Down-Regulation Suite
                   </div>
-                  <h2 className="font-display text-4xl font-black text-slate-800 dark:text-slate-200 leading-tight">Mental Resilience Toolkit</h2>
+                  <h2 className="font-display text-4xl font-black text-slate-800 dark:text-slate-200 leading-tight">Neuro-Resilience Toolkit</h2>
                   <p className="text-slate-500 dark:text-slate-400 font-semibold max-w-2xl text-sm sm:text-base leading-relaxed">
                     Access immediate grounding guides, breathing visualizers, HALT checks, or reflections. Completing these logs recovery XP to prevent burnout.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                      { title: "Breathing Room", desc: "4-7-8 Respiratory regulation timer for severe panic.", key: "breathing", icon: Sun, color: "border-amber-100 hover:bg-amber-50/10" },
-                      { title: "Grounding Journey", desc: "5-4-3-2-1 Sensory grounding exercises for dissociation.", key: "grounding", icon: Brain, color: "border-cyan-100 hover:bg-cyan-50/10" },
-                      { title: "HALT Assessment", desc: "India-curated physical check for academic avoidance.", key: "halt", icon: Shield, color: "border-emerald-100 hover:bg-emerald-50/10" },
-                      { title: "Reflection Pad", desc: "Zero-trace emotional dumping pad to offload study guilt.", key: "reflection", icon: BookOpen, color: "border-pink-100 hover:bg-pink-50/10" },
+                      { title: "Vagus Nerve Stimulation", desc: "4-7-8 Respiratory regulation timer to deactivate fight-or-flight.", key: "breathing", icon: Sun, color: "border-amber-100 hover:bg-amber-50/10" },
+                      { title: "Sensory Grounding", desc: "5-4-3-2-1 Sensory grounding exercises for dissociation.", key: "grounding", icon: Brain, color: "border-cyan-100 hover:bg-cyan-50/10" },
+                      { title: "HALT Assessment", desc: "Physical check for academic avoidance (Hungry, Angry, Lonely, Tired).", key: "halt", icon: Shield, color: "border-emerald-100 hover:bg-emerald-50/10" },
+                      { title: "Zero-Trace Reflection", desc: "Cognitive offloading pad to reduce prefrontal cortex load.", key: "reflection", icon: BookOpen, color: "border-pink-100 hover:bg-pink-50/10" },
                     ].map((tool) => {
                       const Icon = tool.icon;
                       return (
